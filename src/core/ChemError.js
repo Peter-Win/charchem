@@ -1,17 +1,27 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
+"use strict"
 
-export default class ChemError extends Error
-{
-	constructor(msgId, params) {
-		super()
-		this.msgId = msgId
-		this.params = params
-		this.message = this.getMessage()
+import Lang from '../Lang'
+
+// extends Error
+function ChemError(msgId, params) {
+
+	/**
+	 * Get localized message.
+	 * Language of message init by Lang.locale
+	 * @const
+	 * @returns {string}
+	 */
+	this.getMessage = function() {
+		return Lang.tr(this.msgId, this.params)
 	}
 
-	getMessage() {
-		return 'TODO'
-	}
+	this.msgId = msgId
+	this.params = params
+	this.message = this.getMessage()
 }
+ChemError.prototype = new Error
+
+export default ChemError
