@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CharChem test</title>
+    <script src="../dst/charchem.js"></script>
+    <script>
+        window.onload = function () {
+            var elemMain = document.getElementById('Main');
+            elemMain.innerHTML = 'ChemSys version = '+ChemSys.verStr();
+            var res = ChemSys.compile('H2(+)S(+6)O(-2)4');
+            var src0 = res.src0;
+            if (res.error) {
+            	elemMain.innerHTML = '<h2>Error</h2><p>'+res.error.getMessage()+'</p>'
+				elemMain.innerHTML += '<pre>'+res.error.stack+'</pre>'
+            } else {
+            	elemMain.innerHTML = '<h1>Success!</h1>'
+                if (res.isLinear()) {
+            		elemMain.innerHTML += '<div>'+res.html()+'</div>'
+					elemMain.innerHTML += '<div>'+res.html('text')+'</div>'
+                }
+                var charge = ChemSys.calcCharge(res)
+                var mass = ChemSys.calcMass(res)
+            }
+		}
+    </script>
+</head>
+<body>
+    <div id="Main"></div>
+</body>
+</html>

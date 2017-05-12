@@ -2,9 +2,9 @@
  * Chemical radical
  * Created by PeterWin on 29.04.2017.
  */
-"use strict"
+'use strict'
 
-import ElemList, {ElemRec} from './ElemList'
+import ElemList, { ElemRec } from './ElemList'
 
 export default class ChemRadical
 {
@@ -14,26 +14,33 @@ export default class ChemRadical
 	 * @param {ElemList} elemsList
 	 */
 	constructor(label, elemsList) {
-		this.label = label;		// radical label
-		this.items = elemsList;	// list of records {id,elem, n} (=ElemList)
+		this.label = label		// radical label
+		this.items = elemsList	// list of records {id,elem, n} (=ElemList)
 	}
 
 	walk(visitor) {
 		if (visitor.radical)
 			return visitor.radical(this)
 	}
+
+	static get Map() {
+		if (!isMapInit) {
+			initMap()
+		}
+		return chemRadicalMap
+	}
 }
 
 //======= radicals list
 const radicals = [
-	"Me:C,H*3",
-	"Et:C*2,H*5",
-	"Ph:C*6,H*5",
-	"Pr,n-Pr,Pr-n:C*3,H*7",
-	"iPr,i-Pr,Pr-i:C*3,H*7",
-	"Bu,nBu,n-Bu,Bu-n:C*4,H*9",
-	"i-Bu,Bu-i:C*4,H*9",
-	"Ac:C,H*3,C,O"
+	'Me:C,H*3',
+	'Et:C*2,H*5',
+	'Ph:C*6,H*5',
+	'Pr,n-Pr,Pr-n:C*3,H*7',
+	'iPr,i-Pr,Pr-i:C*3,H*7',
+	'Bu,nBu,n-Bu,Bu-n:C*4,H*9',
+	'i-Bu,Bu-i:C*4,H*9',
+	'Ac:C,H*3,C,O'
 ]
 
 
@@ -41,14 +48,11 @@ const radicals = [
  * Radicals dictionary
  * @type {Object<string, ChemRadical>}	id=>ChemRadical
  */
-ChemRadical.Map = {}
+let chemRadicalMap = {}
 
 let isMapInit = false
 
-ChemRadical.initMap = () => {
-	if (isMapInit)
-		return;
-
+const initMap = () => {
 	isMapInit = true
 	radicals.forEach(descr => {
 		let L = descr.split(':'),
@@ -60,7 +64,7 @@ ChemRadical.initMap = () => {
 			elemList.addElemRec(new ElemRec(e[0], e[1] ? +e[1] : 1))
 		})
 		ids.forEach( id => {
-			ChemRadical.Map[id] = new ChemRadical(id, elemList);
+			chemRadicalMap[id] = new ChemRadical(id, elemList)
 		})
 
 	})

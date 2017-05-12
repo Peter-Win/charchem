@@ -2,7 +2,7 @@
  * Chemical charge
  * Created by PeterWin on 28.04.2017.
  */
-"use strict"
+'use strict'
 
 import ChemSys from '../ChemSys'
 
@@ -55,7 +55,7 @@ export default class ChemCharge
 		}
 
 		if (text && typeof text === 'string') {
-			text = text.replace(/–/g,'-')	// Replace similar characters
+			text = text.replace(/–/g, '-')	// Replace similar characters
 			let len = text.length
 			if (/^-+$/.test(text))	// One or more minuses:	O^--
 				return makeCharge(-len)
@@ -67,18 +67,18 @@ export default class ChemCharge
 				return makeCharge(text)
 
 			if (/^\d+[-+]$/.test(text))		// A number with plus or minus behind: Ca^2+, PO4^3-
-				return makeCharge(text.charAt(len-1)+text.slice(0, -1));
+				return makeCharge(text.charAt(len - 1) + text.slice(0, -1))
 
-			if (text=='+o') {
-				return makeCharge(1,1,'+');
+			if (text == '+o') {
+				return makeCharge(1, 1, '+')
 			}
-			if (text=='-o') {
-				return makeCharge(-1,1,'-');
+			if (text == '-o') {
+				return makeCharge(-1, 1, '-')
 			}
-			var v = ChemSys.RomanNum[text];
+			var v = ChemSys.RomanNum[text]
 			if (v) {
-				text = text.toUpperCase();
-				return makeCharge(v);
+				text = text.toUpperCase()
+				return makeCharge(v)
 			}
 		}
 		return null

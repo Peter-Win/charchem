@@ -2,7 +2,7 @@
  * 2D Point (or vector) object
  * Created by PeterWin on 26.04.2017.
  */
-"use strict"
+'use strict'
 
 export default class Point {
 
@@ -249,7 +249,7 @@ export default class Point {
 	 * @returns {Point}
 	 */
 	mulx(k) {
-		return new Point(this.x*k, this.y*k)
+		return new Point(this.x * k, this.y * k)
 	}
 
 	/**
@@ -258,7 +258,7 @@ export default class Point {
 	 * @returns {number}
 	 */
 	lengthSqr() {
-		return this.x*this.x + this.y*this.y
+		return this.x * this.x + this.y * this.y
 	}
 
 	/**
@@ -279,7 +279,7 @@ export default class Point {
 	 */
 	distSqrn(x, y) {
 		let dx = this.x - x, dy = this.y - y
-		return dx*dx + dy*dy
+		return dx * dx + dy * dy
 	}
 
 	/**
@@ -319,7 +319,7 @@ export default class Point {
 	 * @returns {Point}
 	 */
 	fromDeg(degAngle) {
-		return this.fromRad(Math.PI*degAngle/180);
+		return this.fromRad(Math.PI * degAngle / 180)
 	}
 
 	/**
@@ -348,7 +348,7 @@ export default class Point {
 	 * @returns {string}
 	 */
 	static toa(value) {
-		return (Math.round(value*1000)/1000).toString()
+		return (Math.round(value * 1000) / 1000).toString()
 	}
 
 	/**
@@ -372,13 +372,13 @@ export default class Point {
 	 * @returns {number} angle in radians, in range from -Pi to Pi
 	 */
 	polarAngle() {
-		if (this.x===0) {
-			if (this.y===0) {
+		if (this.x === 0) {
+			if (this.y === 0) {
 				return 0
 			}
-			return this.y >0 ? Math.PI/2 : -Math.PI/2
+			return this.y > 0 ? Math.PI / 2 : -Math.PI / 2
 		}
-		return Math.atan2(this.y , this.x)
+		return Math.atan2(this.y, this.x)
 	}
 
 }

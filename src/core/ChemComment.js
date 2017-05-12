@@ -3,7 +3,7 @@
  * For example "Anion"-SO4^2-
  * Created by PeterWin on 29.04.2017.
  */
-"use strict"
+'use strict'
 
 import ChemSubObj from './ChemSubObj'
 

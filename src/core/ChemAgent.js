@@ -1,7 +1,7 @@
 /**
  * Created by PeterWin on 01.05.2017.
  */
-"use strict"
+'use strict'
 
 export default class ChemAgent
 {
@@ -41,7 +41,7 @@ export default class ChemAgent
 	}
 
 	walk(visitor) {
-		let res, cmd, list=this.cmds
+		let res, cmd, list = this.cmds
 		if (visitor.agentPre) {
 			res = visitor.agentPre(this)
 			if (res)

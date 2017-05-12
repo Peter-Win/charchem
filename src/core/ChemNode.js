@@ -44,18 +44,18 @@ export default class ChemNode
 	}
 
 	walk(visitor) {
-		let res, i=0, lst=this.items
+		let res, i = 0, lst = this.items
 		if (visitor.nodePre) {
 			res = visitor.nodePre(this)
 			if (res)
-				return res;
+				return res
 		}
-		while (i<lst.length && !res) {
+		while (i < lst.length && !res) {
 			res = lst[i++].walk(visitor)
 		}
 		if (visitor.nodePost)
-			res = visitor.nodePost(this) || res;
-		return res;
+			res = visitor.nodePost(this) || res
+		return res
 	}
 
 }

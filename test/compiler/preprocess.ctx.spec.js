@@ -1,8 +1,9 @@
 /**
  * Created by PeterWin on 02.05.2017.
  */
-import {expect} from 'chai'
-import {Ctx} from '../../src/compiler/preprocess'
+import { expect } from 'chai'
+import { Ctx } from '../../src/compiler/preprocess'
+import { ChemError } from '../../src/core/ChemError'
 
 describe('Ctx', ()=>{
 
@@ -18,14 +19,31 @@ describe('Ctx', ()=>{
 		let ctx3 = new Ctx(ctx2)
 		expect(ctx3).to.have.property('src', 'xyz')
 		expect(ctx3).to.have.property('pos', 11)
+
+		let ctx4 = new Ctx()
+		expect(ctx4).to.have.property('src', '')
+		expect(ctx4).to.have.property('pos', 0)
+	})
+
+	it('err: error generate', () => {
+		let ctx = new Ctx('ABC', 1)
+		expect(() => ctx.err('First error')).to.throw(ChemError)
+		expect(ctx.pos).to.be.equal(1)
+
+		expect(() => ctx.err('Second error', 2)).to.throw('Second error')
+		expect(ctx.pos).to.be.equal(2)
+
+		expect(() => ctx.err('Third error', -2)).to.throw(ChemError)
+		expect(ctx.pos).to.be.equal(0)
 	})
 
 
 	it('n: read some characters from context', () => {
 		let ctx = new Ctx('@Hello!')
 		expect(ctx.n()).to.be.equal('@')
+		expect(ctx.n(0)).to.be.equal('')
 		expect(ctx.n(5)).to.be.equal('Hello')
-		expect(() => ctx.n(2)).to.throw(Error)
+		expect(() => ctx.n(2)).to.throw(ChemError)	// because context contains 1 symbol only
 	})
 
 	it('s: substring search', () => {
@@ -71,7 +89,7 @@ describe('Ctx', ()=>{
 		expect(ctx.stk).to.be.eql(['First'])
 		ctx.w('Second')
 		ctx.push()
-		expect(ctx.stk).to.be.eql(['First','Second'])
+		expect(ctx.stk).to.be.eql(['First', 'Second'])
 		ctx.w('.')
 		expect(ctx.pop()).to.be.equal('.')
 		expect(ctx.pop()).to.be.equal('Second')
@@ -81,10 +99,10 @@ describe('Ctx', ()=>{
 
 	it('clr', () => {
 		let ctx = new Ctx('...')
-		ctx.w('1234')
-		expect(ctx.dst).to.not.be.empty()
-		ctx.clr()
-		expect(ctx.dst).to.be.empty()
+		ctx.w('1234')					// write something to ctx
+		expect(ctx.dst).to.not.be.empty	// ctx.dst is not empty
+		ctx.clr()						// clear ctx
+		expect(ctx.dst).to.be.empty		// ctx.dst is empty after ctx.clr()
 	})
 })
 

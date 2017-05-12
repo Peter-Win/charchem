@@ -1,7 +1,7 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
-"use strict"
+'use strict'
 
 import Lang from '../Lang'
 
@@ -14,9 +14,9 @@ function ChemError(msgId, params) {
 	 * @const
 	 * @returns {string}
 	 */
-	this.getMessage = function() {
-		return Lang.tr(this.msgId, this.params)
-	}
+	this.getMessage = () =>
+		Lang.tr(this.msgId, this.params)
+
 
 	this.msgId = msgId
 	this.params = params

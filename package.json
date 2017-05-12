@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,14 +22,22 @@
   "homepage": "https://github.com/Peter-Win/charchem#readme",
   "devDependencies": {
     "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
     "babel-jest": "^19.0.0",
+    "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "chai": "^3.5.0",
-    "jest": "^19.0.2"
+    "eslint": "^3.19.0",
+    "eslint-plugin-jest": "^19.0.1",
+    "jest": "^19.0.2",
+    "webpack": "^2.5.0"
   },
   "jest": {
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
     "coverageDirectory": "coverage"
   }
 }

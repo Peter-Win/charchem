@@ -3,7 +3,7 @@
  * Supports information about the position of the object in the source description (usually after the preprocessor)
  * Created by PeterWin on 28.04.2017.
  */
-"use strict"
+'use strict'
 
 export default class ChemObj
 {
@@ -15,5 +15,10 @@ export default class ChemObj
 	constructor(a = 0, b = 0) {
 		this.pA = a
 		this.pB = b
+	}
+
+	setPos(start, stop) {
+		this.pA = start
+		this.pB = stop
 	}
 }

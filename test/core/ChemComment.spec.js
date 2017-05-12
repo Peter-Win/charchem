@@ -2,7 +2,7 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-import {expect} from 'chai'
+import { expect } from 'chai'
 import ChemComment from '../../src/core/ChemComment'
 
 describe('ChemComment', () => {

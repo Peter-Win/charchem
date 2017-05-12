@@ -2,13 +2,12 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-import {expect} from 'chai'
+import { expect } from 'chai'
 import ChemRadical from '../../src/core/ChemRadical'
 
 describe('ChemRadical', () => {
 
 	it('Init radicals map', () => {
-		ChemRadical.initMap()
 		expect(Object.keys(ChemRadical.Map)).to.not.be.empty
 
 		let methyl = ChemRadical.Map.Me
@@ -36,7 +35,7 @@ describe('ChemRadical', () => {
 		let ethyl = ChemRadical.Map.Et
 		expect(ethyl).to.be.ok
 		// radical return value
-		expect(ethyl.walk({radical: obj => obj.label})).to.be.equal('Et')
+		expect(ethyl.walk({ radical: obj => obj.label })).to.be.equal('Et')
 		// Empty visitor
 		expect(ethyl.walk({})).to.be.undefined
 	})

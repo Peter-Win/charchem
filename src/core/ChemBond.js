@@ -2,7 +2,7 @@
  * Chemical bond, part of agent
  * Created by PeterWin on 30.04.2017.
  */
-"use strict"
+'use strict'
 
 import ChemObj from './ChemObj'
 
@@ -14,7 +14,7 @@ export default class ChemBond extends ChemObj
 		// TODO: может быть нарушена в closeAgent при удалении дублирующих связей !!!
 
 		this.N = 1	// multiplicity of the bond
-		this.nodes = [0,0]	// nodes
+		this.nodes = [0, 0]	// nodes
 		this.pt = 0		// bond vector
 		this.tx = ''	// text description
 		this.slope = 0 // для связи, созданной из описания / = -1, для \ = 1, для остальных =0
@@ -48,9 +48,9 @@ export default class ChemBond extends ChemObj
 	 * @returns {ChemNode|null}
 	 */
 	other(node) {
-		let i=0, nodes = this.nodes, result
-		if (nodes.length===2) {
-			result = nodes[0]===node ? nodes[1] : (nodes[1]===node ? nodes[0] : null)
+		let i = 0, nodes = this.nodes, result
+		if (nodes.length === 2) {
+			result = nodes[0] === node ? nodes[1] : (nodes[1] === node ? nodes[0] : null)
 		} else {
 			result = null
 		}

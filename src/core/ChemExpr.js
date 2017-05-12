@@ -2,9 +2,11 @@
  * Chemical expression
  * Created by PeterWin on 28.04.2017.
  */
-"use strict"
+'use strict'
 
 import ChemObj from './ChemObj'
+import IsNonText from '../visitors/IsNonText'
+import TextMaker from '../visitors/TextMaker'
 
 export default class ChemExpr extends ChemObj
 {
@@ -27,7 +29,7 @@ export default class ChemExpr extends ChemObj
 		 * Description after preprocessing
 		 * @type {string}
 		 */
-		this.src = '';
+		this.src = ''
 
 		/**
 		 * Entities: reagents and operations
@@ -58,37 +60,48 @@ export default class ChemExpr extends ChemObj
 	 * @returns {*}
 	 */
 	walk(visitor) {
-		let res, entity, entitiesList=this.ents,
+		let res, entity, entitiesList = this.ents,
 			pre = visitor.entityPre,
 			post = visitor.entityPost
 
 		for (entity of entitiesList) {
 			if (pre)
-				res = visitor.entityPre(entity);
+				res = visitor.entityPre(entity)
 
-			res = res || entity.walk(visitor);
+			res = res || entity.walk(visitor)
 
 			if (post)
-				res = visitor.entityPost(entity) || res;
+				res = visitor.entityPost(entity) || res
 
 			if (res)
-				return res;
+				return res
 		}
 	}
 
 	/**
 	 * Convert expression to html
 	 * This shell for TextMaker visitor
+	 * @param {Object<string,string>} rules
 	 * @returns {string}
 	 */
-	html() {
+	html(rules) {
 		if (this.isLinear()) {
-			var textMaker = new TextMaker();
-			this.walk(textMaker);
-			return textMaker.res();
+			let textMaker = new TextMaker(rules)
+			this.walk(textMaker)
+			return textMaker.res()
 		} else {
-			return '';
+			return ''
 		}
+	}
+
+	/**
+	 * Convert expression to text
+	 * This shell for TextMaker visitor
+	 * @param {Object<string,string>} rules		default value='text', u can use ChemSys.rulesHTML
+	 * @returns {string}
+	 */
+	text(rules = 'text') {
+		return this.html(rules)
 	}
 
 	/**
@@ -97,7 +110,15 @@ export default class ChemExpr extends ChemObj
 	 * @returns {string}
 	 */
 	getObjSrc(obj) {
-		return this.src.slice(obj.pA, obj.pB);
+		return this.src.slice(obj.pA, obj.pB)
+	}
+
+	// Является ли формула линейной (т.е. может быть представлена в виде html-текста)
+	// добавлена для удобства и совместимости с предыдущей версией
+	isLinear() {
+		let isNonText = new IsNonText()
+		this.walk(isNonText)
+		return !isNonText.ok
 	}
 
 }
