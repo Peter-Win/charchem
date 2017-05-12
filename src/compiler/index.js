@@ -203,7 +203,7 @@ export function chemCompiler(text) {
 
 	/**
 	 * Add command to current agent
-	 * @param {ChemNode|ChemBond|ChemMulEnd} cmd
+	 * @param {ChemNode|ChemBond|ChemMul|ChemMulEnd} cmd
 	 */
 	const addCmd = cmd => curEntity.cmds.push(cmd)
 
@@ -499,7 +499,7 @@ export function chemCompiler(text) {
 	//	Операции в хим.выражении
 
 	function checkOp() {
-		var c1, opDef, pos1, comm, j = Ops.length - 1
+		let c1, opDef, pos1, comm, j = Ops.length - 1
 		while (j >= 0 && text.indexOf(Ops[j].op, pos) !== pos) j--
 		if (j < 0) return null
 		// После операции нужен пробельный символ
@@ -628,25 +628,24 @@ export function chemCompiler(text) {
 			}
 		}
 		// Необходимо заполнить автоузлы
-		nodes = curEntity.nodes
-		for (i in nodes) {
-			node = nodes[i]
+
+		curEntity.nodes.forEach(node => {
 			if (node.bAuto) {
 				// Автоматический узел всегда содержит углерод
 				node.items[0] = new ChemNodeItem(MenTbl.C)
-				bonds = node.bonds
-				n = 0	// сума кратностей связей, входящих в узел
-				for (j in bonds) {
-					n += bonds[j].N
-				}
+				// bonds = node.bonds
+				n = node.bonds.reduce((acc, bond) => acc + bond.N, 0)	// сума кратностей связей, входящих в узел
+				// for (j in bonds) {
+				// 	n += bonds[j].N
+				// }
 				if (n < 4) {
 					// Добавить нужное число атомов водорода
-					item = new ChemNodeItem(MenTbl.H)
+					let item = new ChemNodeItem(MenTbl.H)
 					item.n = 4 - n
 					node.items[1] = item
 				}
 			}
-		}
+		})
 	}
 	// Распознать начало очередного узла в описании реагента. Если нет, вернуть -1
 	function parseNode() {
@@ -789,7 +788,7 @@ export function chemCompiler(text) {
 
 	function smartCreateNode(bAuto) {
 		// определить координаты нового узла
-		var pt = 0, node
+		let pt = 0, node
 		if (curBond) {
 			// Возможно, здесь нужно организовать мягкую связь
 			// Для этого связь должна иметь признак soft и оба узла не автоматические
@@ -823,7 +822,7 @@ export function chemCompiler(text) {
 		node.fixed = 1
 		// Здесь есть две ситуации: сращивание цепей или продолжение цепи
 		// Зависит от наличия curBond
-		var node0 = curBond ? curBond.nodes[0] : 0
+		let node0 = curBond ? curBond.nodes[0] : 0
 		// Нельзя сращивать, если цепь одна, но подцепи разные (То есть, зацикленная молекула, в центре которой есть мягкие связи)
 		if (node0 && !curBond.soft && !(node0.ch === node.ch && node0.sc !== node.sc)) {
 			// сращивание цепей
@@ -849,7 +848,7 @@ export function chemCompiler(text) {
 	function closeBranch() {
 		closeBond()
 		checkMul()
-		var x = branchStack.shift()
+		let x = branchStack.shift()
 		if (!x) {
 			// Ошибка: Нет открытой скобки
 			error('Invalid branch close', { pos:pos })
@@ -867,9 +866,9 @@ export function chemCompiler(text) {
 	//------------- ЛОКАЛЬНЫЕ СКОБКИ
 	function openBracket() {
 		chargeOwner = 0
-		var obj = new ChemBrBegin(c)
+		let obj = new ChemBrBegin(c)
 		obj.setPos(pos, pos + 1)
-		var node0 = curNode
+		let node0 = curNode
 		if (!node0 && branchStack.length) {
 			// Для случая [(
 			if (branchStack[0].o) { // Если есть предыдущая скобка
@@ -1087,7 +1086,7 @@ export function chemCompiler(text) {
 		if (middlePoints.length) {
 			bond.midPt = []
 			bond.pA = middlePoints[0].pos
-			var pt, i, lastPt = bond.pt.clone()
+			let pt, i, lastPt = bond.pt.clone()
 			for (i in middlePoints) {
 				bond.midPt.push(pt = middlePoints[i].pt)
 				bond.pt.addi(pt)
@@ -1358,12 +1357,12 @@ export function chemCompiler(text) {
 				nodes.push(node = nodesBranch[j])
 				if (!node0)
 					node0 = node
-				else if (node == node0)
+				else if (node === node0)
 					break	// кольцо замкнулось
 				j--
 			}
 		}
-		var n, listDef = def['#']
+		let n, listDef = def['#']
 		if (listDef) {
 			// Разбор описания списка узлов
 			parseListDef(listDef)
@@ -1373,7 +1372,7 @@ export function chemCompiler(text) {
 		}
 		n = nodes.length
 		// Признак цикличности: число узлов 4 или больше И первый узел в цепи совпадает с последним
-		if (n > 3 && nodes[0] == nodes[n - 1]) {
+		if (n > 3 && nodes[0] === nodes[n - 1]) {
 			nodes.length = n - 1 // Убрать последний узел
 			bond.o = 1
 		}
@@ -1389,7 +1388,7 @@ export function chemCompiler(text) {
 	// 10= не корректированная `\, 11 = корректированная `\, 12 = `|
 
 	function calcSlopeId(slope, bNeg, bHoriz, bCorr) {
-		//var s = bond.slope, b=bond.bNeg;
+		//let s = bond.slope, b=bond.bNeg;
 		if (!slope) { // Либо горизонтальная, либо вертикальная
 			if (bHoriz) {
 				return bNeg ? 9 : 3
@@ -1492,12 +1491,12 @@ export function chemCompiler(text) {
 				n1.pt = newPt
 				// возможно, требуется откорректировать боковую ветку...
 				/* TODO: закомментировано временно, пока нет боковых веток
-				 var chL=chains[curChain].L;
-				 var j=chL.length-2;
+				 let chL=chains[curChain].L;
+				 let j=chL.length-2;
 				 while (chL[j]!=prevL && j>=0) chL[--j].nodes[1].ufl=0;
 				 if (j<chL.length-2) {
 				 while (j<chL.length-2) {
-				 var ndj=chL[++j].nodes[1];
+				 let ndj=chL[++j].nodes[1];
 				 if (!ndj.ufl) {
 				 ndj.ufl=1;
 				 ndj.pt.addi(corr);
@@ -1513,11 +1512,11 @@ export function chemCompiler(text) {
 	// Элементы узлов
 
 	function getLastItem() {
-		var lst = curNode.items, L = lst.length
+		let lst = curNode.items, L = lst.length
 		return L ? lst[L - 1] : 0
 	}
 	function closeNodeItem() {
-		//var item=getLastItem();
+		//let item=getLastItem();
 		//if (item && !item.pB) item.pB=pos;
 	}
 	function addNodeItem(obj) {
@@ -1528,7 +1527,7 @@ export function chemCompiler(text) {
 		if (!curNode)
 			smartCreateNode()
 		closeNodeItem()
-		var item = new ChemNodeItem(obj)
+		let item = new ChemNodeItem(obj)
 		item.setPos(itemPos0, pos)
 		curNode.items.push(item)
 		curNodeEnd = pos
@@ -1599,7 +1598,7 @@ export function chemCompiler(text) {
 		return 0
 	}
 	function findNodeEx(refId, startPos) {
-		var node = findNode(refId)
+		let node = findNode(refId)
 		if (!node) error("Invalid node reference '[ref]'", { ref:refId, pos:startPos })
 		return node
 	}
@@ -1737,8 +1736,8 @@ export function chemCompiler(text) {
 		},
 		// Первый символ ссылки на узел
 		nodeRef: function () {
-			var p0 = pos, refId, node
-			if (isDigit(c) || c == '-') {
+			let p0 = pos, refId, node
+			if (isDigit(c) || c === '-') {
 				// Извлечение числовой ссылки
 				pos++
 				while (pos < textLen && isDigit(text[pos])) pos++
@@ -1768,11 +1767,11 @@ export function chemCompiler(text) {
 		},
 		uniBond: function () {
 			checkCurNode()
-			var pa = pos - 1, args = [], argsPos = [], bCreate = 1
-			if (c == '(') {
+			let pa = pos - 1, args = [], argsPos = [], bCreate = 1
+			if (c === '(') {
 				pos++
 				scanArgs(args, argsPos)
-			} else if (c == 'p' || c == 'q') {
+			} else if (c === 'p' || c === 'q') {
 				createEdgeBond(c, pa)
 				bCreate = 0
 			} else if (c === 'm') {
@@ -1797,9 +1796,9 @@ export function chemCompiler(text) {
 		mul: function () {
 			// Мультипликатор. pos указывает на следующий символ после *
 			checkMul()
-			var pa = pos - 1,
-				n = scanKoeff()
-			var cmd = new ChemMul(n || 1)
+			let pa = pos - 1,
+				n = scanKoeff(),
+				cmd = new ChemMul(n || 1)
 			cmd.setPos(pa, pos)
 			addCmd(cmd)
 			closeNode()
@@ -1826,7 +1825,7 @@ export function chemCompiler(text) {
 		// main cycle of syntax analyzer
 		while (pos < text.length) {
 			c = text[pos]
-			var d = fsm[curState]()
+			let d = fsm[curState]()
 			pos += d
 		}
 	} catch (err) {
