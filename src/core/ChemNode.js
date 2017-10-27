@@ -4,9 +4,9 @@
  * Created by PeterWin on 30.04.2017.
  */
 
-import Point from '../math/Point'
+const Point = require('../math/Point')
 
-export default class ChemNode
+class ChemNode
 {
 	constructor(pt = new Point()) {
 		this.index = null	// index of node in CAgent.nodes array
@@ -37,7 +37,7 @@ export default class ChemNode
 
 	/**
 	 * get number charge value
-	 * @returns {number}
+	 * @returns {number} charge value
 	 */
 	chargeVal() {
 		return this.charge ? this.charge.val : 0
@@ -58,4 +58,29 @@ export default class ChemNode
 		return res
 	}
 
+	/**
+	 * Detect empty node
+	 * @param {ChemNode} node object
+	 * @returns {boolean} true, if empty node
+	 */
+	static isEmptyNode(node) {
+		let bNonEmpty = 0
+		const onComment = obj => {
+			if (obj.tx !== '')
+				return (bNonEmpty = 1)
+		}
+		const nonEmpty = () =>
+			(bNonEmpty = 1)
+
+		node.walk({
+			atom: nonEmpty,
+			radical: nonEmpty,
+			custom: onComment,
+			comm: onComment,
+		})
+		return !bNonEmpty
+	} // isEmptyNode
+
 }
+
+module.exports = ChemNode

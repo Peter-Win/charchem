@@ -2,15 +2,15 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-import { expect } from 'chai'
-import ChemRadical from '../../src/core/ChemRadical'
+const {expect} = require('chai')
+const ChemRadical = require('../../src/core/ChemRadical')
 
 describe('ChemRadical', () => {
 
 	it('Init radicals map', () => {
 		expect(Object.keys(ChemRadical.Map)).to.not.be.empty
 
-		let methyl = ChemRadical.Map.Me
+		const methyl = ChemRadical.Map.Me
 		expect(methyl.label).to.be.equal('Me')
 		expect(methyl.items).to.have.lengthOf(2)
 		let indexH = methyl.items.findElem('H')
@@ -20,7 +20,7 @@ describe('ChemRadical', () => {
 		expect(indexC).to.be.at.least(0)
 		expect(methyl.items[indexC]).to.have.property('n', 1)
 
-		let ethyl = ChemRadical.Map.Et
+		const ethyl = ChemRadical.Map.Et
 		expect(ethyl).to.have.property('label', 'Et')
 		expect(ethyl.items).to.have.lengthOf(2)
 		indexH = ethyl.items.findElem('H')
@@ -35,7 +35,7 @@ describe('ChemRadical', () => {
 		let ethyl = ChemRadical.Map.Et
 		expect(ethyl).to.be.ok
 		// radical return value
-		expect(ethyl.walk({ radical: obj => obj.label })).to.be.equal('Et')
+		expect(ethyl.walk({radical: obj => obj.label})).to.be.equal('Et')
 		// Empty visitor
 		expect(ethyl.walk({})).to.be.undefined
 	})

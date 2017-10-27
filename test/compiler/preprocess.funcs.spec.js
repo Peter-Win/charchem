@@ -2,11 +2,11 @@
  * Created by PeterWin on 04.05.2017.
  */
 
-import { expect } from 'chai'
-import { Macros, Ctx, defMacro, scanPar, readRealPars, readFormalPars, execMacros, bodyPreprocess,
-	preProcess } from '../../src/compiler/preprocess'
-import ChemSys from '../../src/ChemSys'
-import ChemError from '../../src/core/ChemError'
+const {expect} = require('chai')
+const {Macros, Ctx, defMacro, scanPar, readRealPars, readFormalPars, execMacros, bodyPreprocess,
+	preProcess} = require('../../src/compiler/preprocess')
+const ChemSys = require('../../src/ChemSys')
+const ChemError = require('../../src/core/ChemError')
 
 describe('preprocess', () => {
 	it('defMacro', () => {
@@ -85,7 +85,8 @@ describe('preprocess', () => {
 
 	it('bodyPreprocess', () => {
 		// Clear global macros
-		ChemSys.macros = {}
+		const keys = Object.keys(ChemSys.macros)
+		keys.forEach(key => delete ChemSys.macros[key])
 
 		// Simple text without macros
 		let ctx = new Ctx('hello@;')

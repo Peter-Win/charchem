@@ -1,13 +1,13 @@
 /**
  * Created by PeterWin on 02.05.2017.
  */
-import ChemSys, { esc } from '../ChemSys'
-import ChemError from '../core/ChemError'
+const {esc} = require('../utils')
+const ChemError = require('../core/ChemError')
 
-export class Macros {
+class Macros {
 	/**
 	 * @constructor
-	 * @param {string} name
+	 * @param {string} name macros name
 	 */
 	constructor(name) {
 		this.name = name
@@ -15,15 +15,21 @@ export class Macros {
 	}
 }
 
+/**
+ * Global macros map
+ * @type {Object<string,Macros>}
+ */
+Macros.dict = {}
+
 const M1st = /[A-Z]/i		// Possible first characters of macros name
 const TmParam = /^[A-Z][A-Z\d]*$/i
 
 // context for preprocessing
-export class Ctx {
+class Ctx {
 	/**
 	 * @constructor
-	 * @param {string|Ctx} def
-	 * @param {int=} pos
+	 * @param {string|Ctx} def context definition
+	 * @param {int=} pos position
 	 */
 	constructor(def, pos = 0) {
 		this.src = ''
@@ -48,8 +54,8 @@ export class Ctx {
 
 	/**
 	 * Read specified count of characters from context
-	 * @param {number=1} count
-	 * @returns {string}
+	 * @param {number=} count default value = 1
+	 * @returns {string} readed characters
 	 */
 	n(count = 1) {
 		if (count === 0) return ''
@@ -65,9 +71,9 @@ export class Ctx {
 
 	/**
 	 * Substring search
-	 * @param {string} needle
-	 * @param {boolean=} bNoErr
-	 * @returns {number|null}
+	 * @param {string} needle substring
+	 * @param {boolean=} bNoErr if not found: true = return null, false = exception
+	 * @returns {number|null} index
 	 */
 	s(needle, bNoErr = false) {
 		let curPos = this.pos,
@@ -82,7 +88,7 @@ export class Ctx {
 
 	/**
 	 * Is there an end?
-	 * @returns {boolean}
+	 * @returns {boolean} true, if end
 	 */
 	end() {
 		return this.pos >= this.src.length
@@ -90,7 +96,8 @@ export class Ctx {
 
 	/**
 	 * output to dst
-	 * @param {string} text
+	 * @param {string} text for output
+	 * @return {void}
 	 */
 	w(text) {
 		this.dst += text
@@ -98,6 +105,7 @@ export class Ctx {
 
 	/**
 	 * Write reminder of src into dst buffer
+	 * @return {void}
 	 */
 	wf() {
 		this.w(this.src.slice(this.pos))
@@ -126,11 +134,12 @@ export class Ctx {
  * Position of ctx must point to begin of macros name
  * if end by @;, then nothing write
  * if end by @(..., then write @name(...
- * @param ctx
+ * @param {Ctx} ctx context
+ * @return {void}
  */
-export function defMacro(ctx) {
-	let c,
-		p0 = ctx.pos,
+const defMacro = ctx => {
+	let c
+	const p0 = ctx.pos,
 		name = ctx.s('('),
 		macro = new Macros(name)
 
@@ -154,16 +163,16 @@ export function defMacro(ctx) {
 	} else {
 		ctx.err('Invalid macros end')
 	}
-	ChemSys.macros[name] = macro
+	Macros.dict[name] = macro
 }
 
 /**
  * Define the parameter boundary. The stopper is a sign , or )
- * @param {string} src
- * @param {number} pos
- * @returns {number}
+ * @param {string} src parameter
+ * @param {number} pos position
+ * @returns {number} next position
  */
-export function scanPar(src, pos) {
+const scanPar = (src, pos) => {
 	// balance of parentheses and quotes is very important
 	let c, lock = 0, bComm = 0
 	while (pos < src.length) {
@@ -182,11 +191,12 @@ export function scanPar(src, pos) {
 
 /**
  * Read parameters list from context
- * @param {Ctx} ctx
- * @param {string[]} params
- * @param {number} offset
+ * @param {Ctx} ctx context
+ * @param {string[]} params parameters
+ * @param {number} offset offset
+ * @return {void}
  */
-export function readRealPars(ctx, params, offset) {
+const readRealPars = (ctx, params, offset) => {
 	ctx.pos += offset
 	let ndx = 0
 	for(;;) {
@@ -204,12 +214,13 @@ export function readRealPars(ctx, params, offset) {
 /**
  * Read formal parameters
  * Context position point = position of bracket + 1
- * @param {Ctx} ctx
- * @param {Object<string,string>} paramsMap
- * @param {string[]} paramsIndex
- * @param {number=} offset
+ * @param {Ctx} ctx context
+ * @param {Object<string,string>} paramsMap params
+ * @param {string[]} paramsIndex indices
+ * @param {number=} offset offset
+ * @return {void}
  */
-export function readFormalPars(ctx, paramsMap, paramsIndex, offset = -1) {
+const readFormalPars = (ctx, paramsMap, paramsIndex, offset = -1) => {
 	ctx.pos += offset
 	for (;;) {
 		let k, c, name, posStart = ctx.pos
@@ -247,8 +258,9 @@ export function readFormalPars(ctx, paramsMap, paramsIndex, offset = -1) {
  * @param {string} src	Macros with formal params without first (. For example: x,y)&x,&y
  * @param {string[]} params	Index list of actual parameters, in the text of which there can be names
  * This is done because the number of formal parameters is not known exactly before the call
+ * @return {string} preprocessed text
  */
-export function execMacros(src, params) {
+const execMacros = (src, params) => {
 	let ctx = new Ctx(src)
 	// extract formal parameters
 	let c = ctx.n(), pmap = {}, pndx = []
@@ -306,7 +318,7 @@ export function execMacros(src, params) {
 		// The other cases are filtered in bodyPreprocess
 		ctx.w(c)
 		let name = ctx.s('('),
-			m = ChemSys.macros[name],
+			m = Macros.dict[name],
 			pars = []
 		if (!m)
 			ctx.err('Macros not found: ' + name)
@@ -326,9 +338,10 @@ export function execMacros(src, params) {
 /**
  * Search the end of macros
  * Declarations @: do not output. Instruction @:A()...@() replaced by @A()
- * @param {Ctx} ctx
+ * @param {Ctx} ctx context
+ * @return {void}
  */
-export function bodyPreprocess(ctx) {
+const bodyPreprocess = ctx => {
 	let c, plain
 	for(;;) {
 		plain = ctx.s('@', 1)
@@ -355,18 +368,30 @@ export function bodyPreprocess(ctx) {
 
 /**
  * Preprocess
- * @param {string} src
- * @returns {string}
+ * @param {string} src source code
+ * @returns {string} preprocessed text
  * @throws {ChemError}
  */
-export function preProcess(src) {
-	let ctx = new Ctx(src)
+const preProcess = src => {
+	const ctx = new Ctx(src)
 	bodyPreprocess(ctx)
 	// This situation is impossible
 	// if (ctx.pos !== src.length)
 	//	ctx.err('Invalid preprocessor finish')
 
 	// execute
-	let dummyBody = ')' + ctx.dst
+	const dummyBody = ')' + ctx.dst
 	return execMacros(dummyBody, [])
+}
+
+module.exports = {
+	Macros,
+	Ctx,
+	bodyPreprocess,
+	scanPar,
+	defMacro,
+	execMacros,
+	readRealPars,
+	readFormalPars,
+	preProcess,
 }

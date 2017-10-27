@@ -5,7 +5,7 @@
  */
 'use strict'
 
-export default class ChemObj
+class ChemObj
 {
 	/**
 	 * @constructor
@@ -22,3 +22,5 @@ export default class ChemObj
 		this.pB = stop
 	}
 }
+
+module.exports = ChemObj

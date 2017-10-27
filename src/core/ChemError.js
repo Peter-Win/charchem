@@ -3,7 +3,7 @@
  */
 'use strict'
 
-import Lang from '../Lang'
+const Lang = require('../Lang')
 
 // extends Error
 function ChemError(msgId, params) {
@@ -12,7 +12,7 @@ function ChemError(msgId, params) {
 	 * Get localized message.
 	 * Language of message init by Lang.locale
 	 * @const
-	 * @returns {string}
+	 * @returns {string} error message
 	 */
 	this.getMessage = () =>
 		Lang.tr(this.msgId, this.params)
@@ -24,4 +24,4 @@ function ChemError(msgId, params) {
 }
 ChemError.prototype = new Error
 
-export default ChemError
+module.exports = ChemError

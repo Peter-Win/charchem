@@ -4,11 +4,11 @@
  */
 'use strict'
 
-import ChemObj from './ChemObj'
-import IsNonText from '../visitors/IsNonText'
-import TextMaker from '../visitors/TextMaker'
+const ChemObj = require('../../src/core/ChemObj')
+const IsNonText = require('../visitors/IsNonText')
+const TextMaker = require('../visitors/TextMaker')
 
-export default class ChemExpr extends ChemObj
+class ChemExpr extends ChemObj
 {
 	constructor() {
 		super()
@@ -40,7 +40,7 @@ export default class ChemExpr extends ChemObj
 
 	/**
 	 * Check for success. If false, then an error.
-	 * @returns {boolean}
+	 * @returns {boolean} true, if valid expression
 	 */
 	isOk() {
 		return !this.error
@@ -48,7 +48,7 @@ export default class ChemExpr extends ChemObj
 
 	/**
 	 * Extended error message. Empty string, if not error
-	 * @returns {string}
+	 * @returns {string} error message
 	 */
 	getMessage() {
 		return this.error ? this.error.getMessage() : ''
@@ -56,8 +56,8 @@ export default class ChemExpr extends ChemObj
 
 	/**
 	 * Bypass the whole structure
-	 * @param {Object} visitor
-	 * @returns {*}
+	 * @param {Object} visitor visitor
+	 * @returns {*} result
 	 */
 	walk(visitor) {
 		let res, entity, entitiesList = this.ents,
@@ -81,8 +81,8 @@ export default class ChemExpr extends ChemObj
 	/**
 	 * Convert expression to html
 	 * This shell for TextMaker visitor
-	 * @param {Object<string,string>} rules
-	 * @returns {string}
+	 * @param {Object<string,string>} rules default='html'|'text'|'BB' or rules object
+	 * @returns {string} text formula, if possible. Else empty string
 	 */
 	html(rules) {
 		if (this.isLinear()) {
@@ -98,7 +98,7 @@ export default class ChemExpr extends ChemObj
 	 * Convert expression to text
 	 * This shell for TextMaker visitor
 	 * @param {Object<string,string>} rules		default value='text', u can use ChemSys.rulesHTML
-	 * @returns {string}
+	 * @returns {string} text formula, if possible. Else empty string
 	 */
 	text(rules = 'text') {
 		return this.html(rules)
@@ -107,7 +107,8 @@ export default class ChemExpr extends ChemObj
 	/**
 	 * Get source code for object
 	 * (Text after preprocess)
-	 * @returns {string}
+	 * @param {ChemObj} obj Object
+	 * @returns {string} source code of object
 	 */
 	getObjSrc(obj) {
 		return this.src.slice(obj.pA, obj.pB)
@@ -116,9 +117,11 @@ export default class ChemExpr extends ChemObj
 	// Является ли формула линейной (т.е. может быть представлена в виде html-текста)
 	// добавлена для удобства и совместимости с предыдущей версией
 	isLinear() {
-		let isNonText = new IsNonText()
+		const isNonText = new IsNonText()
 		this.walk(isNonText)
 		return !isNonText.ok
 	}
 
 }
+
+module.exports = ChemExpr

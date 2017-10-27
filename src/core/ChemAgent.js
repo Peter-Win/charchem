@@ -3,7 +3,7 @@
  */
 'use strict'
 
-export default class ChemAgent
+class ChemAgent
 {
 	constructor() {
 		/**
@@ -58,3 +58,5 @@ export default class ChemAgent
 	}
 
 }
+
+module.exports = ChemAgent

@@ -4,7 +4,7 @@
  */
 'use strict'
 
-export default class Point {
+class Point {
 
 	/**
 	 * Constructor of 2D point
@@ -23,8 +23,8 @@ export default class Point {
 
 	/**
 	 * Comparison with zero, given errors of less than one thousandth
-	 * @param {number} value
-	 * @returns {boolean}
+	 * @param {number} value	checked value
+	 * @returns {boolean}	true, if zero or close to zero
 	 */
 	static is0(value) {
 		return Math.abs(value) < 0.001
@@ -32,17 +32,20 @@ export default class Point {
 
 	/**
 	 * Reusing a point instance with new values
-	 * @param {number} x
-	 * @param {number} y
+	 * @param {number} x	new x
+	 * @param {number} y	new y
+	 * @return {Point} return this point object with new x, y values
 	 */
 	init(x, y) {
 		this.x = x
 		this.y = y
+		return this
 	}
 
 	/**
 	 * Copying a point from another object
-	 * @param {Point} pt
+	 * @param {Point} pt another point (not modified)
+	 * @return {void}
 	 */
 	from(pt) {
 		this.x = pt.x
@@ -52,7 +55,7 @@ export default class Point {
 	/**
 	 * Point cloning
 	 * @const
-	 * @returns {Point}
+	 * @returns {Point} new Point object with same x, y
 	 */
 	clone() {
 		return new Point(this.x, this.y)
@@ -61,8 +64,8 @@ export default class Point {
 	/**
 	 * Comparison of two points
 	 * @const
-	 * @param {Point} pt
-	 * @returns {boolean}
+	 * @param {Point} pt	second point (non-modified)
+	 * @returns {boolean}	true, if points are closed together
 	 */
 	eq(pt) {
 		return Point.is0(this.x - pt.x) && Point.is0(this.y - pt.y)
@@ -73,9 +76,9 @@ export default class Point {
 	/**
 	 * Point operator += (x, y)
 	 * add internal numbers
-	 * @param x
-	 * @param y
-	 * @returns {Point}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @returns {Point} this point object (modified)
 	 */
 	addin(x, y) {
 		this.x += x
@@ -86,8 +89,8 @@ export default class Point {
 	/**
 	 * Point operator += (Point)
 	 * add internal (Point)
-	 * @param {Point} pt
-	 * @returns {Point}
+	 * @param {Point} pt	added point (const)
+	 * @returns {Point} this point object (modified)
 	 */
 	addi(pt) {
 		this.x += pt.x
@@ -99,8 +102,9 @@ export default class Point {
 	 * Point operator + (x, y)
 	 * add external numbers
 	 * @const
-	 * @param {number} x
-	 * @param {number} y
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @return {Point} new Point object = this + (X,Y)
 	 */
 	addxn(x, y) {
 		return new Point(this.x + x, this.y + y)
@@ -111,8 +115,8 @@ export default class Point {
 	 * Point operator + (Point)
 	 * add external (Point)
 	 * @const
-	 * @param pt
-	 * @returns {Point}
+	 * @param {Point} pt another Point object (const)
+	 * @returns {Point} new Point object = this + another
 	 */
 	addx(pt) {
 		return new Point(this.x + pt.x, this.y + pt.y)
@@ -123,9 +127,9 @@ export default class Point {
 	/**
 	 * Point operator -= (x, y)
 	 * subtraction internal numbers
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns {Point}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @returns {Point} this modified Point object
 	 */
 	subin(x, y) {
 		this.x -= x
@@ -136,8 +140,8 @@ export default class Point {
 	/**
 	 * Point operator - (Point)
 	 * subtraction internal (Point)
-	 * @param {Point} pt
-	 * @returns {Point}
+	 * @param {Point} pt another Point object (const)
+	 * @returns {Point} this modified Point object
 	 */
 	subi(pt) {
 		this.x -= pt.x
@@ -148,9 +152,9 @@ export default class Point {
 	/**
 	 * Point operator - (x, y)
 	 * @const
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns {Point}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @returns {Point} new Point object = this - (X,Y)
 	 */
 	subxn(x, y) {
 		return new Point(this.x - x, this.y - y)
@@ -160,8 +164,8 @@ export default class Point {
 	 * Point operator - (Point)
 	 * sub external (Point)
 	 * @const
-	 * @param {Point} pt
-	 * @returns {Point}
+	 * @param {Point} pt another Point const object
+	 * @returns {Point} new Point object = this - another
 	 */
 	subx(pt) {
 		return new Point(this.x - pt.x, this.y - pt.y)
@@ -169,9 +173,9 @@ export default class Point {
 
 	/**
 	 * min internal numbers
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns {Point}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @returns {Point} this modified Point object
 	 */
 	minin(x, y) {
 		this.x = Math.min(this.x, x)
@@ -181,8 +185,8 @@ export default class Point {
 
 	/**
 	 * min internal (Point)
-	 * @param {Point} pt
-	 * @returns {Point}
+	 * @param {Point} pt another const Point
+	 * @returns {Point} this modified Point object
 	 */
 	mini(pt) {
 		return this.minin(pt.x, pt.y)
@@ -190,9 +194,9 @@ export default class Point {
 
 	/**
 	 * max internal numbers
-	 * @param {number} x
-	 * @param {number} y
-	 * @return {Point}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @return {Point} this modified Point object
 	 */
 	maxin(x, y) {
 		this.x = Math.max(this.x, x)
@@ -202,8 +206,8 @@ export default class Point {
 
 	/**
 	 * max internal (Point)
-	 * @param {Point} pt
-	 * @return {Point}
+	 * @param {Point} pt another const Point
+	 * @return {Point} new Point = max(this, another)
 	 */
 	maxi(pt) {
 		return this.maxin(pt.x, pt.y)
@@ -211,7 +215,7 @@ export default class Point {
 
 	/**
 	 * negative internal: pt = -pt
-	 * @returns {Point}
+	 * @returns {Point} this modified Point
 	 */
 	negi() {
 		this.x = -this.x
@@ -223,7 +227,7 @@ export default class Point {
 	 * negative external
 	 * Point operator - () const
 	 * @const
-	 * @returns {Point}
+	 * @returns {Point} new Point = -this
 	 */
 	negx() {
 		return new Point(-this.x, -this.y)
@@ -232,8 +236,8 @@ export default class Point {
 	/**
 	 * internal multiply by koefficient
 	 * Point operator *= (number)
-	 * @param {number} k
-	 * @returns {Point}
+	 * @param {number} k Coefficient
+	 * @returns {Point} this modified Point
 	 */
 	muli(k) {
 		this.x *= k
@@ -245,8 +249,8 @@ export default class Point {
 	 * external multiply by koefficient
 	 * Point operator * (number) const
 	 * @const
-	 * @param k
-	 * @returns {Point}
+	 * @param {number} k Coefficient
+	 * @returns {Point} new Point object
 	 */
 	mulx(k) {
 		return new Point(this.x * k, this.y * k)
@@ -255,7 +259,7 @@ export default class Point {
 	/**
 	 * square of length
 	 * @const
-	 * @returns {number}
+	 * @returns {number} square of vector length
 	 */
 	lengthSqr() {
 		return this.x * this.x + this.y * this.y
@@ -264,7 +268,7 @@ export default class Point {
 	/**
 	 * Length
 	 * @const
-	 * @returns {number}
+	 * @returns {number} vector length
 	 */
 	length() {
 		return Math.sqrt(this.lengthSqr())
@@ -273,9 +277,9 @@ export default class Point {
 	/**
 	 * Square of distance to point, defined by numbers
 	 * @const
-	 * @param {number} x
-	 * @param {number} y
-	 * @returns {number}
+	 * @param {number} x X-value
+	 * @param {number} y Y-value
+	 * @returns {number} distance between this point and (x,y)
 	 */
 	distSqrn(x, y) {
 		let dx = this.x - x, dy = this.y - y
@@ -285,8 +289,8 @@ export default class Point {
 	/**
 	 * Square of distance to point
 	 * @const
-	 * @param {Point} pt
-	 * @returns {number}
+	 * @param {Point} pt another Point
+	 * @returns {number} square of distance between this and another
 	 */
 	distSqr(pt) {
 		return this.distSqrn(pt.x, pt.y)
@@ -295,8 +299,8 @@ export default class Point {
 	/**
 	 * Distance to point
 	 * @const
-	 * @param pt
-	 * @returns {number}
+	 * @param {Point} pt another const Point
+	 * @returns {number} distance between this and another
 	 */
 	dist(pt) {
 		return Math.sqrt(this.distSqr(pt))
@@ -305,7 +309,7 @@ export default class Point {
 	/**
 	 * Make unit vector from angle (in radians)
 	 * @param {number} radAngle		angle in radians, for ex: Math.PI/2
-	 * @returns {Point}
+	 * @returns {Point} this modified Point object
 	 */
 	fromRad(radAngle) {
 		this.x = Math.cos(radAngle)
@@ -315,8 +319,8 @@ export default class Point {
 
 	/**
 	 * Make unit vector from angle (in degrees)
-	 * @param {number} degAngle
-	 * @returns {Point}
+	 * @param {number} degAngle angle in degrees
+	 * @returns {Point} this modified Point object
 	 */
 	fromDeg(degAngle) {
 		return this.fromRad(Math.PI * degAngle / 180)
@@ -324,7 +328,7 @@ export default class Point {
 
 	/**
 	 * Transpose internal
-	 * @returns {Point}
+	 * @returns {Point} this modified Point object
 	 */
 	transponi() {
 		let tmp = this.x
@@ -336,7 +340,7 @@ export default class Point {
 	/**
 	 * Transpose external
 	 * @const
-	 * @returns {Point}
+	 * @returns {Point} new Point object
 	 */
 	transponx() {
 		return new Point(this.y, this.x)
@@ -344,20 +348,20 @@ export default class Point {
 
 	/**
 	 * Rounding and casting to string
-	 * @param {number} value
-	 * @returns {string}
+	 * @param {number} value number
+	 * @returns {string} string
 	 */
 	static toa(value) {
-		return (Math.round(value * 1000) / 1000).toString()
+		return String(Math.round(value * 1000) / 1000)
 	}
 
 	/**
 	 * Make string from point
 	 * @const
-	 * @returns {string}
+	 * @returns {string} = "(x, y)"
 	 */
 	toString() {
-		return `{${Point.toa(this.x)}, ${Point.toa(this.y)}}`
+		return `(${Point.toa(this.x)}, ${Point.toa(this.y)})`
 	}
 
 	/**
@@ -382,3 +386,5 @@ export default class Point {
 	}
 
 }
+
+module.exports = Point

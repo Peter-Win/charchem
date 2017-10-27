@@ -1,18 +1,18 @@
 /**
  * Created by PeterWin on 01.05.2017.
  */
-"use strict"
+'use strict'
 
-import {expect} from 'chai'
-import ChemBond from '../../src/core/ChemBond'
-import Point from '../../src/math/Point'
-import ChemNode from '../../src/core/ChemNode'
+const expect = require('chai').expect
+const ChemBond = require('../../src/core/ChemBond')
+const Point = require('../../src/math/Point')
+const ChemNode = require('../../src/core/ChemNode')
 
 describe('ChemBond', ()=> {
 
 	it('walk', ()=> {
 		let bond = new ChemBond()
-		let result = bond.walk({}) || bond.walk({bond: obj => 'SUCCESS'})
+		let result = bond.walk({}) || bond.walk({bond: () => 'SUCCESS'})
 		expect(result).to.be.equal('SUCCESS')
 	})
 
@@ -26,7 +26,7 @@ describe('ChemBond', ()=> {
 		expect(bond.calcPt()).to.be.eql({x:1, y:2})
 	})
 
-	it("other", () => {
+	it('other', () => {
 		let bond = new ChemBond()
 		let node0 = bond.nodes[0] = new ChemNode(new Point(1, 1))
 		let node1 = bond.nodes[1] = new ChemNode(new Point(2, 2))

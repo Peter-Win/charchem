@@ -11,13 +11,16 @@
   "plugins": ["jest"],
   "rules": {
     "array-bracket-spacing": [0, "always"],
-    "comma-dangle": [2, "never"],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "eqeqeq": ["error", "always"],
-    "eol-last": 2,
+    "eol-last": 0,
     "indent": ["error", "tab"],
     "no-multiple-empty-lines": 2,
-    "object-curly-spacing": [2, "always"],
+    "object-curly-spacing": ["error", "never"],
     "operator-assignment": ["error", "always"],
     "quotes": [2, "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
     "semi": [2, "never"],
@@ -32,6 +35,7 @@
         "++": false
       }
     }],
-    "strict": [0, "global"]
+    "strict": [0, "global"],
+    "valid-jsdoc": "error"
   }
 }

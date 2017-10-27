@@ -16,7 +16,7 @@
 // Внимание! Наличие абстрактных коэффициентов или элементов делает результат непредсказуемым!
 // Рекомендуется сначала проверять выражение на абстрактность
 
-export default class MassCalc {
+class MassCalc {
 	constructor() {
 		this.list = []
 		this.stack = [0]
@@ -27,7 +27,7 @@ export default class MassCalc {
 	// Список масс. Если визитор использован для выражения, то для каждого агента будет своя масса. Иначе в списке один элемент.
 	/**
 	 * List of mass each agent of expression
-	 * @returns {number[]}
+	 * @returns {number[]} list of mass values
 	 */
 	getList() {
 		return this.list.length ? this.list : this.stack
@@ -37,15 +37,9 @@ export default class MassCalc {
 	// Штатный метод для тех случаев, когда масса ожидается в виде одного числа
 	/**
 	 * Calculate total mass of expression
-	 * @returns {number}
+	 * @returns {number} mass summa
 	 */
 	getSum() {
-		/*
-		var sum=0, i, a=this.getList();
-		for (i in a)
-			sum += a[i];
-		return sum;
-		*/
 		return this.getList().reduce((acc, mass) => acc + mass, 0)
 	}
 
@@ -82,3 +76,5 @@ export default class MassCalc {
 		this.stack = [0]
 	}
 }
+
+module.exports = MassCalc

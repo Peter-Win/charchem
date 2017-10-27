@@ -2,11 +2,11 @@
  * Created by PeterWin on 30.04.2017.
  */
 
-import {expect} from 'chai'
-import ChemNode from '../../src/core/ChemNode'
-import ChemCharge from '../../src/core/ChemCharge'
-import ChemNodeItem from '../../src/core/ChemNodeItem'
-import {MenTbl} from '../../src/core'
+const expect = require('chai').expect
+const ChemNode = require('../../src/core/ChemNode')
+const ChemCharge = require('../../src/core/ChemCharge')
+const ChemNodeItem = require('../../src/core/ChemNodeItem')
+const MenTbl = require('../../src/core').MenTbl
 
 describe('ChemNode', () => {
 
@@ -27,8 +27,8 @@ describe('ChemNode', () => {
 
 		// first visitor return result from itemPre
 		let result = node.walk({
-			nodePre: item => 'PRE',
-			nodePost: item => 'POST'
+			nodePre: () => 'PRE',
+			nodePost: () => 'POST',
 		})
 		expect(result).to.be.equal('PRE')
 
@@ -41,7 +41,7 @@ describe('ChemNode', () => {
 			this.itemPost = item => {
 				if (item.n !== 1) text += item.n
 			}
-			this.nodePost = node => text
+			this.nodePost = () => text
 		})
 		expect(result).to.be.equal('H3C')
 
@@ -50,14 +50,14 @@ describe('ChemNode', () => {
 		result = node.walk({
 			atom: atom => {lastAtom = atom.id},
 			itemPost: item => lastAtom === 'H' ? item.n : 0,
-			nodePost: node => 0
+			nodePost: () => 0,
 		})
 		expect(result).to.be.equal(3)
 
 		// dummy visitors for full coverage
 		node.walk({})
 		node.walk({
-			nodePre: () => {}
+			nodePre: () => {},
 		})
 	})
 })

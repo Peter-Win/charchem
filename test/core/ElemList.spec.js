@@ -3,10 +3,10 @@
  */
 'use strict'
 
-import { expect } from 'chai'
-import ElemList, { ElemRec } from '../../src/core/ElemList'
-import { MenTbl } from '../../src/core'
-import ChemRadical from '../../src/core/ChemRadical'
+const expect = require('chai').expect
+const {ElemList, ElemRec} = require('../../src/core/ElemList')
+const {MenTbl} = require('../../src/core/MenTbl')
+const ChemRadical = require('../../src/core/ChemRadical')
 
 describe('ElemList', () => {
 
@@ -32,8 +32,8 @@ describe('ElemList', () => {
 
 	it('findCustom', () => {
 		let elemList = new ElemList()
-		elemList.push(new ElemRec({ id:'First', elem:null, n:1 }))
-		elemList.push(new ElemRec({ id:'Second', elem:null, n:1 }))
+		elemList.push(new ElemRec({id:'First', elem:null, n:1}))
+		elemList.push(new ElemRec({id:'Second', elem:null, n:1}))
 
 		expect(elemList.length).to.be.equal(2)
 		expect(elemList.findCustom('First')).to.be.equal(0)
@@ -44,7 +44,7 @@ describe('ElemList', () => {
 	it('findKey', () => {
 		let elemList = new ElemList()
 		elemList.push(new ElemRec(MenTbl.H))
-		elemList.push(new ElemRec({ id:'R', elem:null, n:1 }))
+		elemList.push(new ElemRec({id:'R', elem:null, n:1}))
 
 		expect(elemList.findKey('H')).to.be.equal(0)
 		expect(elemList.findKey('{R}')).to.be.equal(1)
@@ -55,11 +55,11 @@ describe('ElemList', () => {
 	it('findRec', () => {
 		let elemList = new ElemList()
 		elemList.push(new ElemRec(MenTbl.H))
-		elemList.push(new ElemRec({ id:'R', elem:null, n:1 }))
+		elemList.push(new ElemRec({id:'R', elem:null, n:1}))
 
-		expect(elemList.findRec({ id:'H', elem:MenTbl.H, n:1 })).to.be.equal(0)
-		expect(elemList.findRec({ id:'R', elem:null, n:1 })).to.be.equal(1)
-		expect(elemList.findRec({ id:'H', elem:null, n:1 })).to.be.equal(-1)
+		expect(elemList.findRec({id: 'H', elem: MenTbl.H, n: 1})).to.be.equal(0)
+		expect(elemList.findRec({id: 'R', elem: null, n: 1})).to.be.equal(1)
+		expect(elemList.findRec({id: 'H', elem: null, n: 1})).to.be.equal(-1)
 		expect(elemList.findRec(new ElemRec('H'))).to.be.equal(0)
 		expect(elemList.findRec(new ElemRec('He'))).to.be.equal(-1)
 	})
@@ -146,19 +146,19 @@ describe('ElemList', () => {
 	})
 
 	it('toString', () => {
-		let list1 = new ElemList()
+		const list1 = new ElemList()
 		list1.addElem('C', 2)
 		list1.addElem('H', 6)
 
 		expect(list1.toString()).to.be.equal('C2H6')
 
-		let list2 = new ElemList()
+		const list2 = new ElemList()
 		list2.addElem('S')
 		list2.addElem('O', 4)
 		list2.charge = -2
 		expect(list2 + '').to.be.equal('SO4^2-')
 
-		let list3 = new ElemList()
+		const list3 = new ElemList()
 		list3.addCustom('M', 2)
 		list3.addElem('S')
 		list3.addCustom('CoA')
@@ -182,9 +182,9 @@ describe('ElemList', () => {
 		expect(list2 + '').to.be.equal('O{R}{R1}')
 
 		let list3 = new ElemList()
-		list3.push(new ElemRec({ id:'R', elem:null, n:1 }))
+		list3.push(new ElemRec({id:'R', elem:null, n:1}))
 		list3.push(new ElemRec(MenTbl.H), new ElemRec(MenTbl.O), new ElemRec(MenTbl.H))
-		list3.push(new ElemRec({ id:'R', elem:null, n:1 }))
+		list3.push(new ElemRec({id:'R', elem:null, n:1}))
 		list3.sortByHill()
 		expect(list3 + '').to.be.equal('HHO{R}{R}')
 	})

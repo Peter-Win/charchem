@@ -1,10 +1,10 @@
 /**
  * Created by PeterWin on 10.05.2017.
  */
-import { expect } from 'chai'
-import ChemSys from '../../src/ChemSys'
-import { extractOps } from '../testUtils'
-import ChemComment from '../../src/core/ChemComment'
+const {expect} = require('chai')
+const ChemSys = require('../../src/ChemSys')
+const {extractOps} = require('../testUtils')
+const ChemComment = require('../../src/core/ChemComment')
 
 describe('Compiler errors', () => {
 
@@ -73,7 +73,7 @@ describe('Compiler errors', () => {
 			let expr = ChemSys.compile('H{X}"' + comment + '"')
 			expect(expr.isOk()).to.be.ok	// Its not error
 			let commObj = expr.walk({
-				comm: obj => obj
+				comm: obj => obj,
 			})
 			expect(commObj).to.be.an.instanceOf(ChemComment)
 			return commObj.tx

@@ -2,7 +2,7 @@
  * Created by PeterWin on 07.05.2017.
  */
 'use strict'
-import ElemList from '../core/ElemList'
+const {ElemList} = require('../core/ElemList')
 
 ////////////////////////////////////////////////////////////
 //	визитор для формирования списка элементов из выражения
@@ -20,13 +20,13 @@ import ElemList from '../core/ElemList'
  *   let elemList = visitor.result()
  * @constructor
  */
-export default function ElemListMaker() {
-	let visitor = this,
+function ElemListMaker() {
+	const visitor = this,
 		stack = [new ElemList()]
 
 	/**
 	 * Get calculated elements list
-	 * @returns {ElemList}
+	 * @returns {ElemList} list of elements
 	 */
 	visitor.result = () => stack[0]
 
@@ -55,7 +55,8 @@ export default function ElemListMaker() {
 
 	/**
 	 * before node handler
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node node
+	 * @return {void}
 	 */
 	visitor.nodePost = node => {
 		stack[0].charge += node.chargeVal()
@@ -63,7 +64,8 @@ export default function ElemListMaker() {
 
 	/**
 	 * Chemical element handler
-	 * @param {ChemAtom} chemElement
+	 * @param {ChemAtom} chemElement element
+	 * @return {void}
 	 */
 	visitor.atom = chemElement => {
 		stack[0].addElem(chemElement)
@@ -76,3 +78,4 @@ export default function ElemListMaker() {
 	}
 }
 
+module.exports = ElemListMaker

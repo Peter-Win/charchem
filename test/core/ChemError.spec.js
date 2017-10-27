@@ -1,11 +1,11 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
-"use strict"
+'use strict'
 
-import {expect} from 'chai'
-import ChemError from '../../src/core/ChemError'
-import Lang from '../../src/Lang'
+const expect = require('chai').expect
+const ChemError = require('../../src/core/ChemError')
+const Lang = require('../../src/Lang')
 
 describe('ChemError', () => {
 

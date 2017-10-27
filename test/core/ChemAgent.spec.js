@@ -2,15 +2,15 @@
  * Created by PeterWin on 01.05.2017.
  */
 
-import {expect} from 'chai'
-import ChemAgent from '../../src/core/ChemAgent'
-import ChemNode from '../../src/core/ChemNode'
-import ChemNodeItem from '../../src/core/ChemNodeItem'
-import ChemBond from '../../src/core/ChemBond'
-import {MenTbl} from '../../src/core'
+const expect = require('chai').expect
+const ChemAgent = require('../../src/core/ChemAgent')
+const ChemNode = require('../../src/core/ChemNode')
+const ChemNodeItem = require('../../src/core/ChemNodeItem')
+const ChemBond = require('../../src/core/ChemBond')
+const MenTbl = require('../../src/core').MenTbl
 
 describe('ChemAgent', ()=> {
-	const createItem = (node, id, n=1) => {
+	const createItem = (node, id, n = 1) => {
 		let item = new ChemNodeItem()
 		item.n = n
 		item.obj = MenTbl[id]
@@ -44,29 +44,29 @@ describe('ChemAgent', ()=> {
 
 		// first visitor return in agentPre
 		let result = agent.walk({
-			agentPre: obj => 'SUCCESS',
-			agentPost: objt => 'FAIL'	// this line is not call
+			agentPre: () => 'SUCCESS',
+			agentPost: () => 'FAIL',	// this line is not call
 		})
 		expect(result).to.be.equal('SUCCESS')
 
 		// second visitor make text
 		let tmp = ''
 		result = agent.walk({
-			atom: obj => {tmp+=obj.id},
-			itemPost: obj => {tmp += obj.n===1 ? '' : obj.n},
-			bond: obj => {tmp+=obj.tx},
-			agentPost: obj => tmp
+			atom: obj => {tmp += obj.id},
+			itemPost: obj => {tmp += obj.n === 1 ? '' : obj.n},
+			bond: obj => {tmp += obj.tx},
+			agentPost: () => tmp,
 		})
 		expect(result).to.be.equal('CH3-CH2-OH')
 
 		// third visitor find first H and return his count
 		result = agent.walk({
-			agentPre: obj => {}, // dummy for coverage
+			agentPre: () => {}, // dummy for coverage
 			atom: obj => {tmp = obj.id},
 			itemPost: obj => {
-				if (tmp==='H') return obj.n
+				if (tmp === 'H') return obj.n
 			},
-			agentPost: obj => {}	// dummy for coverage
+			agentPost: () => {},	// dummy for coverage
 		})
 		expect(result).to.be.equal(3)
 

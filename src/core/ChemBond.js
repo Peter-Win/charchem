@@ -4,9 +4,9 @@
  */
 'use strict'
 
-import ChemObj from './ChemObj'
+const ChemObj = require('../../src/core/ChemObj')
 
-export default class ChemBond extends ChemObj
+class ChemBond extends ChemObj
 {
 	constructor() {
 		super()
@@ -15,7 +15,12 @@ export default class ChemBond extends ChemObj
 
 		this.N = 1	// multiplicity of the bond
 		this.nodes = [0, 0]	// nodes
-		this.pt = 0		// bond vector
+		/**
+		 * bond vector
+		 * @type {Point}
+		 */
+		this.pt = null
+
 		this.tx = ''	// text description
 		this.slope = 0 // для связи, созданной из описания / = -1, для \ = 1, для остальных =0
 		// Закомментированные поля используются, но не всегда. Для повышения производительности они инициализируются там, где они нужны
@@ -35,20 +40,20 @@ export default class ChemBond extends ChemObj
 
 	/**
 	 * Position calculate for second part of bond
-	 * @returns {Point}
+	 * @returns {Point} position of bond end
 	 */
 	calcPt() {
 		return this.nodes[0].pt.addx(this.pt)
 	}
 
-	// Получить другой узел
 	/**
 	 * Get another node of bond
-	 * @param {ChemNode} node
-	 * @returns {ChemNode|null}
+	 * @param {ChemNode} node source node
+	 * @returns {ChemNode|null} another node or null
 	 */
 	other(node) {
-		let i = 0, nodes = this.nodes, result
+		const nodes = this.nodes
+		let result
 		if (nodes.length === 2) {
 			result = nodes[0] === node ? nodes[1] : (nodes[1] === node ? nodes[0] : null)
 		} else {
@@ -63,3 +68,5 @@ export default class ChemBond extends ChemObj
 	}
 
 }
+
+module.exports = ChemBond

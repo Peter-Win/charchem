@@ -2,7 +2,7 @@
  * Created by PeterWin on 06.05.2017.
  */
 
-import { isAbsK } from '../core'
+const {isAbsK} = require('../core')
 
 /**
  * visitor for abstract items detection
@@ -10,8 +10,8 @@ import { isAbsK } from '../core'
  * if (expr.walk(new IsAbstract())) alert('expr is abstract');
  * @constructor
  */
-export default function IsAbstract() {
-	let me = this
+function IsAbstract() {
+	const me = this
 	me.ok = false
 	const testK = k =>
 		(me.ok = me.ok || isAbsK(k))
@@ -25,3 +25,5 @@ export default function IsAbstract() {
 		return me.ok = true
 	}
 }
+
+module.exports = IsAbstract

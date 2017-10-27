@@ -1,11 +1,11 @@
 /**
  * Created by PeterWin on 26.04.2017.
  */
-"use strict"
+'use strict'
 
-import Point from '../../src/math/Point'
-import Rect from '../../src/math/Rect'
-import {expect} from 'chai'
+const expect = require('chai').expect
+const Point = require('../../src/math/Point')
+const Rect = require('../../src/math/Rect')
 
 describe('Rect initialization', () => {
 
@@ -154,20 +154,20 @@ describe('Rect operations', () => {
 		let rc4 = rc1.clone()
 
 		rc1.grow(1)
-		expect(rc1).to.be.eql({A:{x:9,y:19}, B:{x:31, y:41}})
+		expect(rc1).to.be.eql({A:{x:9, y:19}, B:{x:31, y:41}})
 
 		rc2.grow(1, 2)
-		expect(rc2).to.be.eql({A:{x:9,y:18}, B:{x:31,y:42}})
+		expect(rc2).to.be.eql({A:{x:9, y:18}, B:{x:31, y:42}})
 
 		rc3.grow({x:2, y:4})
 		expect(rc3).to.be.eql({A:{x:8, y:16}, B:{x:32, y:44}})
 
 		rc4.grow(new Point(3, 5))
-		expect(rc4).to.be.eql({A:{x:7, y:15}, B:{x:33,y:45}})
+		expect(rc4).to.be.eql({A:{x:7, y:15}, B:{x:33, y:45}})
 	})
 
 	it('Unite', () => {
-		const rc0 = new Rect(0,0, 10, 20)
+		const rc0 = new Rect(0, 0, 10, 20)
 
 		let rc1 = new Rect()
 		rc1.unite(rc0)
@@ -176,6 +176,6 @@ describe('Rect operations', () => {
 		let rc2 = new Rect(5, 6, 70, 80)
 
 		rc2.unite(rc0)
-		expect(rc2).to.be.eql({A:{x:0, y:0}, B:{x:70,y:80}})
+		expect(rc2).to.be.eql({A:{x:0, y:0}, B:{x:70, y:80}})
 	})
 })

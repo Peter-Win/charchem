@@ -4,9 +4,9 @@
  */
 'use strict'
 
-import ChemSys from '../ChemSys'
+const utils = require('../utils')
 
-export default class ChemCharge
+class ChemCharge
 {
 	/**
 	 * Attention!
@@ -42,7 +42,7 @@ export default class ChemCharge
 	/**
 	 * Create charge object from text description
 	 * @param {string} text	Examples: - + -- ++
-	 * @returns {ChemCharge|null}
+	 * @returns {ChemCharge|null} ChemCharge object, if success. Null, if fail
 	 */
 	static create(text) {
 
@@ -69,13 +69,13 @@ export default class ChemCharge
 			if (/^\d+[-+]$/.test(text))		// A number with plus or minus behind: Ca^2+, PO4^3-
 				return makeCharge(text.charAt(len - 1) + text.slice(0, -1))
 
-			if (text == '+o') {
+			if (text === '+o') {
 				return makeCharge(1, 1, '+')
 			}
-			if (text == '-o') {
+			if (text === '-o') {
 				return makeCharge(-1, 1, '-')
 			}
-			var v = ChemSys.RomanNum[text]
+			const v = utils.RomanNum[text]
 			if (v) {
 				text = text.toUpperCase()
 				return makeCharge(v)
@@ -84,3 +84,5 @@ export default class ChemCharge
 		return null
 	}
 }
+
+module.exports = ChemCharge

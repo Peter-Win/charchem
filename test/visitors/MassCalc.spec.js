@@ -2,11 +2,11 @@
  * Created by PeterWin on 12.05.2017.
  */
 'use strict'
-import { expect } from 'chai'
-import MassCalc from '../../src/visitors/MassCalc'
-import ChemSys from '../../src/ChemSys'
-import { MenTbl } from '../../src/core'
-import { precision, extractNodes } from '../testUtils'
+const expect = require('chai').expect
+const MassCalc = require('../../src/visitors/MassCalc')
+const ChemSys = require('../../src/ChemSys')
+const {MenTbl} = require('../../src/core')
+const {precision, extractNodes} = require('../testUtils')
 
 describe('MassCalc', () => {
 	it('getList for 1 agent in expression', () => {

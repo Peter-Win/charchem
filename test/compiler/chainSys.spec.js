@@ -3,26 +3,26 @@
  */
 'use strict'
 
-import { expect } from 'chai'
-import ChainSys, { SubChain, Chain } from '../../src/compiler/chainSys'
-import ChemBond from '../../src/core/ChemBond'
-import ChemNode from '../../src/core/ChemNode'
-import Point from '../../src/math/Point'
+const {expect} = require('chai')
+const {ChainSys, SubChain, Chain} = require('../../src/compiler/chainSys')
+const ChemBond = require('../../src/core/ChemBond')
+const ChemNode = require('../../src/core/ChemNode')
+const Point = require('../../src/math/Point')
 
 describe('SubChain', () => {
 	it('addNode / delNode', () => {
 		// create sub chain
-		let subChain = new SubChain()
+		const subChain = new SubChain()
 
 		// add node
-		let node0 = new ChemNode()
+		const node0 = new ChemNode()
 		subChain.addNode(node0)
 		expect(node0.sc).to.be.equal(subChain.index)
 		expect(subChain.getNodes()).to.have.lengthOf(1)
 		expect(subChain.getNodes()[0]).to.be.equal(node0)
 
 		// add second node
-		let node1 = new ChemNode()
+		const node1 = new ChemNode()
 		subChain.addNode(node1)
 		expect(subChain.getNodes()).to.have.lengthOf(2)
 		expect(subChain.getNodes()[1]).to.be.equal(node1)
@@ -37,12 +37,12 @@ describe('SubChain', () => {
 		subChain.delNode(node1)
 		expect(subChain.getNodes()).to.have.lengthOf(0)
 
-		let subChain2 = new SubChain()
+		const subChain2 = new SubChain()
 		expect(subChain.index).to.not.be.equal(subChain2.index)
 	})
 
 	it('setCh: set chain number', () => {
-		let subChain = new SubChain()
+		const subChain = new SubChain()
 		subChain.addNode(new ChemNode())
 		subChain.addNode(new ChemNode())
 		subChain.getNodes().forEach(node => expect(node.ch).to.be.equal(0))
@@ -52,10 +52,10 @@ describe('SubChain', () => {
 	})
 
 	it('findByPt', () => {
-		let subChain = new SubChain()
-		let node0 = new ChemNode(new Point(1, 1))
+		const subChain = new SubChain()
+		const node0 = new ChemNode(new Point(1, 1))
 		subChain.addNode(node0)
-		let node1 = new ChemNode(new Point(2, 2))
+		const node1 = new ChemNode(new Point(2, 2))
 		subChain.addNode(node1)
 
 		expect(subChain.findByPt(new Point(1, 1))).to.be.equal(node0)
@@ -64,12 +64,12 @@ describe('SubChain', () => {
 	})
 
 	it('add nodes list', () => {
-		let subChain = new SubChain()
-		let node0 = new ChemNode(new Point(1, 1))
+		const subChain = new SubChain()
+		const node0 = new ChemNode(new Point(1, 1))
 		subChain.addNode(node0)
 		subChain.setCh(36)
 
-		let list = [new ChemNode(new Point()), new ChemNode(new Point(1, 1))]
+		const list = [new ChemNode(new Point()), new ChemNode(new Point(1, 1))]
 		subChain.add(list, new Point(2, 0))
 
 		expect(subChain.getNodes()).to.have.lengthOf(3)
@@ -77,8 +77,8 @@ describe('SubChain', () => {
 			expect(node.ch).to.be.equal(node0.ch)
 			expect(node.sc).to.be.equal(node0.sc)
 		})
-		expect(list[0].pt).to.be.eql({ x: 2, y: 0 })
-		expect(list[1].pt).to.be.eql({ x: 3, y: 1 })
+		expect(list[0].pt).to.be.eql({x: 2, y: 0})
+		expect(list[1].pt).to.be.eql({x: 3, y: 1})
 	})
 })
 
@@ -87,11 +87,11 @@ describe('SubChain', () => {
 describe('Chain', () => {
 
 	it('findByPt', () => {
-		let chain = new Chain()
+		const chain = new Chain()
 		expect(chain.findByPt(new Point(1, 1))).to.not.be.ok
 
-		let node0 = new ChemNode(new Point(1, 1))
-		let node1 = new ChemNode(new Point(2, 2))
+		const node0 = new ChemNode(new Point(1, 1))
+		const node1 = new ChemNode(new Point(2, 2))
 		chain.addNode(node0)
 		chain.addNode(node1)
 
@@ -105,9 +105,9 @@ describe('Chain', () => {
 
 	it('closeSC: close subChain', () => {
 		// Create chain with 1 sub-chain and 2 nodes
-		let chain = new Chain()
-		let node0 = new ChemNode(new Point(1, 1))
-		let node1 = new ChemNode(new Point(2, 2))
+		const chain = new Chain()
+		const node0 = new ChemNode(new Point(1, 1))
+		const node1 = new ChemNode(new Point(2, 2))
 		chain.addNode(node0)
 		chain.addNode(node1)
 
@@ -118,37 +118,37 @@ describe('Chain', () => {
 		chain.closeSC(node1)
 		// node0 and node1 now in different subChains
 		expect(node0.sc).to.not.be.equal(node1.sc)
-		expect(node1.pt).to.be.eql({ x: 0, y: 0 })	// and coordinates of node1 set to {0,0}
+		expect(node1.pt).to.be.eql({x: 0, y: 0})	// and coordinates of node1 set to {0,0}
 
 		// closeSC without node
 		chain.closeSC()
 		expect(chain.getCurSC()).to.not.be.ok
 
 		// check count of sub-chains
-		let keys = Object.keys(chain.getLst())
+		const keys = Object.keys(chain.getLst())
 		expect(keys).to.have.lengthOf(2)
 	})
 
 	it('getSC: get subChain', () => {
-		let chain = new Chain()
-		let node0 = new ChemNode(new Point(1, 1))
-		let node1 = new ChemNode(new Point(2, 2))
+		const chain = new Chain()
+		const node0 = new ChemNode(new Point(1, 1))
+		const node1 = new ChemNode(new Point(2, 2))
 		chain.addNode(node0)
 		chain.closeSC(node1)
 
-		let subChain0 = chain.getSC(node0.sc)
-		let subChain1 = chain.getSC(node1.sc)
+		const subChain0 = chain.getSC(node0.sc)
+		const subChain1 = chain.getSC(node1.sc)
 		expect(subChain0).to.not.be.equal(subChain1)
 
 		expect(chain.getSC(node1.sc + 1)).to.not.be.ok
 	})
 
 	it('setCur: set current subChain', () => {
-		let chain = new Chain()
-		let node0 = new ChemNode(new Point())
-		let node1 = new ChemNode(new Point())
+		const chain = new Chain()
+		const node0 = new ChemNode(new Point())
+		const node1 = new ChemNode(new Point())
 		chain.addNode(node0)	// add node to chain
-		let subChain0 = chain.getCurSC()	// save subChain
+		const subChain0 = chain.getCurSC()	// save subChain
 		chain.closeSC()			// close current subChain
 		chain.addNode(node1)	// add node1
 
@@ -159,10 +159,10 @@ describe('Chain', () => {
 	})
 
 	it('delSC: delete subChain', () => {
-		let chain = new Chain()
-		let node0 = new ChemNode()
+		const chain = new Chain()
+		const node0 = new ChemNode()
 		chain.addNode(node0)
-		let subChainIndex = chain.getCurSC().index
+		const subChainIndex = chain.getCurSC().index
 
 		expect(chain.delSC(subChainIndex)).to.have.deep.property('[0]', node0)
 		expect(chain.getSC(subChainIndex)).to.not.be.ok
@@ -170,9 +170,9 @@ describe('Chain', () => {
 	})
 
 	it('addLst', () => {
-		let chain = new Chain()
-		let node0 = new ChemNode(), node1 = new ChemNode()
-		let subChain0 = new SubChain(), subChain1 = new SubChain()
+		const chain = new Chain()
+		const node0 = new ChemNode(), node1 = new ChemNode()
+		const subChain0 = new SubChain(), subChain1 = new SubChain()
 		subChain0.addNode(node0)
 		subChain1.addNode(node1)
 		chain.addLst([subChain0, subChain1])
@@ -188,22 +188,22 @@ describe('Chain', () => {
 describe('ChainSys', () => {
 
 	it('findByPt', () => {
-		let point11 = new Point(1, 1)
-		let chainSys = new ChainSys()
+		const point11 = new Point(1, 1)
+		const chainSys = new ChainSys()
 		expect(chainSys.findByPt(point11)).to.not.be.ok
 
-		let node0 = new ChemNode(point11)
+		const node0 = new ChemNode(point11)
 		chainSys.addNode(node0)
 		expect(chainSys.findByPt(point11)).to.be.equal(node0)
 	})
 
 	it('closeSC', () => {
-		let chainSys = new ChainSys()
+		const chainSys = new ChainSys()
 		// test invalid case
 		expect(() => chainSys.closeSC(null)).to.not.throw()	// must be ignored without exception
 
-		let node0 = new ChemNode()
-		let node1 = new ChemNode()
+		const node0 = new ChemNode()
+		const node1 = new ChemNode()
 		chainSys.addNode(node0)
 		chainSys.addNode(node1)
 		expect(node0.sc).to.be.equal(node1.sc)
@@ -216,8 +216,8 @@ describe('ChainSys', () => {
 	})
 
 	it('closeChain, setCur', () => {
-		let chainSys = new ChainSys()
-		let node0 = new ChemNode(), node1 = new ChemNode()
+		const chainSys = new ChainSys()
+		const node0 = new ChemNode(), node1 = new ChemNode()
 		chainSys.addNode(node0)
 		chainSys.closeChain()
 		expect(chainSys.getCurSC()).to.not.be.ok
@@ -230,7 +230,7 @@ describe('ChainSys', () => {
 	})
 
 	const createBond = (node0, node1, dir) => {
-		let bond = new ChemBond()
+		const bond = new ChemBond()
 		bond.nodes[0] = node0
 		bond.nodes[1] = node1
 		bond.pt = dir ? dir : node1.pt.subx(node0.pt)
@@ -239,15 +239,15 @@ describe('ChainSys', () => {
 
 	/**
 	 * Construct ChainSys from points
-	 * @param {{x: number,y: number}[]} srcPoints
-	 * @returns {{chainSys: ChainSys, nodes: ChemNode[], bonds: ChemBond[]}}
+	 * @param {{x: number,y: number}[]} srcPoints list of points
+	 * @returns {{chainSys: ChainSys, nodes: ChemNode[], bonds: ChemBond[]}} params
 	 */
 	const createChainSys = srcPoints => {
-		let res = {
+		const res = {
 			chainSys: new ChainSys(),
 			nodes: [],
 			bonds: [],
-			nodesMap: {}
+			nodesMap: {},
 		}
 		srcPoints.forEach((ptDef, i) => {
 			let pt = new Point(ptDef.x, ptDef.y)
@@ -274,7 +274,7 @@ describe('ChainSys', () => {
 	// Merge simple case: _(x1,y1)`-`|
 	// All points in same sub-chain
 	it('Merge simple', () => {
-		let { chainSys, nodes, bonds } = createChainSys([{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1, bCycle: true }])
+		const {chainSys, nodes, bonds} = createChainSys([{x: 0, y: 0}, {x: 1, y: 1}, {x: 0, y: 1, bCycle: true}])
 
 		// first and last nodes in same sub-chain before merge
 		expect(nodes[0].sc).to.be.ok
@@ -290,11 +290,11 @@ describe('ChainSys', () => {
 	// Both sub-chains contains 2 nodes and 1 bond
 	// sub-chains connect by bond between node3 -> node1
 	it('Merge by strong bond', () => {
-		let { chainSys, nodes } = createChainSys([
-			{ x: 0, y: 0 },
-			{ x: 1, y: 0 },
-			{ x: 0, y: 0, bNewCh: true },
-			{ x: 1, y: 0 }
+		const {chainSys, nodes} = createChainSys([
+			{x: 0, y: 0},
+			{x: 1, y: 0},
+			{x: 0, y: 0, bNewCh: true},
+			{x: 1, y: 0},
 		])
 		expect(Object.keys(chainSys.chains)).to.have.lengthOf(2)	// chain sys contains 2 chains
 		expect(nodes[0].sc).to.be.ok
@@ -302,23 +302,23 @@ describe('ChainSys', () => {
 		expect(nodes[1].sc).to.not.be.equal(nodes[3].sc)	// node1 and 3 in different sub-chains
 		expect(nodes[1].ch).to.not.be.equal(nodes[3].ch)	// node1 and 3 in different chains
 
-		let bond = createBond(nodes[3], null, new Point(0, 1))	// connecting bond
-		expect(bond.calcPt()).to.be.eql({ x: 1, y: 1 })
+		const bond = createBond(nodes[3], null, new Point(0, 1))	// connecting bond
+		expect(bond.calcPt()).to.be.eql({x: 1, y: 1})
 		chainSys.merge(nodes[3], nodes[1], bond)
 
 		expect(Object.keys(chainSys.chains)).to.have.lengthOf(1)	// chain sys contains 1 chain
 		expect(Object.keys(chainSys.curCh.getLst())).to.have.lengthOf(1)		// current chain contains 1 subchain
 		expect(nodes[1].sc).to.be.equal(nodes[2].sc)	// and now node1 and 2 in same sub-chain
-		expect(nodes[2].pt).to.be.eql({ x: 0, y: -1 })
-		expect(nodes[3].pt).to.be.eql({ x: 1, y: -1 })
+		expect(nodes[2].pt).to.be.eql({x: 0, y: -1})
+		expect(nodes[3].pt).to.be.eql({x: 1, y: -1})
 	})
 
 	// Merge chains with soft bond: H|O;H-#2
 	it('Merge by soft bond', () => {
-		let { chainSys, nodes } = createChainSys([
-			{ x: 0, y: 0 },
-			{ x: 0, y: 1 },
-			{ x: 0, y: 0, bNewCh: true }
+		const {chainSys, nodes} = createChainSys([
+			{x: 0, y: 0},
+			{x: 0, y: 1},
+			{x: 0, y: 0, bNewCh: true},
 		])
 		expect(Object.keys(chainSys.chains)).to.have.lengthOf(2)	// chain sys contains 2 chains
 		expect(nodes[0].sc).to.be.ok
@@ -350,9 +350,9 @@ describe('ChainSys', () => {
 	//  5   O   2     6        1     3*
 	// O and B united in one sub-chain after merge
 	it('merge complex', () => {
-		let { chainSys, nodesMap } = createChainSys([
-			{ id: 'H' }, { id: 'N', bSoft: 1 }, { id: 'B', bSoft: 1 },
-			{ id: 'F', bNewCh: 1 }, { id: 'S', bSoft: 1 }, { id: 'O', bSoft: 1 }
+		const {chainSys, nodesMap} = createChainSys([
+			{id: 'H'}, {id: 'N', bSoft: 1}, {id: 'B', bSoft: 1},
+			{id: 'F', bNewCh: 1}, {id: 'S', bSoft: 1}, {id: 'O', bSoft: 1},
 		])
 		expect(Object.keys(chainSys.chains)).to.have.lengthOf(2)	// 2 chains
 		expect(nodesMap.H.ch).to.be.equal(nodesMap.N.ch)	// 1st chain : H, N, B
@@ -368,16 +368,16 @@ describe('ChainSys', () => {
 		expect(nodesMap.S.sc).to.not.be.equal(nodesMap.O.sc)		// different subchains
 
 		// create vertical strong bond from O to B
-		let bond = createBond(nodesMap.O, nodesMap.B, new Point(0, 1))
+		const bond = createBond(nodesMap.O, nodesMap.B, new Point(0, 1))
 		// merge
 		chainSys.merge(nodesMap.O, nodesMap.B, bond)
 		expect(Object.keys(chainSys.chains)).to.have.lengthOf(1)	// 1 chain after merge
 		// O and B in same sub-chain
 		expect(nodesMap.O.sc).to.be.equal(nodesMap.B.sc)
 		// coordinates of O = {0, -1}
-		expect(nodesMap.O.pt).to.be.eql({ x: 0, y: -1 })
-		expect(nodesMap.F.pt).to.be.eql({ x: 0, y: 0 })
-		expect(nodesMap.S.pt).to.be.eql({ x: 0, y: 0 })
-		expect(nodesMap.B.pt).to.be.eql({ x: 0, y: 0 })
+		expect(nodesMap.O.pt).to.be.eql({x: 0, y: -1})
+		expect(nodesMap.F.pt).to.be.eql({x: 0, y: 0})
+		expect(nodesMap.S.pt).to.be.eql({x: 0, y: 0})
+		expect(nodesMap.B.pt).to.be.eql({x: 0, y: 0})
 	})
 })

@@ -6,15 +6,16 @@
  * Created by PeterWin on 01.05.2017.
  */
 
-import ChemObj from './ChemObj'
+const ChemObj = require('../../src/core/ChemObj')
 
-export default class ChemOp extends ChemObj
+class ChemOp extends ChemObj
 {
 	/**
 	 * @constructor
-	 * @param {string=} srcText, for example ->
-	 * @param {string=} dstText, for ex →
-	 * @param {boolean=false} bEq	sign of equation operation (=, ->, <=>)
+	 * @param {string=} srcText for example ->
+	 * @param {string=} dstText for ex →
+	 * @param {boolean=} bEq	default: false. sign of equation operation (=, ->, <=>)
+	 * @return {void}
 	 */
 	constructor(srcText, dstText, bEq) {
 		super()
@@ -30,3 +31,5 @@ export default class ChemOp extends ChemObj
 			return visitor.operation(this)
 	}
 }
+
+module.exports = ChemOp

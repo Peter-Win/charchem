@@ -4,14 +4,14 @@
  */
 'use strict'
 
-import ElemList, { ElemRec } from './ElemList'
+const {ElemList, ElemRec} = require('./ElemList')
 
-export default class ChemRadical
+class ChemRadical
 {
 	/**
 	 * @constructor
-	 * @param {string} label
-	 * @param {ElemList} elemsList
+	 * @param {string} label radical symbol
+	 * @param {ElemList} elemsList list
 	 */
 	constructor(label, elemsList) {
 		this.label = label		// radical label
@@ -40,7 +40,7 @@ const radicals = [
 	'iPr,i-Pr,Pr-i:C*3,H*7',
 	'Bu,nBu,n-Bu,Bu-n:C*4,H*9',
 	'i-Bu,Bu-i:C*4,H*9',
-	'Ac:C,H*3,C,O'
+	'Ac:C,H*3,C,O',
 ]
 
 
@@ -48,7 +48,7 @@ const radicals = [
  * Radicals dictionary
  * @type {Object<string, ChemRadical>}	id=>ChemRadical
  */
-let chemRadicalMap = {}
+const chemRadicalMap = {}
 
 let isMapInit = false
 
@@ -69,3 +69,5 @@ const initMap = () => {
 
 	})
 }
+
+module.exports = ChemRadical

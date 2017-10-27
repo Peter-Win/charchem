@@ -3,6 +3,6 @@
  * Created by PeterWin on 28.04.2017.
  */
 
-export default class ChemSubObj {
+module.exports = class ChemSubObj {
 	// abstract walk(visitor)
 }

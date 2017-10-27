@@ -4,7 +4,7 @@
 
 // visitor Для определения невозможности вывода выражения (или его части) в виде текста
 // example: if (expr.walk(new IsNonText())) alert('This is not textual expression');
-export default class IsNonText {
+class IsNonText {
 	constructor() {
 		this.ok = false
 	}
@@ -13,3 +13,5 @@ export default class IsNonText {
 		return this.ok = obj.bText ^ 1
 	}
 }
+
+module.exports = IsNonText

@@ -1,9 +1,9 @@
 /**
  * Created by PeterWin on 02.05.2017.
  */
-import { expect } from 'chai'
-import { Ctx } from '../../src/compiler/preprocess'
-import { ChemError } from '../../src/core/ChemError'
+const {expect} = require('chai')
+const {Ctx} = require('../../src/compiler/preprocess')
+const ChemError = require('../../src/core/ChemError')
 
 describe('Ctx', ()=>{
 
@@ -105,4 +105,3 @@ describe('Ctx', ()=>{
 		expect(ctx.dst).to.be.empty		// ctx.dst is empty after ctx.clr()
 	})
 })
-

@@ -2,10 +2,10 @@
  * Created by PeterWin on 09.05.2017.
  */
 
-import { expect } from 'chai'
-import ChemSys from '../../src/ChemSys'
-import { precision } from '../testUtils'
-import { MenTbl } from '../../src/core'
+const {expect} = require('chai')
+const ChemSys = require('../../src/ChemSys')
+const {precision} = require('../testUtils')
+const {MenTbl} = require('../../src/core/MenTbl')
 
 describe('Brackets', () => {
 
@@ -59,7 +59,4 @@ describe('Brackets', () => {
 		expect(ChemSys.calcCharge(expr)).to.be.equal(0)
 	})
 
-	it('Nested 2', () => {
-		let expr = ChemSys.compile('[([C||O])]')
-	})
 })

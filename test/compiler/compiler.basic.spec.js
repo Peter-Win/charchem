@@ -2,38 +2,51 @@
  * Created by PeterWin on 06.05.2017.
  */
 
-import { expect } from 'chai'
-import { chemCompiler } from '../../src/compiler'
-import ChemSys from '../../src/ChemSys'
-import Lang from '../../src/Lang'
-import { MenTbl } from '../../src/core'
-import { precision, extractNodes } from '../testUtils'
+const {expect} = require('chai')
+const {chemCompiler} = require('../../src/compiler/main')
+const ChemSys = require('../../src/ChemSys')
+const Lang = require('../../src/Lang')
+const {MenTbl} = require('../../src/core/MenTbl')
+const {precision, extractNodes} = require('../testUtils')
 
 describe('Basic compiler cases', () => {
+	it('B', () => {
+		const expr = chemCompiler('B')
+		expect(expr.isOk()).to.be.ok
+	})
 	// simple substance
 	it('H2O', () => {
-		let expr = chemCompiler('H2O')
+		const expr = chemCompiler('H2O')
 		expect(expr.isOk()).to.be.ok
 
-		let text = ChemSys.makeHtml(expr)
+		const text = ChemSys.makeHtml(expr)
 		expect(text).to.be.equal('H<sub>2</sub>O')
 	})
 
 	// equation
 	it('2H2 + O2 = 2H2O', () => {
-		let expr = chemCompiler('2H2 + O2 = 2H2O')
-		expect(expr.html(ChemSys.rulesText)).to.be.equal('2H2 + O2 = 2H2O')
+		const expr = chemCompiler('2H2 + O2 = 2H2O')
+		expect(expr.text()).to.be.equal('2H2 + O2 = 2H2O')
 	})
 
 	// charge
 	it('SO4^2-', () => {
-		let expr = chemCompiler('SO4^2-')
+		const expr = chemCompiler('SO4^2-')
 		expect(expr.html()).to.be.equal('SO<sub>4</sub><sup>2-</sup>')
+	})
+
+	// simple bond
+	it('H-Cl', () => {
+		const expr = chemCompiler('H-Cl')
+		expect(expr.getMessage()).to.be.empty
+		expect(expr.text()).to.be.equal('H-Cl')
+		expect(ChemSys.isAbstract(expr)).to.be.not.ok
+		expect(ChemSys.makeBruttoKey(expr)).to.be.equal('HCl')
 	})
 
 	// Abstract item
 	it('{R}-OH', () => {
-		let expr = chemCompiler('{R}-OH')
+		const expr = chemCompiler('{R}-OH')
 		expect(expr.getMessage()).to.be.empty
 		expect(expr.html('text')).to.be.equal('R-OH')
 		expect(ChemSys.isAbstract(expr)).to.be.ok

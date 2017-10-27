@@ -12,12 +12,12 @@
 
 /**
  * Dashes for item
- * @param {string[]} args
- * @param {number[]} argsPos
- * @param {function} toNum
- * @returns {number[]}
+ * @param {string[]} args function arguments
+ * @param {number[]} argsPos arguments positions
+ * @param {function} toNum convert string to number
+ * @returns {number[]} list
  */
-export function dashes(args, argsPos, toNum) {
+const dashes = (args, argsPos, toNum) => {
 	let nextDashes = []
 	let i, arg = args[0]
 	if (/^[-_.\/\\<>|]+$/.test(arg)) {
@@ -75,20 +75,19 @@ export function dashes(args, argsPos, toNum) {
 	return nextDashes
 }
 
-const SideSyn = { U:'T', D:'B', u:'t', d:'b' },
-	SideMap = { R:0x81, L:0x18, T:0x60, B:0x06 },
+const SideSyn = {U:'T', D:'B', u:'t', d:'b'},
+	SideMap = {R:0x81, L:0x18, T:0x60, B:0x06},
 	// Битовые значения для вычёркивания лишнего. По сути = SideMap[i] ^ SubSideMap[i]
-	SubSideMapNeg = { Rt:1, Bl:2, Br:4, Lt:8, Lb:16, Tr:32, Tl:64, Rb:128 }
+	SubSideMapNeg = {Rt:1, Bl:2, Br:4, Lt:8, Lb:16, Tr:32, Tl:64, Rb:128}
 
 /**
  * Dots for item
- * @param {string[]} args
- * @param {number[]} argsPos
- * @param {function} toNum
- * @returns {number[]}
+ * @param {string[]} args function arguments
+ * @param {number[]} argsPos arguments positions
+ * @param {function} toNum convert function
+ * @returns {number[]} list
  */
-export function dots(args, argsPos, toNum)
-{
+const dots = (args, argsPos, toNum) => {
 	// Поддерживается 2 формата аргументов:
 	// - UTDBLRutdblr для пар точек сверху, снизу, слева и справа
 	// - список углов
@@ -99,8 +98,9 @@ export function dots(args, argsPos, toNum)
 	//  Lt:0x10     Rt:0x80
 	//  Lb:0x08     Rb:0x01
 	//    Bl:0x04 Br:0x02
-	let nextDots = []
-	let arg = args[0], i
+	const nextDots = []
+	const arg = args[0]
+	let i
 	if (/^[!UTBDLR]+$/i.test(arg)) {
 		// Старый формат
 		let	c, s = '', inv = 0, map = 0, m
@@ -132,3 +132,5 @@ export function dots(args, argsPos, toNum)
 	}
 	return nextDots
 }
+
+module.exports = {dashes, dots}

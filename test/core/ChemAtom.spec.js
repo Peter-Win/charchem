@@ -2,15 +2,15 @@
  * Created by PeterWin on 28.04.2017.
  */
 
-import {expect} from 'chai'
-import ChemAtom from '../../src/core/ChemAtom'
-import {MenTbl} from '../../src/core'
+const expect = require('chai').expect
+const ChemAtom = require('../../src/core/ChemAtom')
+const MenTbl = require('../../src/core').MenTbl
 
 describe('ChemAtom', () => {
 
 	it('Walk', () => {
 		const Au = MenTbl.Au
-		let id='', n=0, mass=0
+		let id = '', n = 0, mass = 0
 		Au.walk({})	// need to coverage
 
 		Au.walk({
@@ -18,7 +18,7 @@ describe('ChemAtom', () => {
 				id += obj.id
 				n += obj.n
 				mass += obj.M
-			}
+			},
 		})
 		expect(id).to.be.equal('Au')
 		expect(n).to.be.equal(79)

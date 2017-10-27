@@ -5,13 +5,13 @@
  */
 'use strict'
 
-import ChemSubObj from './ChemSubObj'
+const ChemSubObj = require('./ChemSubObj')
 
-export default class ChemComment extends ChemSubObj
+class ChemComment extends ChemSubObj
 {
 	/**
 	 * @constructor
-	 * @param {string} text
+	 * @param {string} text of comment
 	 */
 	constructor(text) {
 		super()
@@ -23,3 +23,5 @@ export default class ChemComment extends ChemSubObj
 			return visitor.comm(this)
 	}
 }
+
+module.exports = ChemComment

@@ -9,38 +9,40 @@
  * Create instance of sub chain
  * @constructor
  */
-export function SubChain() {
+function SubChain() {
 	this.index = SubChain.s_next++
 	/**
 	 * private node list
 	 * @type {ChemNode[]}
 	 */
-	let nodes = []
+	const nodes = []
 
 	/**
 	 * Get nodes for this SubChain
-	 * @returns {ChemNode[]}
+	 * @returns {ChemNode[]} nodes list
 	 */
 	this.getNodes = () => nodes
 
 	/**
 	 * Set chain number for all nodes
-	 * @param {number} nChain
+	 * @param {number} nChain chain number
+	 * @return {void}
 	 */
 	this.setCh = nChain =>
 		nodes.forEach(node => node.ch = nChain)
 
 	/**
 	 * Find node by coordinates
-	 * @param {Point} pt
-	 * @returns {ChemNode|null}
+	 * @param {Point} pt point
+	 * @returns {ChemNode|null} node or null, if not found
 	 */
 	this.findByPt = pt =>
 		nodes.find(node => node.pt.eq(pt)) || null
 
 	/**
 	 * Add node to sub chain
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node node
+	 * @return {void}
 	 */
 	this.addNode = node => {
 		nodes.push(node)
@@ -61,8 +63,9 @@ export function SubChain() {
 	/**
 	 * Add nodes list to NON-EMPTY SubChain!
 	 * Coordiantes of added nodes moves to delta
-	 * @param {ChemNode[]} srcNodes
-	 * @param {Point} delta
+	 * @param {ChemNode[]} srcNodes nodes list
+	 * @param {Point} delta delta
+	 * @return {void}
 	 */
 	this.add = function (srcNodes, delta) {
 		let node0 = nodes[0]	// SubChain must be non-empty!
@@ -79,7 +82,7 @@ SubChain.s_next = 1
 // =========================================================
 // Chain
 
-export function Chain() {
+function Chain() {
 	this.index = Chain.s_next++
 	/**
 	 * Current subChain
@@ -97,15 +100,16 @@ export function Chain() {
 
 	/**
 	 * Find node by coordinates in current subChain
-	 * @param {Point} pt
-	 * @returns {ChemNode|null}
+	 * @param {Point} pt coordinates
+	 * @returns {ChemNode|null} node or null, if not found
 	 */
 	this.findByPt = pt => !curSC ? null : curSC.findByPt(pt)
 
 	/**
 	 * Add node to chain and it current subChain
 	 * if current subChain is null, then create new subChain
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node node
+	 * @return {void}
 	 */
 	this.addNode = node => {
 		if (!curSC) {
@@ -118,7 +122,8 @@ export function Chain() {
 
 	/**
 	 * Close current subChain and remove specified node into new subChain
-	 * @param {ChemNode=} node
+	 * @param {ChemNode=} node for remove
+	 * @return {void}
 	 */
 	this.closeSC = (node = null) => {
 		if (curSC && node)
@@ -132,20 +137,21 @@ export function Chain() {
 
 	/**
 	 * get specified subChain
-	 * @param {number} n
-	 * @returns {SubChain|null}
+	 * @param {number} n index of subChain
+	 * @returns {SubChain|null} subChain
 	 */
 	this.getSC = n => subChains[n]
 
 	/**
 	 * Get current subChain
-	 * @returns {SubChain|null}
+	 * @returns {SubChain|null} current subChain or null
 	 */
 	this.getCurSC = () => curSC
 
 	/**
 	 * Set current subChain
-	 * @param {SubChain} subChain
+	 * @param {SubChain} subChain subChain
+	 * @return {void}
 	 */
 	this.setCur = subChain => {
 		curSC = subChain
@@ -153,11 +159,11 @@ export function Chain() {
 
 	/**
 	 * Delete subChain
-	 * @param {number} index
-	 * @returns {ChemNode[]|undefined}
+	 * @param {number} index of deleted subChain
+	 * @returns {ChemNode[]|undefined} nodes of deleted subChain
 	 */
 	this.delSC = index => {
-		let subChain = subChains[index]
+		const subChain = subChains[index]
 		if (subChain) {
 			delete subChains[index]
 			return subChain.getNodes()
@@ -166,7 +172,8 @@ export function Chain() {
 
 	/**
 	 * add subChains list
-	 * @param {Object<number,SubChain>} subChainsMap
+	 * @param {Object<number,SubChain>} subChainsMap map
+	 * @return {void}
 	 */
 	this.addLst = subChainsMap => {
 		for (let key in subChainsMap) {
@@ -181,7 +188,7 @@ Chain.s_next = 1
 // ==========================================================
 // Chain system
 
-export default class ChainSys {
+class ChainSys {
 	constructor() {
 		/**
 		 * Current chain
@@ -198,7 +205,8 @@ export default class ChainSys {
 
 	/**
 	 * Add node to ChainSys
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node added node
+	 * @return {void}
 	 */
 	addNode(node) {
 		if (!this.curCh) {
@@ -210,8 +218,8 @@ export default class ChainSys {
 
 	/**
 	 * Search for an existing node by coordinates in the current chain and the current sub-chain
-	 * @param pt
-	 * @returns {*}
+	 * @param {Point} pt coordinates
+	 * @returns {ChemNode|null} node or null, if not found
 	 */
 	findByPt(pt) {
 		return this.curCh ? this.curCh.findByPt(pt) : null
@@ -219,7 +227,8 @@ export default class ChainSys {
 
 	/**
 	 * Close the current sub-chain and move node to the new one
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node node
+	 * @return {void}
 	 */
 	closeSC(node) {
 		if (this.curCh)
@@ -232,7 +241,8 @@ export default class ChainSys {
 
 	/**
 	 * Set current chain by node, that owns it
-	 * @param {ChemNode} node
+	 * @param {ChemNode} node node
+	 * @return {void}
 	 */
 	setCur(node) {
 		let ch = this.curCh = this.chains[node.ch]
@@ -241,7 +251,7 @@ export default class ChainSys {
 
 	/**
 	 * get current sub-chain
-	 * @returns {SubChain|null}
+	 * @returns {SubChain|null} sub-chain
 	 */
 	getCurSC() {
 		return this.curCh ? this.curCh.getCurSC() : null
@@ -250,20 +260,21 @@ export default class ChainSys {
 	/**
 	 * Merge
 	 * sub-cain srcSc deleted from it chain
-	 * @param {ChemNode} srcNode
-	 * @param {ChemNode} dstNode
-	 * @param {ChemBond} bond
+	 * @param {ChemNode} srcNode source node
+	 * @param {ChemNode} dstNode destination node
+	 * @param {ChemBond} bond bond
+	 * @return {void}
 	 */
 	merge(srcNode, dstNode, bond) {
-		let nSrcCh = srcNode.ch, nSrcSc = srcNode.sc,
+		const nSrcCh = srcNode.ch, nSrcSc = srcNode.sc,
 			nDstCh = dstNode.ch, nDstSc = dstNode.sc
 		if (nSrcSc === nDstSc)
 			return
-		let
+		const
 			srcCh = this.chains[nSrcCh],
 			dstCh = this.chains[nDstCh]
 			//srcSc = srcCh.getSC(nSrcSc),
-		let dstSc = dstCh.getSC(nDstSc)
+		const dstSc = dstCh.getSC(nDstSc)
 
 		// Для жесткой связи нужно присоединить исходную подцепь к конечной
 		if (!bond.soft) {
@@ -280,4 +291,10 @@ export default class ChainSys {
 		this.curCh = dstCh
 		dstCh.setCur(dstSc)
 	}
+}
+
+module.exports = {
+	SubChain,
+	Chain,
+	ChainSys,
 }

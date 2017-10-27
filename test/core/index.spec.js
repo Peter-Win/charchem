@@ -1,10 +1,10 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
-"use strict"
+'use strict'
 
-import {expect} from 'chai'
-import {isAbsK, massRound, MenTbl, MenTblArray} from '../../src/core'
+const {expect} = require('chai')
+const {isAbsK, massRound, MenTbl, MenTblArray} = require('../../src/core')
 
 describe('Common core functions', () => {
 

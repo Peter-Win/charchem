@@ -4,15 +4,15 @@
  * NodeItem have koefficient and charge
  * Created by PeterWin on 29.04.2017.
  */
-"use strict"
+'use strict'
 
-import ChemObj from './ChemObj'
+const ChemObj = require('../../src/core/ChemObj')
 
-export default class ChemNodeItem extends ChemObj
+class ChemNodeItem extends ChemObj
 {
 	/**
 	 * @constructor
-	 * @param {ChemSubObj} obj
+	 * @param {ChemSubObj} obj Atom, Radical, Comment or Custom
 	 */
 	constructor(obj) {
 		super()
@@ -50,15 +50,17 @@ export default class ChemNodeItem extends ChemObj
 	}
 
 	walk(visitor) {
-		let res;
+		let res
 		if (visitor.itemPre) {
 			res = visitor.itemPre(this)
 			if (res)
 				return res
 		}
-		res = this.obj.walk(visitor);
+		res = this.obj.walk(visitor)
 		if (visitor.itemPost)
-			res = visitor.itemPost(this) || res;
-		return res;
+			res = visitor.itemPost(this) || res
+		return res
 	}
 }
+
+module.exports = ChemNodeItem

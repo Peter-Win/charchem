@@ -2,9 +2,9 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-import {expect} from 'chai'
-import ChemNodeItem from '../../src/core/ChemNodeItem'
-import {MenTbl} from '../../src/core'
+const expect = require('chai').expect
+const ChemNodeItem = require('../../src/core/ChemNodeItem')
+const MenTbl = require('../../src/core').MenTbl
 
 describe('ChemNodeItem', () => {
 
@@ -13,7 +13,7 @@ describe('ChemNodeItem', () => {
 		nodeItem.n = 2
 		let text = '', mass = 0
 		nodeItem.walk({
-			itemPre: item => {
+			itemPre: () => {
 				text += '*'
 			},
 			atom: elem => {
@@ -23,20 +23,20 @@ describe('ChemNodeItem', () => {
 			itemPost: item => {
 				mass *= item.n
 				text += item.n
-			}
+			},
 		})
 		// dummy visitor (to full coverage)
 		nodeItem.walk({})
 
 		expect(text).to.be.equal('*Br2')
-		expect(mass).to.be.equal(2*79.904)
+		expect(mass).to.be.equal(2 * 79.904)
 	})
 
 	it('Walk break', () => {
 		let nodeItem = new ChemNodeItem(MenTbl.H)
 		let result = nodeItem.walk({
-			itemPre: item => 'SUCCESS',
-			itemPost: item => 'FAIL'
+			itemPre: () => 'SUCCESS',
+			itemPost: () => 'FAIL',
 		})
 		// result formed by itemPre, and itemPost not called
 		expect(result).to.be.equal('SUCCESS')

@@ -1,10 +1,10 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
-"use strict"
+'use strict'
 
-import Lang from '../src/Lang'
-import {expect} from 'chai'
+const Lang = require('../src/Lang')
+const expect = require('chai').expect
 
 describe('Lang', () => {
 
@@ -25,14 +25,14 @@ describe('Lang', () => {
 		let locDict = {
 			ru: {[msgKey]: 'Привет!'},
 			it: {[msgKey]: 'Ciao!'},
-			cs: {[msgKey]: 'Ahoj!'}
+			cs: {[msgKey]: 'Ahoj!'},
 		}
 		Lang.addDict(locDict)
 		let locale = Lang.curLang
 		Lang.curLang = 'en'
 
 		expect(Lang.tr(msgKey)).to.be.equal('Hello!')
-		expect(Lang.tr(msgKey, 0, 'en-US')).to.be.equal('Hello!');
+		expect(Lang.tr(msgKey, 0, 'en-US')).to.be.equal('Hello!')
 		expect(Lang.tr(msgKey, 0, 'ru')).to.be.equal('Привет!')
 		expect(Lang.tr(msgKey, 0, 'it')).to.be.equal('Ciao!')
 		expect(Lang.tr(msgKey, 0, 'cs')).to.be.equal('Ahoj!')
@@ -47,7 +47,7 @@ describe('Lang', () => {
 		Lang.init('en')
 		Lang.addDict({
 			'zh': {$Native: '中文（简体）'},		// Chinese (Simplified)
-			'zh-tw': {$Native: '中文（繁體）'}	// traditional Chinese
+			'zh-tw': {$Native: '中文（繁體）'},	// traditional Chinese
 		})
 		expect(Lang.tr('$Native', 0, 'zh-tw')).to.be.equal('中文（繁體）')	// Chinese - Taiwan
 		expect(Lang.tr('$Native', 0, 'zh')).to.be.equal('中文（简体）')	// Chinese (Simplified)
@@ -70,7 +70,7 @@ describe('Lang', () => {
 		Lang.init()
 		expect(Lang.tr('O')).to.be.equal('Oxygen')
 
-		Lang.init("RU-RU")	// RU-RU transformed to ru
+		Lang.init('RU-RU')	// RU-RU transformed to ru
 		expect(Lang.tr('F')).to.be.equal('Фтор')
 
 		Lang.init('my')	// Myanmar language is not supported -> use English

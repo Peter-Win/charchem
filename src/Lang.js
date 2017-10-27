@@ -20,10 +20,10 @@ const Lang = {
 
 	/**
 	 * Translate phrase
-	 * @param {string} key
-	 * @param {Object=} params
-	 * @param {string=} lang
-	 * @returns {string}
+	 * @param {string} key phrase key
+	 * @param {Object=} params optional parameters
+	 * @param {string=} lang optional language code
+	 * @returns {string} translated phrase
 	 */
 	tr: function (key, params, lang) {
 		let i, k, me = this
@@ -48,6 +48,7 @@ const Lang = {
 	/**
 	 * Add phrases to dictionary
 	 * @param {Object<string,Object>} struc	 { locale1: { key1: val1, key2:val2}, locale2: {...} }
+	 * @return {void}
 	 */
 	addDict: function (struc) {
 		let loc, srcPart, dstPart, key
@@ -70,6 +71,7 @@ const Lang = {
 	 * Set current language
 	 * Called automatically when the library is loaded
 	 * @param {Object|string} config	Can be window.navigator object OR locale string. for ex: "zh-tw"
+	 * @returns {void}
 	 */
 	init: function (config) {
 		if (typeof config === 'object') {
@@ -80,11 +82,11 @@ const Lang = {
 		} else if (typeof config === 'string') {
 			Lang.curLang = config
 		}
-	}
+	},
 }
 
 // Auto detect browser language
-Lang.init(window.navigator)
+// TODO: Lang.init(window.navigator)
 
 Lang.Dict = {
 	ru: {
@@ -183,7 +185,7 @@ Lang.Dict = {
 		Cm:'Кюрий', Bk:'Берклий', Cf:'Калифорний', Es:'Эйнштейний', Fm:'Фермий',
 		Md:'Менделеевий', No:'Нобелий', Lr:'Лоуренсий', Rf:'Резерфордий', Db:'Дубний',
 		Sg:'Сиборгий', Bh:'Борий', Hs:'Хассий', Mt:'Мейтнерий', Ds:'Дармштадтий',
-		Rg:'Рентгений', Cn:'Коперниций'
+		Rg:'Рентгений', Cn:'Коперниций',
 	},
 	en: {
 		'Invalid version': 'Formula requires CharChem version [need] instead of [cur]',
@@ -208,9 +210,9 @@ Lang.Dict = {
 		Cm:'Curium', Bk:'Berkelium', Cf:'Californium', Es:'Einsteinium', Fm:'Fermium',
 		Md:'Mendelevium', No:'Nobelium', Lr:'Lawrencium', Rf:'Rutherfordium', Db:'Dubnium',
 		Sg:'Seaborgium', Bh:'Bohrium', Hs:'Hassium', Mt:'Meitnerium', Ds:'Darmstadtium',
-		Rg:'Roentgenium', Cn:'Copernicium'
-	}
+		Rg:'Roentgenium', Cn:'Copernicium',
+	},
 }
 
 
-export default Lang
+module.exports = Lang

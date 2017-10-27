@@ -14,12 +14,12 @@
  *
  * @constructor
  */
-export default function ChargeCalc() {
-	let me = this,
+function ChargeCalc() {
+	const me = this,
 		stack = [0]
 
 	/**
-	 * @returns {number}
+	 * @returns {number} calculated charge
 	 */
 	me.result = () => stack[0]
 
@@ -27,7 +27,7 @@ export default function ChargeCalc() {
 		stack.unshift(0)
 	}
 	me.agentPost = obj => {
-		let n = stack.shift() * obj.n
+		const n = stack.shift() * obj.n
 		stack[0] += n
 	}
 	me.bracketEnd = obj => {
@@ -48,3 +48,4 @@ export default function ChargeCalc() {
 	}
 }
 
+module.exports = ChargeCalc

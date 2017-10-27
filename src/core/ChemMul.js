@@ -3,12 +3,12 @@
  */
 'use strict'
 
-import ChemObj from './ChemObj'
+const ChemObj = require('../../src/core/ChemObj')
 
 // Начало конструкции, умножающей последующее содержимое на указанный коэффициент
 // Кроме того, является мостиком, т.е. образует новую подцепь
 // example: CuSO4*5H2O
-export default class ChemMul extends ChemObj {
+class ChemMul extends ChemObj {
 	constructor(n) {
 		super()
 		this.n = n
@@ -22,7 +22,7 @@ export default class ChemMul extends ChemObj {
 
 // Конец множителя.
 // Не участвует в выводе. Предназначен для вычислительных алгоритмов, использующих стек, чтобы выполнить pop
-export class ChemMulEnd extends ChemObj {
+class ChemMulEnd extends ChemObj {
 	constructor(begin) {
 		super()
 		this.beg = begin
@@ -35,3 +35,6 @@ export class ChemMulEnd extends ChemObj {
 	}
 }
 
+module.exports = {
+	ChemMul, ChemMulEnd,
+}

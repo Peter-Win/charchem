@@ -1,0 +1,21 @@
+var DemoVisitor = {
+  entityPre: 0,
+  entityPost: 0,
+  operation: 0,
+  agentPre: 0,
+  agentPost: 0,
+  nodePre: 0,
+  nodePost: 0,
+  bond: 0,
+  bracketBegin: 0,
+  bracketEnd: 0,
+  mul: 0,
+  mulEnd: 0,
+  itemPre: 0,
+  itemPost: 0,
+  atom: 0,
+  custom: 0,
+  radical: 0,
+  comm: 0,
+ }
+

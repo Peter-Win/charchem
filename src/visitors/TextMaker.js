@@ -2,17 +2,17 @@
  * Created by PeterWin on 06.05.2017.
  */
 
-import ChemSys from '../ChemSys'
+const Rules = require('../utils/rules')
 
-export default function TextMaker(rules) {
-	rules = rules || ChemSys.rulesHtml
+function TextMaker(rules) {
+	rules = rules || Rules.rulesHtml
 	if (rules === 'text')
-		rules = ChemSys.rulesText
+		rules = Rules.rulesText
 	else if (rules === 'BB' || rules === 'bb')
-		rules = ChemSys.rulesBB
+		rules = Rules.rulesBB
 
 	let me = this,
-		stack = [{ tx:'' }],
+		stack = [{tx:''}],
 		nextNodeNeg = 0,
 		atomColor = 0,
 		bFirst = 1
@@ -20,29 +20,30 @@ export default function TextMaker(rules) {
 	me.res = () =>
 		stack[0].tx
 
-	function useRule(key, value) {
+	const useRule = (key, value) => {
 		if (!(key in rules))
 			return value
 		return rules[key].replace(/\*/g, value)
 	}
-	function ctxOut(s) {
+	const ctxOut = s => {
 		stack[0].tx += s
 	}
-	function space() {
+
+	const space = () => {
 		if (bFirst) bFirst = 0
 		else ctxOut(' ')
 	}
 
-	function ctxOutRule(rule, text) {
+	const ctxOutRule = (rule, text) =>
 		ctxOut(useRule(rule, text))
-	}
-	function setNeg() {
+
+	const setNeg = () =>
 		stack[0].neg = 1
-	}
-	function pushCell() {
-		stack.unshift({ tx:'' })
-	}
-	function popCell() {
+
+	const pushCell = () =>
+		stack.unshift({tx:''})
+
+	const popCell = () => {
 		let cell = stack.shift()
 		if (cell.neg) {
 			stack[0].tx = cell.tx + stack[0].tx
@@ -51,24 +52,23 @@ export default function TextMaker(rules) {
 		}
 	}
 
-	me.atom = function (obj) {
+	me.atom = obj => {
 		if (atomColor)
 			ctxOutRule('ColorPre', atomColor)
 		ctxOut(useRule('Atom', obj.id) )
 		if (atomColor)
 			ctxOutRule('ColorPost', atomColor)
 	}
-	me.custom = function (obj) {
+	me.custom = obj =>
 		ctxOutRule('Custom', obj.tx)
-	}
-	me.comm = function (obj) {
-		ctxOutRule('Comment', obj.tx)
-	}
-	me.radical = function (obj) {
-		ctxOutRule('Radical', obj.label)
-	}
 
-	me.itemPre = function (obj) {
+	me.comm = obj =>
+		ctxOutRule('Comment', obj.tx)
+
+	me.radical = obj =>
+		ctxOutRule('Radical', obj.label)
+
+	me.itemPre = obj => {
 		if (obj.color)
 			ctxOutRule('ColorPre', obj.color)
 		if (obj.atomNum) {
@@ -80,7 +80,7 @@ export default function TextMaker(rules) {
 		}
 		atomColor = obj.atomColor
 	}
-	me.itemPost = function (obj) {
+	me.itemPost = obj => {
 		if (obj.charge) {
 			ctxOutRule('ItemCharge', obj.charge.tx)
 		}
@@ -91,7 +91,7 @@ export default function TextMaker(rules) {
 		if (obj.color)
 			ctxOutRule('ColorPost', obj.color)
 	}
-	me.bond = function (obj) {
+	me.bond = obj => {
 		pushCell()
 		if (obj.color)
 			ctxOutRule('ColorPre', obj.color)
@@ -107,7 +107,7 @@ export default function TextMaker(rules) {
 		popCell()
 	}
 
-	function drawCharge(obj, bLeft) {
+	const drawCharge = (obj, bLeft) => {
 		let charge = obj.charge
 		if (charge) {
 			if (!(bLeft ^ charge.bLeft)) {
@@ -116,28 +116,28 @@ export default function TextMaker(rules) {
 		}
 	}
 
-	me.bracketBegin = function (obj) {
+	me.bracketBegin = obj => {
 		drawCharge(obj.end, 1)
 		ctxOut(obj.tx)
 	}
-	me.bracketEnd = function (obj) {
+	me.bracketEnd = obj => {
 		ctxOut(obj.tx)
 		if (obj.n !== 1) {
 			ctxOutRule('ItemCnt', obj.n)
 		}
 		drawCharge(obj)
 	}
-	me.mul = function (obj) {
+	me.mul = obj => {
 		ctxOutRule('Mul', rules.$MulChar || '*')
 		if (obj.n !== 1)
 			ctxOutRule('MultiK', obj.n)
 	}
 
-	me.nodePre = function (obj) {
+	me.nodePre = obj => {
 		drawCharge(obj, 1)
 		pushCell()
 	}
-	me.nodePost = function (obj) {
+	me.nodePost = obj => {
 		if (nextNodeNeg) {
 			setNeg()
 			nextNodeNeg = 0
@@ -145,13 +145,13 @@ export default function TextMaker(rules) {
 		popCell()
 		drawCharge(obj)
 	}
-	me.agentPre = function (obj) {
+	me.agentPre = obj => {
 		space()
 		if (obj.n !== 1)
 			ctxOutRule('AgentK', obj.n)
 	}
 
-	me.operation = function (obj) {
+	me.operation = obj => {
 		space()
 		let comm = obj.commentPre,
 			tmp = ''
@@ -163,10 +163,12 @@ export default function TextMaker(rules) {
 			tmp += useRule('OpComment', comm.tx)
 		ctxOutRule('Operation', tmp)
 	}
-	me.entityPre = function () {
+	me.entityPre = () => {
 		pushCell()
 	}
-	me.entityPost = function () {
+	me.entityPost = () => {
 		popCell()
 	}
 }
+
+module.exports = TextMaker

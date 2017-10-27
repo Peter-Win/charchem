@@ -2,18 +2,18 @@
  * Rectangle object
  * Created by PeterWin on 26.04.2017.
  */
-"use strict"
+'use strict'
 
-import Point from './Point'
+const Point = require('./Point')
 
-export default class Rect
+class Rect
 {
 	/**
 	 * Rect() or Rect(0,0, 10, 20) or Rect(new Point(0,0), new Point(10,20))
-	 * @param {number|Point=} a
-	 * @param {number|Point=} b
-	 * @param {number=} Bx
-	 * @param {number=} By
+	 * @param {number|Point=} a number or Point
+	 * @param {number|Point=} b number or Point
+	 * @param {number=} Bx number for new Rect(1, 2, 3, 4)
+	 * @param {number=} By number for new Rect(1, 2, 3, 4)
 	 */
 	constructor(a = new Point(), b = new Point(), Bx, By) {
 		if (typeof a === 'number' && typeof b === 'number') {
@@ -28,7 +28,7 @@ export default class Rect
 	/**
 	 * Make deep copy of Rect
 	 * @const
-	 * @returns {Rect}
+	 * @returns {Rect} new Rect object
 	 */
 	clone() {
 		return new Rect(this.A.clone(), this.B.clone())
@@ -37,7 +37,8 @@ export default class Rect
 	/**
 	 * Init rect from another rect.
 	 * It's work faster, then clone(), because not create new instances of rect and points
-	 * @param {Rect} rc
+	 * @param {Rect} rc another const rect object
+	 * @return {void}
 	 */
 	from(rc) {
 		this.A.from(rc.A)
@@ -46,10 +47,11 @@ export default class Rect
 
 	/**
 	 * Init rect by number coordinates
-	 * @param {number} xa
-	 * @param {number} ya
-	 * @param {number} xb
-	 * @param {number} yb
+	 * @param {number} xa first x
+	 * @param {number} ya first y
+	 * @param {number} xb second x
+	 * @param {number} yb second y
+	 * @return {void}
 	 */
 	init(xa, ya, xb, yb) {
 		this.A.init(xa, ya)
@@ -59,8 +61,8 @@ export default class Rect
 	/**
 	 * Set or get left top corner point
 	 * Point is not cloned!
-	 * @param {Point=} pt
-	 * @returns {Point}
+	 * @param {Point=} pt if specified, then set this point (not clone)
+	 * @returns {Point} left top corner point
 	 */
 	LT(pt) {
 		if (pt) {
@@ -72,8 +74,8 @@ export default class Rect
 	/**
 	 * Set or get right bottom corner point
 	 * Point is not cloned!
-	 * @param {Point=} pt
-	 * @returns {Point}
+	 * @param {Point=} pt if specified, then set this point (not clone)
+	 * @returns {Point} right bottom corner point (internal object)
 	 */
 	RB(pt) {
 		if (pt) {
@@ -85,7 +87,7 @@ export default class Rect
 	/**
 	 * Get right top corner point
 	 * @const
-	 * @returns {Point}
+	 * @returns {Point} right top corner of rect (new object)
 	 */
 	RT() {
 		return new Point(this.B.x, this.A.y)
@@ -93,7 +95,7 @@ export default class Rect
 
 	/**
 	 * Get left bottom corner point
-	 * @returns {Point}
+	 * @returns {Point} new object
 	 * @const
 	 */
 	LB() {
@@ -102,7 +104,8 @@ export default class Rect
 
 	/**
 	 * Set minimal value for left top corner
-	 * @param {Point} pt
+	 * @param {Point} pt const point
+	 * @return {void}
 	 */
 	minLT(pt) {
 		this.A.mini(pt)
@@ -110,7 +113,8 @@ export default class Rect
 
 	/**
 	 * Set maximal value for right bottom corner
-	 * @param {Point} pt
+	 * @param {Point} pt const point
+	 * @return {void}
 	 */
 	maxRB(pt) {
 		this.B.maxi(pt)
@@ -119,7 +123,7 @@ export default class Rect
 	/**
 	 * Get left position
 	 * @const
-	 * @returns {number}
+	 * @returns {number} left
 	 * @deprecated	Use l property
 	 */
 	L() {
@@ -129,7 +133,7 @@ export default class Rect
 	/**
 	 * Get right position
 	 * @const
-	 * @returns {number}
+	 * @returns {number} right
 	 * @deprecated	Use r property
 	 */
 	R() {
@@ -139,7 +143,7 @@ export default class Rect
 	/**
 	 * Get top position
 	 * @const
-	 * @returns {number}
+	 * @returns {number} top
 	 * @deprecated	Use t property
 	 */
 	T() {
@@ -149,7 +153,7 @@ export default class Rect
 	/**
 	 * Get bottom position
 	 * @const
-	 * @returns {number}
+	 * @returns {number} bottom
 	 * @deprecated Use b property
 	 */
 	Bot() {
@@ -158,7 +162,7 @@ export default class Rect
 
 	/**
 	 * get left position
-	 * @returns {number}
+	 * @returns {number} left
 	 */
 	get l() {
 		return this.A.x
@@ -166,7 +170,7 @@ export default class Rect
 
 	/**
 	 * set left position
-	 * @param {number} x
+	 * @param {number} x left
 	 */
 	set l(x) {
 		this.A.x = x
@@ -174,7 +178,7 @@ export default class Rect
 
 	/**
 	 * get right position
-	 * @returns {number}
+	 * @returns {number} right
 	 */
 	get r() {
 		return this.B.x
@@ -182,7 +186,8 @@ export default class Rect
 
 	/**
 	 * set right position
-	 * @param {number} x
+	 * example: rc.r = 15
+	 * @param {number} x right
 	 */
 	set r(x) {
 		this.B.x = x
@@ -190,7 +195,7 @@ export default class Rect
 
 	/**
 	 * get top position
-	 * @returns {number}
+	 * @returns {number} top
 	 */
 	get t() {
 		return this.A.y
@@ -198,7 +203,8 @@ export default class Rect
 
 	/**
 	 * set top position
-	 * @param {number} y
+	 * example: rc.t = 16
+	 * @param {number} y top
 	 */
 	set t(y) {
 		this.A.y = y
@@ -206,7 +212,7 @@ export default class Rect
 
 	/**
 	 * get bottom position
-	 * @returns {number}
+	 * @returns {number} bottom
 	 */
 	get b() {
 		return this.B.y
@@ -214,7 +220,8 @@ export default class Rect
 
 	/**
 	 * set bottom position
-	 * @param {number} y
+	 * example: rc.b = 25
+	 * @param {number} y bottom
 	 */
 	set b(y) {
 		this.B.y = y
@@ -222,36 +229,36 @@ export default class Rect
 
 	/**
 	 * Calculate width of rect
-	 * @returns {number}
+	 * @returns {number} width
 	 * @const
 	 */
 	get W() {
-		return this.B.x-this.A.x
+		return this.B.x - this.A.x
 	}
 
 	/**
 	 * Calculate height of rect
-	 * @returns {number}
+	 * @returns {number} height
 	 * @const
 	 */
 	get H() {
-		return this.B.y-this.A.y
+		return this.B.y - this.A.y
 	}
 
 	/**
 	 * calculate x position of rect center
-	 * @returns {number}
+	 * @returns {number} x of rect center
 	 */
 	get cx() {
-		return (this.A.x+this.B.x)/2
+		return (this.A.x + this.B.x) / 2
 	}
 
 	/**
 	 * calculate y position of rect center
-	 * @returns {number}
+	 * @returns {number} y of rect center
 	 */
 	get cy() {
-		return (this.A.y+this.B.y)/2
+		return (this.A.y + this.B.y) / 2
 	}
 
 	/**
@@ -264,7 +271,7 @@ export default class Rect
 
 	/**
 	 * get center point of rect
-	 * @returns {Point}
+	 * @returns {Point} center of rect
 	 */
 	center() {
 		return this.A.addx(this.B).muli(0.5)
@@ -280,7 +287,8 @@ export default class Rect
 
 	/**
 	 * Move rect by delta
-	 * @param {Point} delta
+	 * @param {Point} delta const point
+	 * @return {void}
 	 */
 	move(delta) {
 		this.A.addi(delta)	// A += delta
@@ -289,8 +297,9 @@ export default class Rect
 
 	/**
 	 * Move rect by delta, defined by x, y
-	 * @param {number} x
-	 * @param {number} y
+	 * @param {number} x deltaX
+	 * @param {number} y deltaY
+	 * @return {void}
 	 */
 	moven(x, y) {
 		this.A.addin(x, y)
@@ -300,8 +309,9 @@ export default class Rect
 	/**
 	 * rect (10, 10, 20, 20) -> grow(10) -> (0,0, 30, 30)
 	 * grow(10) or grow(10, 20) or grow({x:10, y:20}) or grow(Point)
-	 * @param {Point|number} x
-	 * @param {number=} y
+	 * @param {Point|number} x point or number
+	 * @param {number=} y optional y grow size
+	 * @return {void}
 	 */
 	grow(x, y) {
 		if (typeof x === 'object' && ('x' in x) && ('y' in x)) {
@@ -320,14 +330,17 @@ export default class Rect
 	/**
 	 * Unite with another rect
 	 * If this rect is empty, then it init from rc
-	 * @param rc
+	 * @param {Rect} rc another const rect
+	 * @return {void}
 	 */
 	unite(rc) {
 		if (this.is0()) {
 			this.from(rc)
 		} else {
-			this.A.mini(rc.LT());
-			this.B.maxi(rc.RB());
+			this.A.mini(rc.LT())
+			this.B.maxi(rc.RB())
 		}
 	}
 }
+
+module.exports = Rect

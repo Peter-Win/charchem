@@ -6,9 +6,9 @@
 
 const precision = 0.001
 
-import { expect } from 'chai'
-import ChemSys from '../../src/ChemSys'
-import { extractBonds, extractNodes, extractItems } from '../testUtils'
+const {expect} = require('chai')
+const ChemSys = require('../../src/ChemSys')
+const {extractBonds, extractNodes, extractItems} = require('../testUtils')
 
 describe('functions', () => {
 
@@ -118,7 +118,7 @@ describe('functions', () => {
 		expr = ChemSys.compile('$ver(1.0)H2')
 		expect(expr.getMessage()).to.be.empty
 		expr = ChemSys.compile(`$ver(${ver[0] + 1}.0)H2`)
-		expect(expr.getMessage()).to.be.ok
+		expect(expr.getMessage()).to.be.ok	// must be error, because version is large
 		expr = ChemSys.compile(`$ver(${ver[0]}.${ver[1] + 1})H2`)
 		expect(expr.getMessage()).to.be.ok
 		expr = ChemSys.compile('$ver(1)H2')	// ignore invalid params

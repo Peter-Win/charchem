@@ -3,11 +3,11 @@
  * For example: {R}-OH
  * Created by PeterWin on 29.04.2017.
  */
-"use strict"
+'use strict'
 
-import ChemSubObj from './ChemSubObj'
+const ChemSubObj = require('./ChemSubObj')
 
-export default class ChemCustom extends ChemSubObj
+class ChemCustom extends ChemSubObj
 {
 	/**
 	 * @constructor
@@ -23,3 +23,5 @@ export default class ChemCustom extends ChemSubObj
 			return visitor.custom(this)
 	}
 }
+
+module.exports = ChemCustom

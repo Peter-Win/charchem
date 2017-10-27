@@ -4,11 +4,11 @@
  */
 'use strict'
 
-import { expect } from 'chai'
-import { chemCompiler } from '../../src/compiler'
-import ChemSys from '../../src/ChemSys'
-import { extractBonds, extractNodes, precision } from '../testUtils'
-import { MenTbl } from '../../src/core'
+const {expect} = require('chai')
+const {chemCompiler} = require('../../src/compiler/main')
+const ChemSys = require('../../src/ChemSys')
+const {extractBonds, extractNodes, precision} = require('../testUtils')
+const {MenTbl} = require('../../src/core/MenTbl')
 
 const Q32 = Math.sqrt(3) / 2
 
@@ -21,7 +21,7 @@ describe('Structural features of compiler', () => {
 		expect(ChemSys.makeBruttoKey(expr)).to.be.equal('C4H8')
 
 		let nodes = extractNodes(expr)
-		expect(nodes[0].pt).to.be.eql({ x: 0, y: 0 })
+		expect(nodes[0].pt).to.be.eql({x: 0, y: 0})
 		expect(nodes[1].pt.x).to.be.closeTo(1, precision)
 		expect(nodes[1].pt.y).to.be.closeTo(0, precision)
 		expect(nodes[2].pt.x).to.be.closeTo(1, precision)
@@ -42,10 +42,10 @@ describe('Structural features of compiler', () => {
 		expect(expr.getMessage()).to.be.empty
 		let nodes = extractNodes(expr)
 		expect(nodes).to.have.lengthOf(4)
-		expect(nodes[0].pt).to.be.eql({ x: 0, y: 0 })
-		expect(nodes[1].pt).to.be.eql({ x: 1, y: 0 })
-		expect(nodes[2].pt).to.be.eql({ x: 1, y: 1 })
-		expect(nodes[3].pt).to.be.eql({ x: 2, y: 0 })
+		expect(nodes[0].pt).to.be.eql({x: 0, y: 0})
+		expect(nodes[1].pt).to.be.eql({x: 1, y: 0})
+		expect(nodes[2].pt).to.be.eql({x: 1, y: 1})
+		expect(nodes[3].pt).to.be.eql({x: 2, y: 0})
 	})
 
 	it('Branch (* *)', () => {
@@ -53,10 +53,10 @@ describe('Structural features of compiler', () => {
 		expect(expr.getMessage()).to.be.empty
 		let nodes = extractNodes(expr)
 		expect(nodes).to.have.lengthOf(4)
-		expect(nodes[0].pt).to.be.eql({ x: 0, y: 0 })
-		expect(nodes[1].pt).to.be.eql({ x: 1, y: 0 })
-		expect(nodes[2].pt).to.be.eql({ x: 1, y: 1 })
-		expect(nodes[3].pt).to.be.eql({ x: 2, y: 0 })
+		expect(nodes[0].pt).to.be.eql({x: 0, y: 0})
+		expect(nodes[1].pt).to.be.eql({x: 1, y: 0})
+		expect(nodes[2].pt).to.be.eql({x: 1, y: 1})
+		expect(nodes[3].pt).to.be.eql({x: 2, y: 0})
 	})
 
 	it('Smart slope to 60 degr', () => {
@@ -66,8 +66,8 @@ describe('Structural features of compiler', () => {
 		expect(ChemSys.calcMass(expr)).to.be.closeTo(136.238, precision)
 
 		let nodes = extractNodes(expr)
-		expect(nodes[0].pt).to.be.eql({ x: 0, y: 0 })
-		expect(nodes[1].pt).to.be.eql({ x: 1, y: 0 })
+		expect(nodes[0].pt).to.be.eql({x: 0, y: 0})
+		expect(nodes[1].pt).to.be.eql({x: 1, y: 0})
 		expect(nodes[2].pt.x).to.be.closeTo(1.5, precision)
 		expect(nodes[2].pt.y).to.be.closeTo(Q32, precision)
 	})
@@ -101,7 +101,7 @@ describe('Structural features of compiler', () => {
 
 		let nodes = extractNodes(expr)
 		expect(nodes).to.have.lengthOf(3)
-		expect(nodes[0].pt).to.be.eql({ x: 0, y: 0 })
+		expect(nodes[0].pt).to.be.eql({x: 0, y: 0})
 		expect(nodes[1].pt.x).to.be.closeTo(0, precision)
 		expect(nodes[1].pt.y).to.be.closeTo(1, precision)
 		expect(nodes[2].pt.x).to.be.closeTo(Q32, precision)
@@ -148,6 +148,9 @@ describe('Structural features of compiler', () => {
 	})
 
 	it('Named reference', () => {
+		//  H3C-CH:ax-CH3
+		//      |
+		//      CH3
 		let expr = chemCompiler('-:ax|;#ax-')
 		expect(expr.getMessage()).to.be.empty
 		expect(ChemSys.makeBruttoKey(expr)).to.be.equal('C4H10')
@@ -180,7 +183,7 @@ describe('Structural features of compiler', () => {
 			itemPost: obj => {
 				if (lastAtom === 'O')
 					item = obj
-			}
+			},
 		})
 		expect(item).to.have.property('bCenter', true)
 	})
@@ -320,7 +323,7 @@ describe('Universal bonds description', () => {
 		expect(expr.getMessage()).to.be.empty
 		let nodes = extractNodes(expr)
 		expect(nodes).to.have.lengthOf(2)
-		expect(nodes[1].pt).to.be.eql({ x: 1, y: 0.5 })
+		expect(nodes[1].pt).to.be.eql({x: 1, y: 0.5})
 		let bonds = extractBonds(expr)
 		expect(bonds[0]).to.have.property('w0', 0)
 		expect(bonds[0]).to.have.property('w1', 1)

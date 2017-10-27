@@ -1,8 +1,8 @@
 /**
  * Created by PeterWin on 08.05.2017.
  */
-import { expect } from 'chai'
-import { dashes, dots } from '../../src/compiler/utils'
+const {expect} = require('chai')
+const {dashes, dots} = require('../../src/compiler/utils')
 
 const toNum = s => {
 	s = +s

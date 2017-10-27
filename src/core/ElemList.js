@@ -4,16 +4,16 @@
  * For abstract  elem is null
  * Created by PeterWin on 29.04.2017.
  */
-"use strict"
+'use strict'
 
-import ChemSys from '../ChemSys'
+const {findElem} = require('./MenTbl')
 
-export class ElemRec {
+class ElemRec {
 
 	/**
 	 * @constructor
-	 * @param {string|ChemAtom|ElemRec|{id,elem,n}} src
-	 * @param {number} koeff
+	 * @param {string|ChemAtom|ElemRec|{id,elem,n}} src element
+	 * @param {number} koeff coefficient
 	 */
 	constructor(src, koeff = 1) {
 		let rec = this
@@ -21,7 +21,7 @@ export class ElemRec {
 
 		if (typeof src === 'string') {	// Строковое описание элемента
 			rec.id = src
-			rec.elem = ChemSys.findElem(src)
+			rec.elem = findElem(src)
 		} else if (src.M) {	// ChemAtom
 			rec.elem = src
 			rec.id = src.id
@@ -34,20 +34,18 @@ export class ElemRec {
 
 	/**
 	 * For abstract elems: {R}, for else: H, He
-	 * @returns {string}
+	 * @returns {string} key of element
 	 */
 	get key() {
-		return this.elem ? this.id : '{'+this.id+'}'
+		return this.elem ? this.id : '{' + this.id + '}'
 	}
 }
-
-
 
 class ElemList extends Array
 {
 	constructor() {
 		super()
-		let list = this
+		const list = this
 		list.charge = 0
 
 		// it's look like a bug in Babel: prototype functions are invisible
@@ -55,43 +53,43 @@ class ElemList extends Array
 		/**
 		 * Find element
 		 * @param {string|ChemAtom} elem	Examples: 'He', 'Li', MenTbl.Be
-		 * @returns {number}
+		 * @returns {number} index of element in list. -1, if not foubd
 		 */
 		list.findElem = elem => {
 			if (typeof elem === 'string') {
-				elem = ChemSys.findElem(elem)
+				elem = findElem(elem)
 			}
 			let i = 0, n = list.length
 			for (; i < n; i++) {
 				if (list[i].elem === elem)
-					return i;
+					return i
 			}
 			return -1
 		}
 
 		/**
 		 * Find custom element
-		 * @param {string} id
-		 * @returns {int}
+		 * @param {string} id custom element description
+		 * @returns {int} index of custom element or -1, if not found
 		 */
-		list.findCustom = function(id) {
-			let i=0, n=list.length, rec;
-			for (; i<n; i++) {
-				rec = list[i];
-				if (!rec.elem && rec.id===id)
-					return i;
+		list.findCustom = function (id) {
+			const n = list.length
+			for (let i = 0; i < n; i++) {
+				const rec = list[i]
+				if (!rec.elem && rec.id === id)
+					return i
 			}
-			return -1;
+			return -1
 		}
 
 		/**
 		 * Find element by key: 'H' or '{R}'
-		 * @param {string} key
-		 * @returns {int}
+		 * @param {string} key element key
+		 * @returns {int} index or -1, if not found
 		 */
-		list.findKey = function(key) {
-			let j=0, n=list.length, rec;
-			for (; j<n; j++) {
+		list.findKey = function (key) {
+			let j = 0, n = list.length, rec
+			for (; j < n; j++) {
 				rec = list[j]
 				if (rec.key === key)
 					return j
@@ -101,14 +99,14 @@ class ElemList extends Array
 
 		/**
 		 * Find ElemRec
-		 * @param {ElemRec} rec
-		 * @returns {int}
+		 * @param {ElemRec|{id:string,elem:ChemAtom,n:number}} rec element record
+		 * @returns {int} index or -1, if not found
 		 */
 		list.findRec = rec => {
 			if (rec.elem) {
-				return list.findElem(rec.elem);
+				return list.findElem(rec.elem)
 			} else {
-				return list.findCustom(rec.id);
+				return list.findCustom(rec.id)
 			}
 		}
 
@@ -116,11 +114,12 @@ class ElemList extends Array
 		 * Add element record
 		 * Attantion! Don't add one instance of record in different lists!
 		 * Use addElem to safe add operation
-		 * @param {ElemRec} rec
+		 * @param {ElemRec} rec element record
+		 * @return {void}
 		 */
 		list.addElemRec = rec => {
 			let k = list.findRec(rec)
-			if (k<0) {
+			if (k < 0) {
 				list.push(rec)
 			} else {
 				list[k].n += rec.n
@@ -129,35 +128,39 @@ class ElemList extends Array
 
 		/**
 		 * Add element
-		 * @param {string|ChemAtom|ElemRec} elem
-		 * @param {number=1} n	koefficient
+		 * @param {string|ChemAtom|ElemRec} elem element
+		 * @param {number=} n	coefficient. default value = 1
+		 * @return {void}
 		 */
-		list.addElem = (elem, n) =>
+		list.addElem = (elem, n = 1) =>
 			list.addElemRec(new ElemRec(elem, n))
 
 
 		/**
 		 * Add abstract element.
 		 * @param {string} text	Without { and }
-		 * @param {number=1} n
+		 * @param {number=} n	coefficient
+		 * @return {void}
 		 */
-		list.addCustom = (text, n=1) =>
+		list.addCustom = (text, n = 1) =>
 			list.addElemRec(new ElemRec({id:text, elem:null, n}))
 
 
 		/**
 		 * Add another elements list
 		 * @param {ElemList} srcList	source list will not change
+		 * @return {void}
 		 */
 		list.addList = srcList => {
 			srcList.forEach(rec => list.addElemRec(new ElemRec(rec)))
-			list.charge += srcList.charge;
+			list.charge += srcList.charge
 		}
 
 
 		/**
 		 * add chemical radical
-		 * @param {ChemRadical} radical
+		 * @param {ChemRadical} radical radical object
+		 * @return {void}
 		 */
 		list.addRadical = radical => {
 			list.addList(radical.items)
@@ -165,31 +168,32 @@ class ElemList extends Array
 
 		/**
 		 * Scale all items by coefficient
-		 * @param {number} k
+		 * @param {number} k coefficient
+		 * @return {void}
 		 */
 		list.scale = k => {
-			if (k!==1) {
+			if (k !== 1) {
 				list.forEach(item => item.n *= k)
 				list.charge *= k
 			}
 		}
 
 		list.toString = () => {
-			let result = list.reduce((acc, item) => acc+item.key+(item.n===1 ? '':item.n), '')
+			let result = list.reduce((acc, item) => acc + item.key + (item.n === 1 ? '' : item.n), '')
 			if (list.charge) {
 				result += '^'
 				let ach = Math.abs(list.charge)
-				if (ach!==1) result += ach
-				result += (list.charge < 0) ? '-':'+'
+				if (ach !== 1) result += ach
+				result += (list.charge < 0) ? '-' : '+'
 			}
 			return result
 		}
 
 		// sort by Hill system
 		list.sortByHill = () => {
-			const cmp = (a, b) => a<b ? -1 : (a>b ? 1: 0)
+			const cmp = (a, b) => a < b ? -1 : (a > b ? 1 : 0)
 
-			list.sort((a,b) => {
+			list.sort((a, b) => {
 				let aid = a.id, bid = b.id
 				if (!a.elem && !b.elem)
 					return cmp(aid, bid)
@@ -197,15 +201,15 @@ class ElemList extends Array
 					return 1
 				if (!b.elem)
 					return -1
-				if (aid===bid)
+				if (aid === bid)
 					return 0
-				if (aid==='C')
+				if (aid === 'C')
 					return -1
-				if (bid==='C')
+				if (bid === 'C')
 					return 1
-				if (aid==='H')
+				if (aid === 'H')
 					return -1
-				if (bid==='H')
+				if (bid === 'H')
 					return 1
 				return cmp(aid, bid)
 			})
@@ -215,4 +219,7 @@ class ElemList extends Array
 
 }
 
-export default ElemList
+module.exports = {
+	ElemRec,
+	ElemList,
+}

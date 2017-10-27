@@ -3,11 +3,11 @@
  */
 'use strict'
 
-import { expect } from 'chai'
+const {expect} = require('chai')
 
-import ChemExpr from '../../src/core/ChemExpr'
-import ChemOp from '../../src/core/ChemOp'
-import ChemSys from '../../src/ChemSys'
+const ChemExpr = require('../../src/core/ChemExpr')
+const ChemOp = require('../../src/core/ChemOp')
+const ChemSys = require('../../src/ChemSys')
 
 describe('ChemExpr', () => {
 

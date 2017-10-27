@@ -1,13 +1,21 @@
-/**
- * Created by PeterWin on 28.04.2017.
- */
-'use strict'
 
-import { expect } from 'chai'
-import ChemSys, { esc } from '../src/ChemSys'
-import { MenTbl } from '../src/core'
+const {expect} = require('chai')
+const ChemSys = require('../src/ChemSys')
+const {esc} = require('../src/utils')
+const {MenTbl} = require('../src/core/MenTbl')
 
 describe('ChemSys', () => {
+	it('ver', () => {
+		const ver = ChemSys.verStr()
+		expect(ver).to.be.equal('1.1.2')
+	})
+	it('compiler', () => {
+		const expr = ChemSys.compile('O')
+		expect(expr).to.be.ok
+		expect(expr.isOk()).to.be.true
+		expect(expr.text()).to.be.equal('O')
+	})
+
 	it('Check library version', () => {
 		const config = require('../package.json')
 		const sysVersion = ChemSys.verStr()
@@ -66,4 +74,5 @@ describe('ChemSys', () => {
 		expect(ChemSys.makeBruttoKey(expr)).to.be.equal('O4S^2-')
 		expect(ChemSys.makeBruttoKey(expr, true)).to.be.equal('O4S')
 	})
+
 })

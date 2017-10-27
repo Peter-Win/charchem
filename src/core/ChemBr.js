@@ -2,12 +2,12 @@
  * Brackets
  * Created by PeterWin on 06.05.2017.
  */
-import ChemObj from './ChemObj'
+const ChemObj = require('../../src/core/ChemObj')
 
 // ==================================================
 // Begin of bracket
 
-export class ChemBrBegin extends ChemObj
+class ChemBrBegin extends ChemObj
 {
 	constructor(text) {
 		super()
@@ -23,12 +23,12 @@ export class ChemBrBegin extends ChemObj
 	}
 }
 
-ChemBrBegin.Map = { '(':')', '[':']', '{(':')}' }	// Pairs of open and closed brackets
+ChemBrBegin.Map = {'(':')', '[':']', '{(':')}'}	// Pairs of open and closed brackets
 
 // ================================================
 // End of bracket
 
-export class ChemBrEnd extends ChemObj
+class ChemBrEnd extends ChemObj
 {
 	constructor(text, begin) {
 		super()
@@ -47,3 +47,7 @@ export class ChemBrEnd extends ChemObj
 }
 ChemBrEnd.Lst = ')]'	// Possible bracket
 
+module.exports = {
+	ChemBrBegin,
+	ChemBrEnd,
+}
