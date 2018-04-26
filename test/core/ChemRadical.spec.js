@@ -3,7 +3,7 @@
  */
 
 const {expect} = require('chai')
-const ChemRadical = require('../../src/core/ChemRadical')
+const {ChemRadical} = require('../../src/core/ChemRadical')
 
 describe('ChemRadical', () => {
 

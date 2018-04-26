@@ -4,7 +4,6 @@
  * For abstract  elem is null
  * Created by PeterWin on 29.04.2017.
  */
-'use strict'
 
 const {findElem} = require('./MenTbl')
 

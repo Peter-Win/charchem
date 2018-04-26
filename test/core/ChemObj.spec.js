@@ -1,5 +1,5 @@
-const expect = require('chai').expect
-const ChemObj = require('../../src/core/ChemObj')
+const {expect} = require('chai')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 describe('ChemObj', () => {
 	it('ChemObj with positions', () => {

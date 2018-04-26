@@ -2,9 +2,9 @@
  * Created by PeterWin on 10.05.2017.
  */
 const {expect} = require('chai')
-const ChemSys = require('../../src/ChemSys')
+const {ChemSys} = require('../../src/ChemSys')
 const {extractOps} = require('../testUtils')
-const ChemComment = require('../../src/core/ChemComment')
+const {ChemComment} = require('../../src/core/ChemComment')
 
 describe('Compiler errors', () => {
 

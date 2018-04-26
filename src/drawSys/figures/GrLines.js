@@ -5,9 +5,8 @@
  * mv = 2 - medium point for Bezier curve
  * Created by PeterWin on 12.05.2017.
  */
-'use strict'
-import GrFigure from './GrFigure'
-import Point from '../../math/Point'
+const {GrFigure} = require('./GrFigure')
+const {Point} = require('../../math/Point')
 
 class GrLines extends GrFigure
 {
@@ -80,4 +79,4 @@ class GrLines extends GrFigure
 }
 GrLines.T = 'L'
 
-export default GrLines
+module.exports = {GrLines}

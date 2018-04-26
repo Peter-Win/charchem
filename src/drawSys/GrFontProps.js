@@ -3,29 +3,31 @@
  */
 'use strict'
 
-/**
- * Font properties
- * @param {string} family
- * @param {number} height
- * @param {boolean} bold
- * @param {boolean} italic
- * @constructor
- */
-export default function GrFontProps(family, height, bold, italic) {
-	let props = this
-	props.family = family
-	props.height = height
-	props.bold = bold
-	props.italic = italic
-	props.descent = 0
-	props.ascent = height	// = baseline
+class GrFontProps {
+	/**
+	 * Font properties
+	 * @param {string} family		for ex: 'Arial'
+	 * @param {number} height		for ex: 22
+	 * @param {boolean=} bold		*
+	 * @param {boolean=} italic		*
+	 * @constructor
+	 */
+	constructor(family, height, bold = false, italic = false) {
+		const props = this
+		props.family = family
+		props.height = height
+		props.bold = bold
+		props.italic = italic
+		props.descent = 0
+		props.ascent = height	// = baseline
+	}
 }
 
 /**
  * Abstract font
  * @abstract
  */
-export class GrFont extends GrFontProps
+class GrFont extends GrFontProps
 {
 	/**
 	 * @abstract
@@ -48,3 +50,4 @@ export class GrFont extends GrFontProps
 
 	}
 }
+module.exports = {GrFontProps, GrFont}

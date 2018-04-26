@@ -60,10 +60,11 @@ class ChemAgent
 	/**
 	 * Set multiplier for agent
 	 * @param {number|string} k 	new quantity coefficient
+	 * @return {void}
 	 */
 	setKoeff(k) {
 		this.n = k
 	}
 }
 
-module.exports = ChemAgent
+module.exports = {ChemAgent}

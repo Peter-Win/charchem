@@ -2,9 +2,8 @@
  * Chemical bond, part of agent
  * Created by PeterWin on 30.04.2017.
  */
-'use strict'
 
-const ChemObj = require('../../src/core/ChemObj')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 class ChemBond extends ChemObj
 {
@@ -69,4 +68,4 @@ class ChemBond extends ChemObj
 
 }
 
-module.exports = ChemBond
+module.exports = {ChemBond}

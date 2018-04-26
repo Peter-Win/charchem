@@ -2,9 +2,9 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-const expect = require('chai').expect
-const ChemNodeItem = require('../../src/core/ChemNodeItem')
-const MenTbl = require('../../src/core').MenTbl
+const {expect} = require('chai')
+const {ChemNodeItem} = require('../../src/core/ChemNodeItem')
+const {MenTbl} = require('../../src/core')
 
 describe('ChemNodeItem', () => {
 

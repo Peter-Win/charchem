@@ -4,7 +4,7 @@
  */
 'use strict'
 
-const Point = require('./Point')
+const {Point} = require('./Point')
 
 class Rect
 {
@@ -351,4 +351,4 @@ class Rect
 	}
 }
 
-module.exports = Rect
+module.exports = {Rect}

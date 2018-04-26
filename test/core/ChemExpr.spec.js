@@ -5,9 +5,9 @@
 
 const {expect} = require('chai')
 
-const ChemExpr = require('../../src/core/ChemExpr')
-const ChemOp = require('../../src/core/ChemOp')
-const ChemSys = require('../../src/ChemSys')
+const {ChemExpr} = require('../../src/core/ChemExpr')
+const {ChemOp} = require('../../src/core/ChemOp')
+const {ChemSys} = require('../../src/ChemSys')
 
 describe('ChemExpr', () => {
 

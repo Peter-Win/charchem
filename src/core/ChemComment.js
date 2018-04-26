@@ -3,9 +3,8 @@
  * For example "Anion"-SO4^2-
  * Created by PeterWin on 29.04.2017.
  */
-'use strict'
 
-const ChemSubObj = require('./ChemSubObj')
+const {ChemSubObj} = require('./ChemSubObj')
 
 class ChemComment extends ChemSubObj
 {
@@ -24,4 +23,4 @@ class ChemComment extends ChemSubObj
 	}
 }
 
-module.exports = ChemComment
+module.exports = {ChemComment}

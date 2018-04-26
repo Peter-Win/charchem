@@ -5,12 +5,12 @@
  * Created by PeterWin on 15.05.2017.
  */
 
-export default class CanvasTracer
+class CanvasTracer
 {
 	/**
 	 * @constructor
-	 * @param {number=} width
-	 * @param {number=} height
+	 * @param {number=} width		optional width of bitmap
+	 * @param {number=} height		optional height of bitmap
 	 */
 	constructor(width, height) {
 		this.width = width || 16
@@ -34,7 +34,8 @@ export default class CanvasTracer
 
 	/**
 	 * Set font
-	 * @param {GrFontProps} fontProps
+	 * @param {GrFontProps} fontProps	*
+	 * @return {void}
 	 */
 	setFont(fontProps) {
 		let descr = '',
@@ -51,9 +52,9 @@ export default class CanvasTracer
 
 	/**
 	 * trace char
-	 * @param {string} ch
-	 * @param {GrFontProps} fontProps
-	 * @returns {{y1,y2:number}}
+	 * @param {string} ch	symbol for trace
+	 * @param {GrFontProps} fontProps	*
+	 * @returns {{y1,y2:number}}	vertical bounds of symbol
 	 */
 	traceChar(ch, fontProps) {
 		let ctx = this.ctx,
@@ -100,3 +101,4 @@ export default class CanvasTracer
 	}
 
 }
+module.exports = {CanvasTracer}

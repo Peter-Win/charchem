@@ -2,11 +2,9 @@
  * Chemical expression
  * Created by PeterWin on 28.04.2017.
  */
-'use strict'
-
-const ChemObj = require('../../src/core/ChemObj')
-const IsNonText = require('../visitors/IsNonText')
-const TextMaker = require('../visitors/TextMaker')
+const {ChemObj} = require('../../src/core/ChemObj')
+const {IsNonText} = require('../visitors/IsNonText')
+const {TextMaker} = require('../visitors/TextMaker')
 
 class ChemExpr extends ChemObj
 {
@@ -124,4 +122,4 @@ class ChemExpr extends ChemObj
 
 }
 
-module.exports = ChemExpr
+module.exports = {ChemExpr}

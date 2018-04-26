@@ -3,7 +3,7 @@
  */
 
 const {expect} = require('chai')
-const ChemSys = require('../../src/ChemSys')
+const {ChemSys} = require('../../src/ChemSys')
 const {precision} = require('../testUtils')
 const {MenTbl} = require('../../src/core/MenTbl')
 

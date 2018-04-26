@@ -77,4 +77,4 @@ class MassCalc {
 	}
 }
 
-module.exports = MassCalc
+module.exports = {MassCalc}

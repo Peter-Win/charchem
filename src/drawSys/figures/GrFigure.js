@@ -4,10 +4,10 @@
  */
 'use strict'
 
-import Point from '../../math/Point'
-import Rect from '../../math/Rect'
+const {Point} = require('../../math/Point')
+const {Rect} = require('../../math/Rect')
 
-export default class GrFigure
+class GrFigure
 {
 	constructor() {
 		this.bounds = new Rect()
@@ -17,9 +17,10 @@ export default class GrFigure
 
 	/**
 	 * Update bounds
-	 * @param {Point} pt
-	 * @param {boolean} bFirst
-	 * @param {number} delta
+	 * @param {Point} pt	*
+	 * @param {boolean} bFirst	*
+	 * @param {number} delta	*
+	 * @return {void}
 	 */
 	updateBounds(pt, bFirst = false, delta = 0) {
 		let deltaVec = new Point(delta, delta),
@@ -32,13 +33,16 @@ export default class GrFigure
 			m_bounds.maxRB(pt.addx(deltaVec))
 		}
 	}
-	// Получить внутреннюю рамку. Если она не задана, то вместо неё возвращается внешняя граница
+
 	/**
 	 * get internal rectangle
+	 * Получить внутреннюю рамку. Если она не задана, то вместо неё возвращается внешняя граница
 	 * If not specified, then return external bounds
-	 * @returns {Rect}
+	 * @returns {Rect}	internal bounds
 	 */
 	getIrc() {
 		return this.irc ? this.irc : this.bounds
 	}
 }
+
+module.exports = {GrFigure}

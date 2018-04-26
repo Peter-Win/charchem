@@ -2,13 +2,12 @@
  * Functions
  * Created by PeterWin on 08.05.2017.
  */
-'use strict'
-
-const precision = 0.001
 
 const {expect} = require('chai')
-const ChemSys = require('../../src/ChemSys')
+const {ChemSys} = require('../../src/ChemSys')
 const {extractBonds, extractNodes, extractItems} = require('../testUtils')
+
+const precision = 0.001
 
 describe('functions', () => {
 

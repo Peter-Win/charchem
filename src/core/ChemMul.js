@@ -1,9 +1,8 @@
 /**
  * Created by PeterWin on 08.05.2017.
  */
-'use strict'
 
-const ChemObj = require('../../src/core/ChemObj')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 // Начало конструкции, умножающей последующее содержимое на указанный коэффициент
 // Кроме того, является мостиком, т.е. образует новую подцепь

@@ -1,4 +1,4 @@
-const ChemAtom = require('./ChemAtom')
+const {ChemAtom} = require('./ChemAtom')
 
 /**
  * Periodic table. It is filled in automatically. Sample element description:

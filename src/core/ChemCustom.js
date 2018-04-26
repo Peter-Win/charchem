@@ -3,9 +3,8 @@
  * For example: {R}-OH
  * Created by PeterWin on 29.04.2017.
  */
-'use strict'
 
-const ChemSubObj = require('./ChemSubObj')
+const {ChemSubObj} = require('./ChemSubObj')
 
 class ChemCustom extends ChemSubObj
 {
@@ -24,4 +23,4 @@ class ChemCustom extends ChemSubObj
 	}
 }
 
-module.exports = ChemCustom
+module.exports = {ChemCustom}

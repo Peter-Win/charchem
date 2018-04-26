@@ -7,21 +7,21 @@
  *
  * Created by PeterWin on 13.05.2017.
  */
-'use strict'
-import GrFigure from './GrFigure'
 
-export default class GrEllipse extends GrFigure
+const {GrFigure} = require('./GrFigure')
+
+class GrEllipse extends GrFigure
 {
 	/**
 	 * @constructor
 	 * @param {number} dx	width of ellipse
 	 * @param {number} dy	height of ellipse
-	 * @param {string} fillColor
+	 * @param {string} fillColor	*
 	 * @param {string} strokeColor	// stroke color
 	 * @param {number=} strokeWidth	// stroke width
-	 * @param {string=} style
+	 * @param {string=} style	*
 	 */
-	constructor(dx, dy, fillColor, strokeColor, strokeWidth = 0, style) {
+	constructor(dx, dy, fillColor, strokeColor, strokeWidth = 0, style = '') {
 		super()
 		this.dx = dx
 		this.dy = dy
@@ -40,3 +40,5 @@ export default class GrEllipse extends GrFigure
 	}
 }
 GrEllipse.T = 'E'
+
+module.exports = {GrEllipse}

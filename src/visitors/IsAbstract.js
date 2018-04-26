@@ -26,4 +26,4 @@ function IsAbstract() {
 	}
 }
 
-module.exports = IsAbstract
+module.exports = {IsAbstract}

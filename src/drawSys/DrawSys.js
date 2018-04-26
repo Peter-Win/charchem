@@ -1,15 +1,18 @@
 /**
  * Created by PeterWin on 13.05.2017.
  */
-'use strict'
+
+const {DrawSysSvg} = require('./DrawSysSvg')
 
 /**
+ * Use DrawSys.create to create instance of DrawSys
  * @abstract
  */
-export default class DrawSys {
+class DrawSys {
 	/**
 	 * Create font
 	 * @param {GrFontProps} fontProps
+	 * @return {GrFont} font
 	 * @abstract
 	 */
 	// eslint-disable-next-line no-unused-vars
@@ -54,9 +57,9 @@ export default class DrawSys {
 		if (!owner)
 			throw new Error('Invalid DOM-node in DrawSys.create()')
 		if (typeof type === 'string' && type.toLowerCase() === 'svg') {
-			return new SvgDrawSys(owner)
+			return new DrawSysSvg(owner)
 		}
 		return new CanvasDrawSys(owner)
 	}
-
 }
+module.exports = {DrawSys}

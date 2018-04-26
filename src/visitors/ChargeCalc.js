@@ -48,4 +48,4 @@ function ChargeCalc() {
 	}
 }
 
-module.exports = ChargeCalc
+module.exports = {ChargeCalc}

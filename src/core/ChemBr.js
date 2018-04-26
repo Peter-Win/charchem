@@ -2,7 +2,7 @@
  * Brackets
  * Created by PeterWin on 06.05.2017.
  */
-const ChemObj = require('../../src/core/ChemObj')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 // ==================================================
 // Begin of bracket

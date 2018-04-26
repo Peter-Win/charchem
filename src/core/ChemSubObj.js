@@ -3,6 +3,7 @@
  * Created by PeterWin on 28.04.2017.
  */
 
-module.exports = class ChemSubObj {
+class ChemSubObj {
 	// abstract walk(visitor)
 }
+module.exports = {ChemSubObj}

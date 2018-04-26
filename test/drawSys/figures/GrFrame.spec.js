@@ -2,12 +2,12 @@
  * Created by PeterWin on 12.05.2017.
  */
 'use strict'
-import { expect } from 'chai'
-import GrLines from '../../../src/drawSys/figures/GrLines'
-import GrFigure from '../../../src/drawSys/figures/GrFigure'
-import GrFrame from '../../../src/drawSys/figures/GrFrame'
-import Point from '../../../src/math/Point'
-import Rect from '../../../src/math/Rect'
+const {expect} = require('chai')
+const {GrLines} = require('../../../src/drawSys/figures/GrLines')
+const {GrFigure} = require('../../../src/drawSys/figures/GrFigure')
+const {GrFrame} = require('../../../src/drawSys/figures/GrFrame')
+const {Point} = require('../../../src/math/Point')
+const {Rect} = require('../../../src/math/Rect')
 
 describe('GrFrame', () => {
 
@@ -24,7 +24,7 @@ describe('GrFrame', () => {
 		frame.addFig(GrLines.makeRect(new Point(2), new Point(3)), true)	// do not update
 		let figure = GrLines.makeRect(new Point(1), new Point(5))
 		frame.addFig(figure)
-		expect(frame.bounds).to.be.eql({ A:{ x:0, y:0 }, B:{ x:6, y:6 } }) // 1,1,5,5 grow by 1
+		expect(frame.bounds).to.be.eql({A:{x:0, y:0}, B:{x:6, y:6}}) // 1,1,5,5 grow by 1
 		expect(frame.figs).to.have.lengthOf(2)
 		expect(frame.figs[1]).to.be.equal(figure)
 	})
@@ -35,7 +35,7 @@ describe('GrFrame', () => {
 		let rect = GrLines.makeRect(new Point(2), new Point(8), 'blue', 0.25)
 		mainFrame.add(subFrame)
 		mainFrame.add(rect)
-		expect(mainFrame.bounds).to.be.eql({ A:{ x:1.875, y:1.875 }, B:{ x:8.125, y:8.125 } })
+		expect(mainFrame.bounds).to.be.eql({A:{x:1.875, y:1.875}, B:{x:8.125, y:8.125}})
 		expect(mainFrame.frames).to.have.lengthOf(1)
 		expect(mainFrame.frames[0]).to.be.equals(subFrame)
 		expect(mainFrame.figs).to.have.lengthOf(1)
@@ -57,7 +57,7 @@ describe('GrFrame', () => {
 		let frame = new GrFrame()
 		frame.uf(fig1, 1)
 		frame.uf(fig2)
-		expect(frame.bounds).to.be.eql({ A:{ x:1, y:1 }, B:{ x:5, y:4 } })
+		expect(frame.bounds).to.be.eql({A:{x:1, y:1}, B:{x:5, y:4}})
 	})
 
 	it('update', () => {

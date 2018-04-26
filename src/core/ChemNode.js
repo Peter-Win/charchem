@@ -4,7 +4,7 @@
  * Created by PeterWin on 30.04.2017.
  */
 
-const Point = require('../math/Point')
+const {Point} = require('../math/Point')
 
 class ChemNode
 {
@@ -83,4 +83,4 @@ class ChemNode
 
 }
 
-module.exports = ChemNode
+module.exports = {ChemNode}

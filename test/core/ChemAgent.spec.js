@@ -2,12 +2,12 @@
  * Created by PeterWin on 01.05.2017.
  */
 
-const expect = require('chai').expect
-const ChemAgent = require('../../src/core/ChemAgent')
-const ChemNode = require('../../src/core/ChemNode')
-const ChemNodeItem = require('../../src/core/ChemNodeItem')
-const ChemBond = require('../../src/core/ChemBond')
-const MenTbl = require('../../src/core').MenTbl
+const {expect} = require('chai')
+const {ChemAgent} = require('../../src/core/ChemAgent')
+const {ChemNode} = require('../../src/core/ChemNode')
+const {ChemNodeItem} = require('../../src/core/ChemNodeItem')
+const {ChemBond} = require('../../src/core/ChemBond')
+const {MenTbl} = require('../../src/core')
 
 describe('ChemAgent', ()=> {
 	const createItem = (node, id, n = 1) => {

@@ -1,4 +1,4 @@
-var DemoVisitor = {
+const DemoVisitor = {
   entityPre: 0,
   entityPost: 0,
   operation: 0,

@@ -14,4 +14,4 @@ class IsNonText {
 	}
 }
 
-module.exports = IsNonText
+module.exports = {IsNonText}

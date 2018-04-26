@@ -3,7 +3,6 @@
  * Supports information about the position of the object in the source description (usually after the preprocessor)
  * Created by PeterWin on 28.04.2017.
  */
-'use strict'
 
 class ChemObj
 {
@@ -23,4 +22,4 @@ class ChemObj
 	}
 }
 
-module.exports = ChemObj
+module.exports = {ChemObj}

@@ -3,7 +3,6 @@
  * This is a part of CharChem compiler
  * Created 2015-05-26 by PeterWin
  */
-'use strict'
 
 /**
  * Create instance of sub chain

@@ -1,7 +1,7 @@
 /**
  * Created by PeterWin on 14.05.2017.
  */
-import GrLines from '..'
+const {GrLines} = require('./GrLines')
 
 ////////////////////////////////////////////////////////
 //	B-splines
@@ -13,11 +13,11 @@ import GrLines from '..'
 // Для незамкнутого сплайна фиктивные точки строятся на продолжении крайних сегментов
 /**
  *
- * @param {Point[]} points
- * @param {boolean} bCyclic
+ * @param {Point[]} points	points list
+ * @param {boolean} bCyclic *
  * @constructor
  */
-export function BSplineExt(points, bCyclic) {
+const BSplineExt = (points, bCyclic) => {
 	let n = points.length, d,
 		pb = points[0], pe = points[n - 1]
 	if (bCyclic) {
@@ -42,7 +42,7 @@ export function BSplineExt(points, bCyclic) {
 // Создать фигуру B-сплайна.
 // Список точек должен иметь три фиктивные точки, которые не выдны при выводе. Одна в начала, две в конце. Для их вычисления можно использовать BSplineExt
 // фиктивные точки: points[0], points[n-1], points[n-2]
-export function createBSpline(points, segmentLength, color, lineWidth, bDashed) {
+const createBSpline = (points, segmentLength, color, lineWidth, bDashed) => {
 	let i, fig = new GrLines(color, lineWidth),
 		n = points.length, L = n - 3,
 		sumLen = 0, edgesLen = [0],	// длины видимых кусков
@@ -107,3 +107,4 @@ export function createBSpline(points, segmentLength, color, lineWidth, bDashed) 
 	return fig
 }
 
+module.exports = {BSplineExt, createBSpline}

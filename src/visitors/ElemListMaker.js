@@ -78,4 +78,4 @@ function ElemListMaker() {
 	}
 }
 
-module.exports = ElemListMaker
+module.exports = {ElemListMaker}

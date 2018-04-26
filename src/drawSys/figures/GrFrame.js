@@ -2,8 +2,7 @@
  * GrFrame is node of hierarchy structure
  * Created by PeterWin on 12.05.2017.
  */
-'use strict'
-import GrFigure from './GrFigure'
+const {GrFigure} = require('./GrFigure')
 
 class GrFrame extends GrFigure {
 
@@ -30,7 +29,8 @@ class GrFrame extends GrFigure {
 
 	/**
 	 * add frame
-	 * @param {GrFrame} frame
+	 * @param {GrFrame} frame	*
+	 * @return {void}
 	 */
 	addFr(frame) {
 		this.frames.push(frame)
@@ -38,8 +38,9 @@ class GrFrame extends GrFigure {
 
 	/**
 	 * add figure
-	 * @param {GrFigure} figure
+	 * @param {GrFigure} figure *
 	 * @param {boolean} bNoUpdate    use true for all sequence items, except last
+	 * @return {void}
 	 */
 	addFig(figure, bNoUpdate = false) {
 		this.figs.push(figure)
@@ -50,8 +51,9 @@ class GrFrame extends GrFigure {
 
 	/**
 	 * add figure or frame
-	 * @param {GrFrame|GrFigure} fig
+	 * @param {GrFrame|GrFigure} fig	*
 	 * @param {boolean=} bNoUpdate	Use true for long sequence, except last item
+	 * @return {void}
 	 */
 	add(fig, bNoUpdate = false) {
 		if (fig.type === GrFrame.T) {
@@ -64,8 +66,9 @@ class GrFrame extends GrFigure {
 	/**
 	 * Update figure
 	 * Bounds of frame init or united with figure bounds
-	 * @param {GrFigure} figure
-	 * @param {boolean=} bInit
+	 * @param {GrFigure} figure		*
+	 * @param {boolean=} bInit		*
+	 * @return {void}
 	 */
 	uf(figure, bInit = false) {
 		let srcOrg = figure.org,
@@ -104,7 +107,8 @@ class GrFrame extends GrFigure {
 
 	/**
 	 * Move childs
-	 * @param {Point} offset
+	 * @param {Point} offset -
+	 * @return {void}
 	 */
 	moveChilds(offset) {
 		const moveList = list =>
@@ -116,8 +120,9 @@ class GrFrame extends GrFigure {
 
 	/**
 	 * recursive output all subframes and figures into drawSys
-	 * @param {DrawSys} drawSys
-	 * @param {Point} offset
+	 * @param {DrawSys} drawSys	*
+	 * @param {Point} offset	*
+	 * @return {void}
 	 */
 	draw(drawSys, offset) {
 		this.frames.forEach(frame =>
@@ -135,4 +140,4 @@ class GrFrame extends GrFigure {
 
 GrFrame.T = 'F'
 
-export default GrFrame
+module.exports = {GrFrame}

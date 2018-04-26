@@ -1,6 +1,6 @@
 
 const {expect} = require('chai')
-const ChemSys = require('../src/ChemSys')
+const {ChemSys} = require('../src/ChemSys')
 const {esc} = require('../src/utils')
 const {MenTbl} = require('../src/core/MenTbl')
 

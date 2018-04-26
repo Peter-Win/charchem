@@ -215,4 +215,4 @@ Lang.Dict = {
 }
 
 
-module.exports = Lang
+module.exports = {Lang}

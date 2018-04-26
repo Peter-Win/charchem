@@ -70,4 +70,4 @@ const initMap = () => {
 	})
 }
 
-module.exports = ChemRadical
+module.exports = {ChemRadical}

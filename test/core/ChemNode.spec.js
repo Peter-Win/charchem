@@ -2,11 +2,11 @@
  * Created by PeterWin on 30.04.2017.
  */
 
-const expect = require('chai').expect
-const ChemNode = require('../../src/core/ChemNode')
-const ChemCharge = require('../../src/core/ChemCharge')
-const ChemNodeItem = require('../../src/core/ChemNodeItem')
-const MenTbl = require('../../src/core').MenTbl
+const {expect} = require('chai')
+const {ChemNode} = require('../../src/core/ChemNode')
+const {ChemCharge} = require('../../src/core/ChemCharge')
+const {ChemNodeItem} = require('../../src/core/ChemNodeItem')
+const {MenTbl} = require('../../src/core')
 
 describe('ChemNode', () => {
 

@@ -5,9 +5,9 @@
 
 const {expect} = require('chai')
 const {ChainSys, SubChain, Chain} = require('../../src/compiler/chainSys')
-const ChemBond = require('../../src/core/ChemBond')
-const ChemNode = require('../../src/core/ChemNode')
-const Point = require('../../src/math/Point')
+const {ChemBond} = require('../../src/core/ChemBond')
+const {ChemNode} = require('../../src/core/ChemNode')
+const {Point} = require('../../src/math/Point')
 
 describe('SubChain', () => {
 	it('addNode / delNode', () => {

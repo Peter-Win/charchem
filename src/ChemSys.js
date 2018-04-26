@@ -1,13 +1,13 @@
-const utils = require('./utils')
+const {RomanNum} = require('./utils')
 const {Macros} = require('./compiler/preprocess')
 const {chemCompiler} = require('./compiler/main')
 const {findElem} = require('./core/MenTbl')
-const TextMaker = require('./visitors/TextMaker')
-const ChemNode = require('./core/ChemNode')
-const IsAbstract = require('./visitors/IsAbstract')
-const MassCalc = require('./visitors/MassCalc')
-const ChargeCalc = require('./visitors/ChargeCalc')
-const ElemListMaker = require('./visitors/ElemListMaker')
+const {TextMaker} = require('./visitors/TextMaker')
+const {ChemNode} = require('./core/ChemNode')
+const {IsAbstract} = require('./visitors/IsAbstract')
+const {MassCalc} = require('./visitors/MassCalc')
+const {ChargeCalc} = require('./visitors/ChargeCalc')
+const {ElemListMaker} = require('./visitors/ElemListMaker')
 const {ver, verStr} = require('./utils/version')
 
 const ChemSys = {
@@ -19,7 +19,7 @@ const ChemSys = {
 }
 
 // Roman numerals for the designation of charges
-ChemSys.RomanNum = utils.RomanNum
+ChemSys.RomanNum = RomanNum
 
 /**
  * Make text
@@ -81,4 +81,4 @@ try {
 	window.ChemSys = ChemSys
 } catch (e) { /* ignore */ }
 
-module.exports = ChemSys
+module.exports = {ChemSys}

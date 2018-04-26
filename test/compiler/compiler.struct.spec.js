@@ -6,7 +6,7 @@
 
 const {expect} = require('chai')
 const {chemCompiler} = require('../../src/compiler/main')
-const ChemSys = require('../../src/ChemSys')
+const {ChemSys} = require('../../src/ChemSys')
 const {extractBonds, extractNodes, precision} = require('../testUtils')
 const {MenTbl} = require('../../src/core/MenTbl')
 

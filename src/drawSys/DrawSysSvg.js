@@ -1,22 +1,21 @@
 /**
  * Created by PeterWin on 15.05.2017.
  */
-'use strict'
-import CanvasTracer from './CanvasTracer'
-import ChemSys from '../ChemSys'
-import DrawSys from './DrawSys'
-import { esc } from '../core'
-import GrEllipse from './figures/GrEllipse'
-import GrLines from './figures/GrLines'
-import GrText from './figures/GrText'
-import Point from '../math/Point'
+const {CanvasTracer} = require('./CanvasTracer')
+const {ChemSys} = require('../ChemSys')
+const {DrawSys} = require('./DrawSys')
+const {esc} = require('../core')
+const {GrEllipse} = require('./figures/GrEllipse')
+const {GrLines} = require('./figures/GrLines')
+const {GrText} = require('./figures/GrText')
+const {Point} = require('../math/Point')
 
 const escx = x => '"' + esc(x + '') + '"'
 
 /**
  * Conver map to string with format key1="value1" [key2="value2" ]
- * @param {Object<string,string>=} props
- * @returns {string}
+ * @param {Object<string,string>=} props -
+ * @returns {string}	-
  */
 const strProps = props => {
 	let s = ''
@@ -30,8 +29,8 @@ const strProps = props => {
 
 /**
  * Convert map to string with format key1:value1; [key2:value2; ]
- * @param {Object<string,string>=} props
- * @returns {string}
+ * @param {Object<string,string>=} props -
+ * @returns {string} -
  */
 const cssProps = props => {
 	let s = ''
@@ -46,10 +45,10 @@ const cssProps = props => {
 /**
  * Make tag
  * Example: tag('input', {name:'count',value:15}, 1) => <input name="count" value="15" />
- * @param {string} name
- * @param {Object=} params
- * @param {boolean=} bClosed
- * @returns {string}
+ * @param {string} name		for ex: 'circle'
+ * @param {Object=} params	for ex: {x: 10, y: 33}
+ * @param {boolean=} bClosed	true, if <tag />
+ * @returns {string}		result
  */
 const tag = (name, params = null, bClosed = false) => {
 	let s = '<' + name + strProps(params)
@@ -63,12 +62,12 @@ const tag = (name, params = null, bClosed = false) => {
  * Global cache of fonts
  * @type {Object<string,GrFont>}
  */
-let svgFontCache = {}
+const svgFontCache = {}
 
-export default class DrawSysSvg extends DrawSys {
+class DrawSysSvg extends DrawSys {
 	/**
 	 * @constructor
-	 * @param {HTMLElement} owner
+	 * @param {HTMLElement} owner 	html element
 	 */
 	constructor(owner) {
 		super()
@@ -87,15 +86,15 @@ export default class DrawSysSvg extends DrawSys {
 	/**
 	 * Find style by attributes map
 	 * If not found, then style will be created and included to this.styles
-	 * @param {Object} props
-	 * @param {string=} prefix
+	 * @param {Object} props -
+	 * @param {string=} prefix = style
 	 * @return {string} style name (can access to attributes:  this.styles[name])
 	 */
 	findStyle(props, prefix = 'style') {
 		let key = JSON.stringify(props),
 			item = this.styles[key]
 		if (!item) {
-			this.styles[key] = item = { name: prefix + this.styleIndex++, props: props }
+			this.styles[key] = item = {name: prefix + this.styleIndex++, props: props}
 		}
 		return item.name
 	}
@@ -111,8 +110,7 @@ export default class DrawSysSvg extends DrawSys {
 	}
 
 	/**
-	 *
-	 * @param {GrFontProps} fontProps
+	 * @override
 	 */
 	createFont(fontProps) {
 		let cssHeight = fontProps.height
@@ -156,7 +154,7 @@ export default class DrawSysSvg extends DrawSys {
 
 		//	draw(point, text, color)
 		fontProps.draw = (point, text, color) => {
-			let props = { fill: color, 'font-family': fontProps.family, 'font-size': cssHeight + 'px' }
+			let props = {fill: color, 'font-family': fontProps.family, 'font-size': cssHeight + 'px'}
 			if (fontProps.bold)
 				props['font-weight'] = 'bold'
 			if (fontProps.italic)
@@ -164,7 +162,7 @@ export default class DrawSysSvg extends DrawSys {
 			this.svgText += tag('text', {
 				x: this.coord(point.x),
 				y: this.coord(point.y + fontProps.ascent),
-				'class': this.findStyle(props)
+				'class': this.findStyle(props),
 			}) + esc(text + '') + '</text>\n'
 			// Отладочный вывод рамки
 			/*
@@ -181,7 +179,8 @@ export default class DrawSysSvg extends DrawSys {
 
 	/**
 	 * приготовиться к выводу графики с указанным размером
-	 * @param {Point} size
+	 * @param {Point} size -
+	 * @return {void}
 	 */
 	init(size) {
 		this.totalSize = size
@@ -189,17 +188,15 @@ export default class DrawSysSvg extends DrawSys {
 		this.coordFactor = Math.max(1000, Math.pow(10, Math.floor(Math.log10(maxSize))))
 	}
 
-	// отрисовка фигуры
 	/**
-	 *
-	 * @param {GrLines} figure
-	 * @param {Point} pos
+	 * отрисовка фигуры
+	 * @override
 	 */
 	drawLines(figure, pos) {
 		let color = figure.color, fillColor = figure.fillColor
 		// Шаг 1. Вычислить координаты точек и записать в массив
 		let x, y, mv, path = '', sep = '', curve = 0
-		figure.points.forEach( pi => {
+		figure.points.forEach(pi => {
 			//pi = figure.points[i]
 			// вычислить координаты очередной точки
 			x = this.coord(pi.x + pos.x)
@@ -222,22 +219,26 @@ export default class DrawSysSvg extends DrawSys {
 			path += sep + mv + x + ' ' + y
 			sep = ' '
 		})
-		let props = { fill: fillColor || 'none', stroke: color || 'none' }
-		if (figure.width)
+		const props = {fill: fillColor || 'none', stroke: color || 'none'}
+		if (figure.width) {
 			props['stroke-width'] = figure.width
-		if (figure.cap)
+		}
+		if (figure.cap) {
 			props['stroke-linecap'] = figure.cap
-		if (figure.join)
+		}
+		if (figure.join) {
 			props['stroke-linejoin'] = figure.join
-		let attrs = { d: path, 'class': this.findStyle(props, fillColor ? 'fill' : 'line') }
+		}
+		const attrs = {d: path, 'class': this.findStyle(props, fillColor ? 'fill' : 'line')}
 
 		this.svgText += tag('path', attrs, true) + '\n'
 	}
 
 	/**
 	 * Draw ellipce
-	 * @param {GrEllipse} figure
-	 * @param {Point} org
+	 * @param {GrEllipse} figure -
+	 * @param {Point} org -
+	 * @return {void}
 	 */
 	drawEllipse(figure, org) {
 		// определить координаты
@@ -255,13 +256,14 @@ export default class DrawSysSvg extends DrawSys {
 		} else {
 			props.stroke = 'none'
 		}
-		this.svgText += tag('ellipse', { cx:xc, cy:yc, rx:rx, ry:ry, 'class': this.findStyle(props) }, 1) + '\n'
+		this.svgText += tag('ellipse', {cx: xc, cy: yc, rx: rx, ry: ry, 'class': this.findStyle(props)}, 1) + '\n'
 	}
 
 	/**
 	 * draw figure
-	 * @param {GrFigure} figure
-	 * @param {Point} pos
+	 * @param {GrFigure} figure -
+	 * @param {Point} pos -
+	 * @return {void}
 	 */
 	drawFig(figure, pos) {
 		switch (figure.type) {
@@ -279,9 +281,8 @@ export default class DrawSysSvg extends DrawSys {
 
 	//==========================
 	getText(attrs) {
-		// const rxSize = /^([0-9\.]+)([a-z]*)$/	// Регэксп для отделения числового размера и единиц измерения
 		if (!attrs) {
-			attrs = { xmlns:'http://www.w3.org/2000/svg' }
+			attrs = {xmlns: 'http://www.w3.org/2000/svg'}
 		}
 		// Внешний размер
 		if (!attrs.width && !attrs.height) {
@@ -296,7 +297,7 @@ export default class DrawSysSvg extends DrawSys {
 		if (!attrs.viewBox) {
 			attrs.viewBox = '0 0 ' + this.coord(this.totalSize.x) + ' ' + this.coord(this.totalSize.y)
 		}
-		let	text = tag('svg', attrs) + '\n'
+		let text = tag('svg', attrs) + '\n'
 		text += '<!-- Generated by CharChem v.' + ChemSys.verStr() + ' -->\n'
 		text += '<defs>\n'
 		text += this.renderStyle()
@@ -307,3 +308,5 @@ export default class DrawSysSvg extends DrawSys {
 	}
 
 }
+
+module.exports = {DrawSysSvg}

@@ -6,7 +6,7 @@
  * Created by PeterWin on 01.05.2017.
  */
 
-const ChemObj = require('../../src/core/ChemObj')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 class ChemOp extends ChemObj
 {
@@ -32,4 +32,4 @@ class ChemOp extends ChemObj
 	}
 }
 
-module.exports = ChemOp
+module.exports = {ChemOp}

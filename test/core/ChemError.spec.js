@@ -1,11 +1,10 @@
 /**
  * Created by PeterWin on 27.04.2017.
  */
-'use strict'
 
-const expect = require('chai').expect
-const ChemError = require('../../src/core/ChemError')
-const Lang = require('../../src/Lang')
+const {expect} = require('chai')
+const {ChemError} = require('../../src/core/ChemError')
+const {Lang} = require('../../src/Lang')
 
 describe('ChemError', () => {
 

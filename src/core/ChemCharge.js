@@ -2,8 +2,6 @@
  * Chemical charge
  * Created by PeterWin on 28.04.2017.
  */
-'use strict'
-
 const utils = require('../utils')
 
 class ChemCharge
@@ -85,4 +83,4 @@ class ChemCharge
 	}
 }
 
-module.exports = ChemCharge
+module.exports = {ChemCharge}

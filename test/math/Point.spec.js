@@ -3,8 +3,8 @@
  */
 'use strict'
 
-const expect = require('chai').expect
-const Point = require('../../src/math/Point')
+const {expect} = require('chai')
+const {Point} = require('../../src/math/Point')
 
 describe('Point construction', () => {
 

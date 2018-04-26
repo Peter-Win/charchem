@@ -5,8 +5,8 @@
 const {expect} = require('chai')
 const {Macros, Ctx, defMacro, scanPar, readRealPars, readFormalPars, execMacros, bodyPreprocess,
 	preProcess} = require('../../src/compiler/preprocess')
-const ChemSys = require('../../src/ChemSys')
-const ChemError = require('../../src/core/ChemError')
+const {ChemSys} = require('../../src/ChemSys')
+const {ChemError} = require('../../src/core/ChemError')
 
 describe('preprocess', () => {
 	it('defMacro', () => {

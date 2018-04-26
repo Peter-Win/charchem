@@ -4,7 +4,7 @@
  */
 'use strict'
 
-const ChemSubObj = require('./ChemSubObj')
+const {ChemSubObj} = require('./ChemSubObj')
 
 class ChemAtom extends ChemSubObj
 {
@@ -32,4 +32,4 @@ class ChemAtom extends ChemSubObj
 	}
 }
 
-module.exports = ChemAtom
+module.exports = {ChemAtom}

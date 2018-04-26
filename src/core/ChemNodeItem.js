@@ -4,9 +4,7 @@
  * NodeItem have koefficient and charge
  * Created by PeterWin on 29.04.2017.
  */
-'use strict'
-
-const ChemObj = require('../../src/core/ChemObj')
+const {ChemObj} = require('../../src/core/ChemObj')
 
 class ChemNodeItem extends ChemObj
 {
@@ -63,4 +61,4 @@ class ChemNodeItem extends ChemObj
 	}
 }
 
-module.exports = ChemNodeItem
+module.exports = {ChemNodeItem}

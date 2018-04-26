@@ -1,12 +1,11 @@
 /**
  * Created by PeterWin on 29.04.2017.
  */
-'use strict'
 
-const expect = require('chai').expect
+const {expect} = require('chai')
 const {ElemList, ElemRec} = require('../../src/core/ElemList')
 const {MenTbl} = require('../../src/core/MenTbl')
-const ChemRadical = require('../../src/core/ChemRadical')
+const {ChemRadical} = require('../../src/core/ChemRadical')
 
 describe('ElemList', () => {
 

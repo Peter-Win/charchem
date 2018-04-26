@@ -2,8 +2,8 @@
  * Created by PeterWin on 12.05.2017.
  */
 'use strict'
-const expect = require('chai').expect
-const ChemSys = require('../../src/ChemSys')
+const {expect} = require('chai')
+const {ChemSys} = require('../../src/ChemSys')
 
 describe('TextMaker', () => {
 	it('Reverse nodes direction', () => {

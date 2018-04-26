@@ -3,10 +3,10 @@
  */
 'use strict'
 
-const expect = require('chai').expect
-const ChemBond = require('../../src/core/ChemBond')
-const Point = require('../../src/math/Point')
-const ChemNode = require('../../src/core/ChemNode')
+const {expect} = require('chai')
+const {ChemBond} = require('../../src/core/ChemBond')
+const {Point} = require('../../src/math/Point')
+const {ChemNode} = require('../../src/core/ChemNode')
 
 describe('ChemBond', ()=> {
 

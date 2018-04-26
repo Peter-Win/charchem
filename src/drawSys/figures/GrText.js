@@ -1,16 +1,15 @@
 /**
  * Created by PeterWin on 13.05.2017.
  */
-'use strict'
-import GrFigure from './GrFigure'
+const {GrFigure} = require('./GrFigure')
 
-export default class GrText extends GrFigure
+class GrText extends GrFigure
 {
 	/**
 	 * @constructor
-	 * @param {string} text
-	 * @param {GrFont} font
-	 * @param {string} color
+	 * @param {string} text -
+	 * @param {GrFont} font -
+	 * @param {string} color -
 	 */
 	constructor(text, font, color) {
 		super()
@@ -23,7 +22,7 @@ export default class GrText extends GrFigure
 
 	/**
 	 * Calculate internal rectangle
-	 * @returns {Rect}
+	 * @returns {Rect} -
 	 */
 	getIrc() {
 		let irc = this.bounds.clone(),
@@ -34,3 +33,5 @@ export default class GrText extends GrFigure
 	}
 }
 GrText.T = 'T'
+
+module.exports = {GrText}

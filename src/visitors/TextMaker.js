@@ -171,4 +171,4 @@ function TextMaker(rules) {
 	}
 }
 
-module.exports = TextMaker
+module.exports = {TextMaker}

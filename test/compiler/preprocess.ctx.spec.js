@@ -3,7 +3,7 @@
  */
 const {expect} = require('chai')
 const {Ctx} = require('../../src/compiler/preprocess')
-const ChemError = require('../../src/core/ChemError')
+const {ChemError} = require('../../src/core/ChemError')
 
 describe('Ctx', ()=>{
 

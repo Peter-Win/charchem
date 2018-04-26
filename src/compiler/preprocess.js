@@ -2,7 +2,7 @@
  * Created by PeterWin on 02.05.2017.
  */
 const {esc} = require('../utils')
-const ChemError = require('../core/ChemError')
+const {ChemError} = require('../core/ChemError')
 
 class Macros {
 	/**

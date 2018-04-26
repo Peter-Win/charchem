@@ -2,8 +2,8 @@
  * Created by PeterWin on 29.04.2017.
  */
 
-const expect = require('chai').expect
-const ChemCustom = require('../../src/core/ChemCustom')
+const {expect} = require('chai')
+const {ChemCustom} = require('../../src/core/ChemCustom')
 
 describe('ChemCustom', () => {
 	it('Walk', () => {
