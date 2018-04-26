@@ -633,11 +633,7 @@ export function chemCompiler(text) {
 			if (node.bAuto) {
 				// Автоматический узел всегда содержит углерод
 				node.items[0] = new ChemNodeItem(MenTbl.C)
-				// bonds = node.bonds
 				n = node.bonds.reduce((acc, bond) => acc + bond.N, 0)	// сума кратностей связей, входящих в узел
-				// for (j in bonds) {
-				// 	n += bonds[j].N
-				// }
 				if (n < 4) {
 					// Добавить нужное число атомов водорода
 					let item = new ChemNodeItem(MenTbl.H)

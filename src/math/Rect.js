@@ -2,7 +2,7 @@
  * Rectangle object
  * Created by PeterWin on 26.04.2017.
  */
-"use strict"
+'use strict'
 
 import Point from './Point'
 
@@ -23,6 +23,10 @@ export default class Rect
 			this.A = a
 			this.B = b
 		}
+	}
+
+	toString() {
+		return `{${this.l}, ${this.t}, ${this.r}, ${this.b}}`
 	}
 
 	/**
@@ -226,7 +230,7 @@ export default class Rect
 	 * @const
 	 */
 	get W() {
-		return this.B.x-this.A.x
+		return this.B.x - this.A.x
 	}
 
 	/**
@@ -235,7 +239,7 @@ export default class Rect
 	 * @const
 	 */
 	get H() {
-		return this.B.y-this.A.y
+		return this.B.y - this.A.y
 	}
 
 	/**
@@ -243,7 +247,7 @@ export default class Rect
 	 * @returns {number}
 	 */
 	get cx() {
-		return (this.A.x+this.B.x)/2
+		return (this.A.x + this.B.x) / 2
 	}
 
 	/**
@@ -251,7 +255,7 @@ export default class Rect
 	 * @returns {number}
 	 */
 	get cy() {
-		return (this.A.y+this.B.y)/2
+		return (this.A.y + this.B.y) / 2
 	}
 
 	/**
@@ -326,8 +330,12 @@ export default class Rect
 		if (this.is0()) {
 			this.from(rc)
 		} else {
-			this.A.mini(rc.LT());
-			this.B.maxi(rc.RB());
+			this.A.mini(rc.LT())
+			this.B.maxi(rc.RB())
 		}
+	}
+
+	toArray() {
+		return [this.l, this.t, this.r, this.b]
 	}
 }

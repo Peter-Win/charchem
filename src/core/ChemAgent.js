@@ -57,4 +57,11 @@ export default class ChemAgent
 		return res
 	}
 
+	/**
+	 * Set multiplier for agent
+	 * @param {number|string} k 	new quantity coefficient
+	 */
+	setKoeff(k) {
+		this.n = k
+	}
 }
