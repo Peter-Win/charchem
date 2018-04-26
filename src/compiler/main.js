@@ -203,7 +203,7 @@ const chemCompiler = text => {
 
 	/**
 	 * Add command to current agent
-	 * @param {ChemNode|ChemBond|ChemMulEnd} cmd    added object
+	 * @param {ChemNode|ChemBond|ChemMul|ChemMulEnd} cmd    added object
      * @return {void}
 	 */
 	const addCmd = cmd => curEntity.cmds.push(cmd)
@@ -628,25 +628,20 @@ const chemCompiler = text => {
 			}
 		}
 		// Необходимо заполнить автоузлы
-		nodes = curEntity.nodes
-		for (i in nodes) {
-			node = nodes[i]
+
+		curEntity.nodes.forEach(node => {
 			if (node.bAuto) {
 				// Автоматический узел всегда содержит углерод
 				node.items[0] = new ChemNodeItem(MenTbl.C)
-				bonds = node.bonds
-				n = 0	// сума кратностей связей, входящих в узел
-				for (j in bonds) {
-					n += bonds[j].N
-				}
+				n = node.bonds.reduce((acc, bond) => acc + bond.N, 0)	// сума кратностей связей, входящих в узел
 				if (n < 4) {
 					// Добавить нужное число атомов водорода
-					item = new ChemNodeItem(MenTbl.H)
+					let item = new ChemNodeItem(MenTbl.H)
 					item.n = 4 - n
 					node.items[1] = item
 				}
 			}
-		}
+		})
 	}
 	// Распознать начало очередного узла в описании реагента. Если нет, вернуть -1
 	function parseNode() {
@@ -823,7 +818,7 @@ const chemCompiler = text => {
 		node.fixed = 1
 		// Здесь есть две ситуации: сращивание цепей или продолжение цепи
 		// Зависит от наличия curBond
-		var node0 = curBond ? curBond.nodes[0] : 0
+		let node0 = curBond ? curBond.nodes[0] : 0
 		// Нельзя сращивать, если цепь одна, но подцепи разные (То есть, зацикленная молекула, в центре которой есть мягкие связи)
 		if (node0 && !curBond.soft && !(node0.ch === node.ch && node0.sc !== node.sc)) {
 			// сращивание цепей
@@ -849,7 +844,7 @@ const chemCompiler = text => {
 	function closeBranch() {
 		closeBond()
 		checkMul()
-		var x = branchStack.shift()
+		let x = branchStack.shift()
 		if (!x) {
 			// Ошибка: Нет открытой скобки
 			error('Invalid branch close', {pos:pos})
@@ -867,9 +862,9 @@ const chemCompiler = text => {
 	//------------- ЛОКАЛЬНЫЕ СКОБКИ
 	function openBracket() {
 		chargeOwner = 0
-		var obj = new ChemBrBegin(c)
+		let obj = new ChemBrBegin(c)
 		obj.setPos(pos, pos + 1)
-		var node0 = curNode
+		let node0 = curNode
 		if (!node0 && branchStack.length) {
 			// Для случая [(
 			if (branchStack[0].o) { // Если есть предыдущая скобка
@@ -1087,7 +1082,7 @@ const chemCompiler = text => {
 		if (middlePoints.length) {
 			bond.midPt = []
 			bond.pA = middlePoints[0].pos
-			var pt, i, lastPt = bond.pt.clone()
+			let pt, i, lastPt = bond.pt.clone()
 			for (i in middlePoints) {
 				bond.midPt.push(pt = middlePoints[i].pt)
 				bond.pt.addi(pt)
@@ -1363,7 +1358,7 @@ const chemCompiler = text => {
 				j--
 			}
 		}
-		var n, listDef = def['#']
+		let n, listDef = def['#']
 		if (listDef) {
 			// Разбор описания списка узлов
 			parseListDef(listDef)
@@ -1797,9 +1792,9 @@ const chemCompiler = text => {
 		mul: function () {
 			// Мультипликатор. pos указывает на следующий символ после *
 			checkMul()
-			var pa = pos - 1,
-				n = scanKoeff()
-			var cmd = new ChemMul(n || 1)
+			let pa = pos - 1,
+				n = scanKoeff(),
+				cmd = new ChemMul(n || 1)
 			cmd.setPos(pa, pos)
 			addCmd(cmd)
 			closeNode()

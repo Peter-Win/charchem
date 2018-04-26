@@ -25,6 +25,10 @@ class Rect
 		}
 	}
 
+	toString() {
+		return `{${this.l}, ${this.t}, ${this.r}, ${this.b}}`
+	}
+
 	/**
 	 * Make deep copy of Rect
 	 * @const
@@ -340,6 +344,10 @@ class Rect
 			this.A.mini(rc.LT())
 			this.B.maxi(rc.RB())
 		}
+	}
+
+	toArray() {
+		return [this.l, this.t, this.r, this.b]
 	}
 }
 
